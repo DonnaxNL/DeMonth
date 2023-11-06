@@ -1,0 +1,82 @@
+@import "~@angular/material/theming";
+
+.card {
+    @include mat-elevation(2);
+    margin-bottom: 16px;
+    border-radius: 10px;
+}
+
+.infoblock {
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.whatsapp-btn {
+    height: 28px;
+    width: 77px;
+    box-sizing: border-box;
+    padding: 2px 8px 1px 8px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 3px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.referral {
+    height: 100%;
+    position: relative;
+    background-color: #fbc3bc;
+    // background: url("/assets/images/banner.png") no-repeat center center;
+    background-size: cover;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.referral .container {
+    height: 100%;
+}
+
+.textfield {
+    width: 100%;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.example-container > * {
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .referral {
+        text-align: center;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+}
+
+.features-icons {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    margin-bottom: 4rem;
+}
+
+.features-icons .features-icons-item {
+    max-width: 18rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+    height: 5rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+    font-size: 3.5rem;
+}

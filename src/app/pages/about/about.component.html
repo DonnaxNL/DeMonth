@@ -1,0 +1,100 @@
+<!-- About us subscription -->
+<section class="about text-center">
+  <!-- <div class="overlay"></div> -->
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <h1 class="mb-4 brand-white">{{'about.title' | translate}}</h1>
+        <h4 class="brand-white">{{'about.mission_header' | translate}}</h4>
+        <p class="lead mb-2 brand-white">
+          {{'about.mission_text' | translate}}
+        </p>
+        <button class="button-black" type="order" routerLink="/order-box">{{'about.pick_box_button' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- reasons Grid -->
+<section class="reasons-icons text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-4">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-box-open primary-color"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h3>{{'about.reasons_value_header' | translate}}</h3>
+              <p class="lead mb-0">{{'about.reasons_value_text' | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-seedling primary-color"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h3>{{'about.reasons_sustainability_header' | translate}}</h3>
+              <p class="lead mb-0">{{'about.reasons_sustainability_text' | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-4">
+        <div class="reasons-icons-item mx-auto mb-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-handshake primary-color"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h3>{{'about.reasons_trust_header' | translate}}</h3>
+              <p class="lead mb-0">{{'about.reasons_trust_text' | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-6 col-lg-6">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-sliders-h primary-color"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h3>{{'about.reasons_customise_header' | translate}}</h3>
+              <p class="lead mb-0" [innerHTML]="'about.reasons_customise_text' | translate"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <mat-icon matListIcon>loyalty</mat-icon>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h3>{{'about.reasons_points_header' | translate}}</h3>
+              <p class="lead mb-0" [innerHTML]="'about.reasons_points_text' | translate"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reasons-icons-item mx-auto">
+      <div class="row">
+        <div class="col-3 col-md-12"></div>
+        <div class="col-9 col-md-12">
+          <button class="button-black" type="order" routerLink="/order-box">{{'about.convinced_button' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

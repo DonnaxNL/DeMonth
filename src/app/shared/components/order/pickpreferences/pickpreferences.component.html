@@ -1,0 +1,141 @@
+<!-- Preferences -->
+<section class="boxpicker text-center">
+    <ng-container *ngIf="!editMode">
+        <ng-container *ngIf="!trialBox">
+            <h1 class="mb-4">
+                {{'order_box.personalise_preference_header' | translate}}
+                <span style="vertical-align: center; font-size: 0.5em;">
+                    {{'order_box.personalise_preference_header_optional' | translate}}
+                </span>
+            </h1>
+        </ng-container>
+        <ng-container *ngIf="trialBox">
+            <h1 class="mb-4">
+                {{'order_box.personalise_preference_header_extra' | translate}}
+            </h1>
+        </ng-container>
+    </ng-container>
+    <div class="row mb-4">
+        <div class="col-12 col-lg-6 mb-4">
+            <div class="container">
+                <h3>{{'order_box.personalise_preference_snack' | translate}}</h3>
+                <p *ngIf="!trialBox" class="mb-2"
+                    [innerHTML]="'order_box.personalise_preference_snack_text' | translate: {amount: boxType.id == 'box_02' ? '1 snack' : '2 snacks'}">
+                </p>
+                <p *ngIf="trialBox">
+                    {{'order_box.personalise_preference_header_extra_snack_text' | translate}}
+                </p>
+                <div class="text-left">
+                    <mat-checkbox [ngModel]="chocolateIsSelected" (change)="onChangePreference('chocolate', $event)">
+                        <p>{{'order_box.personalise_preference_chocolate' | translate}}</p>
+                    </mat-checkbox><br>
+                    <div *ngIf="chocolateIsSelected" class="mb-2">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'order_box.personalise_preference_chocolate_label' | translate}}</mat-label>
+                            <mat-select [(ngModel)]="chocolateSelectorSelected"
+                                (ngModelChange)="onSelectChanged('chocolate')" multiple>
+                                <mat-optgroup [label]="chocolateOptions[0][0]">
+                                    <mat-option class="option-large" *ngFor="let option of chocolateOptions"
+                                        [value]="option[1]">
+                                        <div class="row">
+                                            <div class="col-8 pt-1">
+                                                {{option[2]}}
+                                            </div>
+                                            <div class="col-4 my-auto d-flex justify-content-end">
+                                                <img src="{{option[3]}}" height="35px">
+                                            </div>
+                                        </div>
+                                    </mat-option>
+                                </mat-optgroup>
+                            </mat-select>
+                            <mat-hint>{{'order_box.personalise_preference_chocolate_hint' | translate}}</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <mat-checkbox [ngModel]="healthbarIsSelected" (change)="onChangePreference('healthbar', $event)">
+                        <p>{{'order_box.personalise_preference_healthbar' | translate}}</p>
+                    </mat-checkbox><br>
+                    <ng-container *ngIf="healthbarIsSelected" class="mb-2">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'order_box.personalise_preference_healthbar_label' | translate}}</mat-label>
+                            <mat-select [(ngModel)]="healthbarSelectorSelected"
+                                (ngModelChange)="onSelectChanged('healthbar')" multiple>
+                                <mat-optgroup [label]="healthbarOptions[0][0]">
+                                    <mat-option class="option-large" *ngFor="let option of healthbarOptions"
+                                        [value]="option[1]">
+                                        <div class="row">
+                                            <div class="col-8 pt-1">
+                                                {{option[2]}}
+                                            </div>
+                                            <div class="col-4 my-auto d-flex justify-content-end">
+                                                <img src="{{option[3]}}" height="36px">
+                                            </div>
+                                        </div>
+                                    </mat-option>
+                                </mat-optgroup>
+                            </mat-select>
+                            <mat-hint>{{'order_box.personalise_preference_chocolate_hint' | translate}}</mat-hint>
+                        </mat-form-field>
+                    </ng-container>
+                    <mat-checkbox [ngModel]="granolaIsSelected" (change)="onChangePreference('granola', $event)"
+                        [hidden]="boxType.id=='box_02'">
+                        <p>{{'order_box.personalise_preference_granola' | translate}}</p>
+                    </mat-checkbox>
+                    <ng-container *ngIf="granolaIsSelected">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'order_box.personalise_preference_granola_label' | translate}}</mat-label>
+                            <mat-select [(ngModel)]="granolaSelectorSelected"
+                                (ngModelChange)="onSelectChanged('granola')" multiple>
+                                <mat-optgroup [label]="granolaOptions[0][0]">
+                                    <mat-option class="option-large" *ngFor="let option of granolaOptions"
+                                        [value]="option[1]">
+                                        <div class="row">
+                                            <div class="col-6 pt-1">
+                                                {{option[2]}}
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-end">
+                                                <img src="{{option[3]}}" height="50px">
+                                            </div>
+                                        </div>
+                                    </mat-option>
+                                </mat-optgroup>
+                            </mat-select>
+                            <mat-hint>{{'order_box.personalise_preference_chocolate_hint' | translate}}</mat-hint>
+                        </mat-form-field>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 d-flex justify-content-center">
+            <div class="container">
+                <h3>{{'order_box.personalise_preference_skin' | translate}}</h3>
+                <p class="mb-2">{{'order_box.personalise_preference_skin_tooltip' | translate}}</p>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'order_box.personalise_preference_skin' | translate}}</mat-label>
+                    <mat-select [(ngModel)]="skinSelected" (ngModelChange)="onSelectChanged()">
+                        <mat-option *ngFor="let option of skinOptions" [value]="option[0]">
+                            {{option[1]}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="card p-3 text-left" style="border-radius: 10px;">
+                    <i class="fas fa-info-circle mb-1"></i>
+                    <p *ngIf="skinSelected == 'no_pref'">
+                        {{'order_box.personalise_preference_skin_learn_more' | translate}}
+                    </p>
+                    <p *ngIf="skinSelected == 'normal'">
+                        {{'products.skin_type_normal_description' | translate}}
+                    </p>
+                    <p *ngIf="skinSelected == 'mixed'">
+                        {{'products.skin_type_mixed_description' | translate}}
+                    </p>
+                    <p *ngIf="skinSelected == 'dry'">
+                        {{'products.skin_type_dry_description' | translate}}
+                    </p>
+                    <p *ngIf="skinSelected == 'oil'">
+                        {{'products.skin_type_oil_description' | translate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

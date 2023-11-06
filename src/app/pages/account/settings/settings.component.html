@@ -1,0 +1,288 @@
+<div *ngIf="currentPage == 'overview'" class="card">
+    <div class="infoblock">
+        <h5><b>{{'account.overview_details_you' | translate}}</b></h5>
+        <div class="row mb-2">
+            <div class="col-md-6 d-flex justify-content-start">
+                <address-view [userAddress]="currentUserData?.address"></address-view>
+            </div>
+            <div class="col-md-6 d-flex justify-content-start">
+                <p>
+                    <span *ngIf="currentUserData?.mobileNo">
+                        {{currentUserData?.mobileNo}}<br>
+                    </span>
+                    <span *ngIf="currentUserData?.birthDate">
+                        {{currentUserData?.birthDate | date:'dd MMMM yyyy'}}
+                    </span>
+                </p>
+            </div>
+        </div>
+        <mat-divider class="mb-2"></mat-divider>
+        <h5 class="mb-2">{{'account.account_changes' | translate}}</h5>
+        <p class="align-self-center">
+            <i class="mr-2 fas fa-chevron-right primary"></i>
+            <span class="link link-text" (click)="changePage('editAddress')">
+                {{'account.account_personal_header' | translate}}
+            </span>
+        </p>
+        <p class="align-self-center">
+            <i class="mr-2 fas fa-chevron-right primary"></i>
+            <span class="link link-text" (click)="changePage('addresses')">
+                {{'account.account_address_header' | translate}}
+            </span>
+        </p>
+        <p class="align-self-center">
+            <i class="mr-2 fas fa-chevron-right primary"></i>
+            <span class="link link-text" (click)="changePage('paymentDetails')">
+                {{'account.account_payment_header' | translate}}
+            </span>
+        </p>
+        <p *ngIf="currentUser?.providerData[0].providerId==='password'" class="align-self-center">
+            <i class="mr-2 fas fa-chevron-right primary"></i>
+            <span class="link link-text" (click)="changePage('password')">
+                {{'account.account_password_header' | translate}}
+            </span>
+        </p>
+    </div>
+</div>
+
+<div *ngIf="currentPage == 'editAddress'" class="card">
+    <div class="infoblock">
+        <h5 class="mb-3"><b>{{'account.account_personal_header' | translate}}</b></h5>
+        <form-component [appearance]="'standard'" [formType]="'standard'"
+            [currentUserData]="currentUserData" [userAddress]="currentUserData.address" (formGroupEvent)="setFormGroup($event)">
+        </form-component>
+        <div *ngIf="latestOrder">
+            <mat-checkbox [(ngModel)]="changeSubscriptionAddress"
+                style="font-family: Futura, Lato, Helvetica Neue, Helvetica, Arial, sans-serif; color: #545454;">
+                {{'account.account_address_subscription_change' | translate}}
+            </mat-checkbox>
+        </div>
+        <mat-divider class="mb-2"></mat-divider>
+        <div class="d-flex justify-content-end">
+            <button mat-button class="pl-3 pr-3" color="primary" (click)="changePage('overview')">
+                {{'common.cancel_button' | translate}}
+            </button>
+            <button mat-raised-button color="primary" (click)="saveData()">
+                {{'common.save_button' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currentPage == 'addresses'" class="card">
+    <div class="infoblock">
+        <h5 class="mb-3"><b>{{'account.account_address_header' | translate}}</b></h5>
+        <p>{{'account.account_address_text' | translate}}</p>
+        <ul class="list-group mb-3">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-8">
+                        <address-view [userAddress]="currentUserData?.address"></address-view>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <p><b [innerHTML]="'account.account_address_default' | translate"></b></p>
+                    </div> -->
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-auto">
+                        <p class="align-self-center">
+                            <i class="mr-2 fas fa-pen primary"></i>
+                            <span class="link link-text" (click)="changePage('editAddress')">{{'common.change_button' |
+                                translate}}</span>
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <p class="align-self-center">
+                            <i class="mr-2 fas fa-file-invoice"></i>
+                            <span [innerHTML]="'account.account_address_default' | translate"></span>
+                        </p>
+                    </div>
+                    <!-- <div class="col-auto">
+                        <p class="align-self-center">
+                            <i class="mr-2 fas fa-home primary"></i>
+                            <span class="link link-text" (click)="changePage('editAddress')">Bezorgadres</span>
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <p class="align-self-center">
+                            <i class="mr-2 fas fa-file-invoice primary"></i>
+                            <span class="link link-text" (click)="changePage('editAddress')">Factuuradres</span>
+                        </p>
+                    </div> -->
+                </div>
+            </li>
+        </ul>
+        <div *ngIf="currentUserData?.additionalAddresses">
+            <h5>{{'account.account_additional_address' | translate}}</h5>
+            <ul class="list-group mb-3">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-10 col-md-8 order-1 order-md-1">
+                            <address-view [userAddress]="currentUserData?.additionalAddresses[0]"></address-view>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-auto">
+                            <p class="align-self-center">
+                                <i class="mr-2 fas fa-pen primary"></i>
+                                <span class="link link-text"
+                                    (click)="changePage('additionalAddress', true)">{{'common.change_button' |
+                                    translate}}</span>
+                            </p>
+                        </div>
+                        <!-- <div class="col-auto">
+                            <p class="align-self-center">
+                                <i class="mr-2 fas fa-home primary"></i>
+                                <span class="link link-text" (click)="changePage('editAddress')">Bezorgadres</span>
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="align-self-center">
+                                <i class="mr-2 fas fa-file-invoice primary"></i>
+                                <span class="link link-text" (click)="changePage('editAddress')">Factuuradres</span>
+                            </p>
+                        </div> -->
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <mat-divider class="mb-2"></mat-divider>
+        <div class="d-flex justify-content-end">
+            <button mat-button class="pl-3 pr-3" color="primary" (click)="changePage('overview')">
+                {{'common.back_button' | translate}}
+            </button>
+            <button *ngIf='!currentUserData?.additionalAddresses' mat-button color="primary"
+                (click)="changePage('additionalAddress', false)">
+                {{'account.account_address_actions_add' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currentPage == 'additionalAddress'" class="card">
+    <div class="infoblock">
+        <h5 class="mb-3"><b>{{'account.account_additional_address' | translate}}</b></h5>
+        <form-component [appearance]="'standard'" [formType]="'additional'" 
+            [userAddress]="additionalAddress" (formGroupEvent)="setFormGroup($event)">
+        </form-component>
+        <mat-divider class="mb-2"></mat-divider>
+        <div class="d-flex justify-content-end">
+            <button mat-button class="pl-3 pr-3" color="primary" (click)="changePage('addresses')">
+                {{'common.cancel_button' | translate}}
+            </button>
+            <button mat-raised-button color="primary" (click)="saveAdditionalAddress()">
+                {{'common.save_button' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currentPage == 'paymentDetails'" class="card">
+    <div class="infoblock">
+        <h5 class="mb-3"><b>{{'account.account_payment_header' | translate}}</b></h5>
+        <h5>iDEAL/Bancontact</h5>
+        <table *ngIf="mandateDebit.length > 0" mat-table class="mb-4" [dataSource]="mandateDebit">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_name' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate" data-label="Name"> {{mandate?.consumerName}} </td>
+            </ng-container>
+
+            <!-- Account Column -->
+            <ng-container matColumnDef="account">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_account' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate" data-label="Account">
+                    XXXXXXXXXXXXXX{{mandate?.consumerAccount.substring(14)}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <!-- <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_actions' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate; let i = index" data-label="Actions">
+                    <button mat-icon-button matTooltip="{{'common.change_button' | translate}}">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button mat-icon-button matTooltip="{{'common.delete_button' | translate}}">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </td>
+            </ng-container> -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsDebit"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsDebit;"></tr>
+        </table>
+        <p *ngIf="mandateDebit.length == 0" class="mb-2">{{'account.account_payment_no_debit' | translate}}</p>
+        <h5>Creditcard</h5>
+        <table *ngIf="mandateCredit.length > 0" mat-table class="mb-4" [dataSource]="mandateCredit">
+
+            <!-- Type Column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_type' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate" data-label="Type"> {{mandate?.cardLabel}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_name' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate" data-label="Name"> {{mandate?.cardHolder}} </td>
+            </ng-container>
+
+            <!-- Account Column -->
+            <ng-container matColumnDef="account">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_account' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate" data-label="Account"> XXXXXXXXXXXX{{mandate?.cardNumber}} </td>
+            </ng-container>
+
+            <!-- Expire Column -->
+            <ng-container matColumnDef="expire">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_expire_date' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate" data-label="Expire Date"> {{mandate?.cardExpireDate.toDate() |
+                    date:'MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <!-- <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> {{'account.account_payment_table_actions' | translate}} </th>
+                <td mat-cell *matCellDef="let mandate; let i = index" data-label="Actions">
+                    <button mat-icon-button matTooltip="{{'common.change_button' | translate}}">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button mat-icon-button matTooltip="{{'common.delete_button' | translate}}">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </td>
+            </ng-container> -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsCredit"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsCredit;"></tr>
+        </table>
+        <p *ngIf="mandateCredit.length == 0" class="mb-2">{{'account.account_payment_no_credit' | translate}}</p>
+        <mat-divider class="mt-2 mb-2"></mat-divider>
+        <div class="d-flex justify-content-end">
+            <button mat-button color="primary" (click)="changePage('overview')">
+                {{'common.back_button' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currentPage == 'password'" class="card">
+    <div class="infoblock">
+        <h5 class="mb-3"><b>{{'account.account_password_header' | translate}}</b></h5>
+        <password-form #formPassword [currentUser]="currentUser"></password-form>
+        <mat-divider class="mb-2"></mat-divider>
+        <div class="d-flex justify-content-end">
+            <button mat-button class="pl-3 pr-3" color="primary" (click)="changePage('overview')">
+                {{'common.cancel_button' | translate}}
+            </button>
+            <button mat-raised-button color="primary" (click)="changePassword()">
+                {{'account.account_password_actions_change' | translate}}
+            </button>
+        </div>
+    </div>
+</div>

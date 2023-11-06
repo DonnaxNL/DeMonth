@@ -1,0 +1,86 @@
+.about {
+  position: relative;
+  background-color: #fbc3bc;
+  // background: url("/assets/images/banner.png") no-repeat center center;
+  background-size: cover;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.about .lead {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+// .about .overlay {
+//   position: absolute;
+//   background-color: #212529;
+//   height: 100%;
+//   width: 100%;
+//   top: 0;
+//   left: 0;
+//   opacity: 0.6; /* Good browsers */
+//   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 8 */
+//   filter: alpha(opacity=60);   /* IE 5-7 */
+//   -moz-opacity: 0.6;   /* Netscape */
+//   -khtml-opacity: 0.6;   /* Safari 1.x */
+//   -webkit-opacity: 0.6;
+// }
+
+.showcase .showcase-text {
+  background-color: #fbc3bc;
+  padding: 3rem;
+}
+
+.showcase .showcase-img {
+  min-height: 30rem;
+  background: center;
+  background-size: cover;
+}
+
+.showcase .showcase-img-s {
+  width: 100%;
+  min-height: 12rem;
+  background: center;
+  background-size: cover;
+}
+
+.reasons-icons {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  margin-top: 4rem;
+}
+
+.reasons-icons .reasons-icons-item {
+  color: white;
+  max-width: 20rem;
+}
+
+.reasons-icons .reasons-icons-item .reasons-icons-icon {
+  height: 3rem;
+  margin-bottom: 2rem;
+}
+
+.reasons-icons .reasons-icons-item .reasons-icons-icon i {
+  font-size: 3.5rem;
+}
+
+mat-icon {
+  color: #fbc3bc;
+  font-size: 3.5rem;
+  width: 55px;
+}
+
+// Mobile sizing
+@media (max-width: 990px) {
+  .showcase {
+    background-color: #EE9A98;
+  }
+}
+@media (max-width: 765px) {
+  .reasons-icons {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+}

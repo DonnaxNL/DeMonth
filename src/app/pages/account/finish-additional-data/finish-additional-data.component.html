@@ -1,0 +1,13 @@
+<p class="mb-4 font-weight-light">
+    {{'account.finalise_header' | translate}}
+</p>
+<form-component #form [appearance]="'outline'" [formType]="'standard'" [currentUserData]="currentUserData" 
+[userAddress]="currentUserData?.address" (formGroupEvent)="setFormGroup($event)">
+</form-component>
+<div class="col-md-5">
+    <div class="container p-0">
+        <button class="box-selector mb-4" (click)="saveData()">
+            {{'account.finalise_button' | translate}}
+        </button>
+    </div>
+</div>

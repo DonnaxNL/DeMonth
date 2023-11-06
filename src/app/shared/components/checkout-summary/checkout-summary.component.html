@@ -1,0 +1,249 @@
+<div *ngIf="checkoutSummary && order">
+    <!-- If has coupon and changed box -->
+    <div *ngIf="checkoutSummary.coupon || checkoutSummary.promo">
+        <div class="row" *ngIf="showMore">
+            <p *ngIf="order.paymentPlan != 0" class="col-8 d-flex justify-content-start">
+                <span *ngIf="!order.history" translate [translateParams]="{boxName: order.boxName}">
+                    account.subscription_checkout_monthly_plan
+                </span>
+                <span *ngIf="order.history" translate [translateParams]="{boxName: order.history[0]?.order.boxName}">
+                    account.subscription_checkout_monthly_plan
+                </span>
+            </p>
+            <p *ngIf="order.paymentPlan == 0" class="col-8 d-flex justify-content-start">
+                {{order.boxName}} box
+            </p>
+            <p class="col-4 d-flex justify-content-end">
+                <span *ngIf="order.history">
+                    {{order.history[0].checkoutSummary.subTotal / 100 |
+                    currency:'EUR':'symbol':'1.2-2'}}
+                </span>
+                <span *ngIf="!order.history">
+                    {{checkoutSummary.subTotal / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                </span>
+            </p>
+            <p *ngIf="order.products.extraProducts?.extraPrice" class="col-8 d-flex justify-content-start">
+                {{'order_box.personalise_extra_products' | translate}}
+            </p>
+            <p *ngIf="order.history && order.products.extraProducts?.extraPrice"
+                class="col-4 d-flex justify-content-end">
+                {{order.history[0].order.products.extraProducts?.extraPrice / 100 |
+                currency:'EUR':'symbol':'1.2-2'}}
+            </p>
+            <p *ngIf="!order.history && order.products.extraProducts?.extraPrice"
+                class="col-4 d-flex justify-content-end">
+                {{order.products.extraProducts?.extraPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+            </p>
+            <p class="col-6 d-flex justify-content-start">
+                {{'account.subscription_checkout_shipping' | translate}}
+            </p>
+            <p class="col-6 d-flex justify-content-end">
+                <span *ngIf="order.history">
+                    {{(order.paymentPlan * order.history[0].checkoutSummary.shippingPrice) / 100
+                    | currency:'EUR':'symbol':'1.2-2'}}
+                </span>
+                <span *ngIf="!order.history">
+                    {{(order.paymentPlan * checkoutSummary.shippingPrice) / 100 |
+                    currency:'EUR':'symbol':'1.2-2'}}
+                </span>
+            </p>
+            <p *ngIf="checkoutSummary.promo" class="col-9 d-flex justify-content-start">
+                <span *ngIf="language == 'nl'">
+                    {{checkoutSummary.promo?.checkoutDescription.nl}}
+                </span>
+                <span *ngIf="language != 'nl'">
+                    {{checkoutSummary.promo?.checkoutDescription.en}}
+                </span>
+            </p>
+            <p *ngIf="checkoutSummary.promo?.price" class="col-3 d-flex justify-content-end" style="float: right">
+                - {{checkoutSummary.promo?.price / 100 | currency:'EUR':'symbol':'1.2-2'}}
+            </p>
+            <p *ngIf="checkoutSummary.coupon?.price" class="col-9 d-flex justify-content-start">
+                Coupon: <span class="ml-1" #tooltip="matTooltip"
+                    matTooltip="{{checkoutSummary.coupon?.id}} / {{checkoutSummary.coupon?.discount}}% discount">
+                    {{checkoutSummary.coupon?.name}}</span>
+            </p>
+            <p *ngIf="checkoutSummary.coupon?.price" class="col-3 d-flex justify-content-end">
+                - {{checkoutSummary.coupon?.price / 100 | currency:'EUR':'symbol':'1.2-2'}}
+            </p>
+            <p class="col-12 d-flex justify-content-end">
+                ------------
+            </p>
+        </div>
+    </div>
+    <div *ngIf="checkoutSummary.coupon || checkoutSummary.promo" class="row">
+        <p class="col-9 d-flex justify-content-start">
+            <span>
+                {{'account.subscription_checkout_coupon_first_payment' | translate}}
+                <i *ngIf="checkoutSummary.coupon" class="ml-2 fas fa-info-circle" #tooltip="matTooltip"
+                    (click)="showMore = !showMore" matTooltip="Coupon used: {{checkoutSummary.coupon?.id}}">
+                </i>
+                <i *ngIf="checkoutSummary.promo && !checkoutSummary.coupon" class="ml-2 fas fa-info-circle"
+                    (click)="showMore = !showMore">
+                </i>
+            </span>
+        </p>
+        <p *ngIf="checkoutSummary.coupon" class="col-3 d-flex justify-content-end">
+            {{checkoutSummary.coupon.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+        <p *ngIf="checkoutSummary.promo  && !checkoutSummary.coupon" class="col-3 d-flex justify-content-end">
+            {{checkoutSummary.promo.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+        <p class="col-12 d-flex justify-content-end">
+            ------------------------
+        </p>
+    </div>
+    <!-- Default -->
+    <div class="row mb-3">
+        <p *ngIf="order.paymentPlan != 0" class="col-8 d-flex justify-content-start">
+            <span *ngIf="!order.history" translate [translateParams]="{boxName: order.boxName}">
+                account.subscription_checkout_monthly_plan
+            </span>
+            <span *ngIf="order.history" translate [translateParams]="{boxName: order.history[0]?.order.boxName}">
+                account.subscription_checkout_monthly_plan
+            </span>
+        </p>
+        <p *ngIf="order.paymentPlan == 0" class="col-8 d-flex justify-content-start">
+            {{order.boxName}}
+        </p>
+        <p class="col-4 d-flex justify-content-end">
+            {{checkoutSummary.subTotal / 100 | currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+        <p *ngIf="order?.products.extraProducts?.extraPrice" class="col-8 d-flex justify-content-start">
+            {{'order_box.personalise_extra_products' | translate}}
+        </p>
+        <p *ngIf="order?.products.extraProducts?.extraPrice" class="col-4 d-flex justify-content-end">
+            {{order?.products.extraProducts?.extraPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+        <p *ngIf="checkoutSummary.referral" class="col-8 d-flex justify-content-start">
+            <span *ngIf="checkoutSummary.referral.discount">
+                {{'order_box.review_summary_referral_discount' | translate}}
+                {{checkoutSummary?.referral.referrer | titlecase}}
+            </span>
+            <span *ngIf="!checkoutSummary.referral.discount">
+                {{'order_box.review_summary_referral_claimed' | translate}}
+                {{checkoutSummary?.referral.name | titlecase}}
+            </span>
+        </p>
+        <p *ngIf="checkoutSummary.referral" class="col-4 d-flex justify-content-end">
+            <span *ngIf="checkoutSummary.referral.discount">
+                - {{checkoutSummary.referral.price / 100 | currency:'EUR':'symbol':'1.2-2'}}
+            </span>
+            <span *ngIf="!checkoutSummary.referral.discount">
+                - {{checkoutSummary.subTotal / 100 | currency:'EUR':'symbol':'1.2-2'}}
+            </span>
+        </p>
+        <p *ngIf="checkoutSummary.points" class="col-8 d-flex justify-content-start">
+            {{'account.subscription_checkout_referral_dmp' | translate}}
+            ({{checkoutSummary.points.discount}}%)
+        </p>
+        <p *ngIf="checkoutSummary.points" class="col-4 d-flex justify-content-end">
+            - {{checkoutSummary.points.discountPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+        <p class="col-6 d-flex justify-content-start">
+            {{'account.subscription_checkout_shipping' | translate}}
+        </p>
+        <p class="col-6 d-flex justify-content-end">
+            {{(order?.paymentPlan * checkoutSummary.shippingPrice) / 100 |
+            currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+        <p class="col-12 d-flex justify-content-end">
+            ------------
+        </p>
+        <p class="col-8 d-flex justify-content-start">
+            <span *ngIf="order?.paymentPlan != '1'">
+                {{'account.subscription_checkout_grand_total' | translate}}
+            </span>
+            <span *ngIf="order?.paymentPlan == '1'">
+                {{'account.subscription_checkout_per_month' | translate}}
+            </span>
+        </p>
+        <p *ngIf="!checkoutSummary.referral && !checkoutSummary.points" class="col-4 d-flex justify-content-end">
+            {{checkoutSummary.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+        <p *ngIf="checkoutSummary.referral" class="col-4 d-flex justify-content-end">
+            <span *ngIf="checkoutSummary.referral.discount">
+                {{checkoutSummary.referral.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+            </span>
+            <span *ngIf="!checkoutSummary.referral.checkoutPrice">
+                {{(order?.paymentPlan * checkoutSummary.checkoutPrice) / 100 |
+                currency:'EUR':'symbol':'1.2-2'}}
+            </span>
+        </p>
+        <p *ngIf="checkoutSummary.points" class="col-4 d-flex justify-content-end">
+            {{checkoutSummary.points.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+        </p>
+    </div>
+    <div *ngIf="order?.paymentPlan != 0" class="row">
+        <div *ngIf="order?.paymentDetails.paymentMethod" class="col-12 col-md-6">
+            <h6>{{'account.subscription_checkout_payment_method' | translate}}</h6>
+            <p class="mb-2">
+                {{ order?.paymentDetails.paymentMethod | paymentmethod }}
+            </p>
+        </div>
+        <div class="col-12 col-md-6">
+            <h6>{{'account.subscription_checkout_payment_plan' | translate}}</h6>
+            <p class="mb-2">
+                <span *ngIf="order?.paymentPlan == 1">
+                    {{'order_box.review_summary_payment_plan_monthly' | translate}}
+                </span>
+                <span *ngIf="order?.paymentPlan > 1">
+                    {{ order?.paymentPlan }}
+                    {{'order_box.review_summary_payment_plan_month' | translate}}
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+<div *ngIf="!checkoutSummary && !order">
+    <!-- Default -->
+    <div class="row">
+        <div class="col d-flex justify-content-start">
+            <ngx-skeleton-loader class="w-100" [theme]="{ width: '120px', height: '16px', 'margin-bottom': '8px'}">
+            </ngx-skeleton-loader>
+        </div>
+        <div class="col-auto d-flex justify-content-end">
+            <ngx-skeleton-loader class="w-100" [theme]="{ width: '60px', height: '16px', 'margin-bottom': '8px'}">
+            </ngx-skeleton-loader>
+        </div>
+    </div>
+    <div class="row">
+        <p class="col d-flex justify-content-start">
+            <ngx-skeleton-loader class="w-100" [theme]="{ width: '100px', height: '16px', 'margin-bottom': '8px'}">
+            </ngx-skeleton-loader>
+        </p>
+        <div class="col-auto d-flex justify-content-end">
+            <ngx-skeleton-loader class="w-100" [theme]="{ width: '60px', height: '16px', 'margin-bottom': '8px'}">
+            </ngx-skeleton-loader>
+        </div>
+        <p class="col-12 d-flex justify-content-end">
+            ------------
+        </p>
+    </div>
+    <div class="row mb-3">
+        <div class="col d-flex justify-content-start">
+            <ngx-skeleton-loader class="w-100" [theme]="{ width: '90px', height: '16px', 'margin-bottom': '8px'}">
+            </ngx-skeleton-loader>
+        </div>
+        <div class="col-auto d-flex justify-content-end">
+            <ngx-skeleton-loader class="w-100" [theme]="{ width: '60px', height: '16px', 'margin-bottom': '8px'}">
+            </ngx-skeleton-loader>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <h6>{{'account.subscription_checkout_payment_method' | translate}}</h6>
+            <div class="mb-2">
+                <ngx-skeleton-loader class="w-100" [theme]="{ width: '60px', height: '16px', 'margin-bottom': '8px'}">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <h6>{{'account.subscription_checkout_payment_plan' | translate}}</h6>
+            <div class="mb-2">
+                <ngx-skeleton-loader class="w-100" [theme]="{ width: '60px', height: '16px', 'margin-bottom': '8px'}">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+    </div>
+</div>

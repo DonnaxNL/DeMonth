@@ -1,0 +1,28 @@
+<div class="w-100">
+    <div class="d-flex justify-content-end">
+        <button mat-button type="button" (click)='onCloseClick()'>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <ng-container *ngIf="dialogData.boxType == 'complete'">
+        <picture>
+            <source srcset="/assets/images/boxes/box03.webp" type="image/webp" style="width:100%;">
+            <source srcset="/assets/images/boxes/box03.jpg" type="image/jpeg" style="width:100%;">
+            <img src="/assets/images/boxes/box03.jpg" alt="Complete" style="width:100%;">
+        </picture>
+    </ng-container>
+    <ng-container *ngIf="dialogData.boxType == 'plus'">
+        <picture>
+            <source srcset="/assets/images/boxes/box02.webp" type="image/webp" style="width:100%;">
+            <source srcset="/assets/images/boxes/box02.jpg" type="image/jpeg" style="width:100%;">
+            <img src="/assets/images/boxes/box02.jpg" alt="Plus" style="width:100%;">
+        </picture>
+    </ng-container>
+    <ng-container *ngIf="dialogData.boxType == 'basic'">
+        <picture>
+            <source srcset="/assets/images/boxes/box01.webp" type="image/webp" style="width:100%;">
+            <source srcset="/assets/images/boxes/box01.jpg" type="image/jpeg" style="width:100%;">
+            <img src="/assets/images/boxes/box01.jpg" alt="Basic" style="width:100%;">
+        </picture>
+    </ng-container>
+</div>

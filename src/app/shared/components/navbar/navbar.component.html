@@ -1,0 +1,255 @@
+<!-- Open order notice -->
+<!-- <div *ngIf="showOpenOrder" class="fixed-top d-flex justify-content-end">
+    <div (click)="openOrder()" class="toast fade show toast-order">
+        <div class="toast-header">
+            <strong class="mr-auto">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ 'open_order.title' | translate }}
+            </strong>
+            <div type="button" class="p-1 close" (click)="closeAlert()">&times;</div>
+        </div>
+        <div class="toast-body">
+            {{ 'open_order.message' | translate }}
+        </div>
+    </div>
+</div> -->
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-expand-md fixed-top">
+
+    <!-- Menu button -->
+    <button class="navbar-toggler" title="Toggle Menu" type="button" (click)="toggleNav()" matRipple
+        matRippleCentered="true">
+        <i class="fas" [ngClass]="{'fa-bars': collapse, 'fa-times': !collapse}" style="color:#F8BEB8; width: 25px;"></i>
+    </button>
+
+    <!-- Navigation Left-end -->
+    <div class="navbar-collapse collapse dual-nav order-4 order-md-0">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a *ngIf="!isMobile" class="nav-link" routerLink="/order-box">
+                    {{ 'common.menu_subscribe_now' | translate }}
+                </a>
+                <div *ngIf="isMobile" class="mt-2 mb-2 login-bg mat-elevation-z2" routerLink="/order-box"
+                    style="display: inline-block;">
+                    {{ 'common.menu_subscribe_now' | translate }}
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- Navigation Left-middle -->
+    <div class="navbar-collapse collapse dual-nav order-1 order-md-1 justify-content-end">
+        <ul class="navbar-nav">
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="#" routerLink="/">Home</a>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/how-it-works">{{ 'common.menu_how_it_works' | translate }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Logo -->
+    <div class="navbar-brand my-auto mx-auto order-0 order-md-2 p-3">
+        <a href="#" routerLink="/">
+            <img src="assets/images/logo-de-month.png" alt="DeMonth">
+        </a>
+        <small class="test-bg">DEMO</small>
+    </div>
+
+    <!-- Navigation Right-middle -->
+    <div class="navbar-collapse collapse dual-nav order-2 order-md-3">
+        <ul class="navbar-nav">
+            <!-- <li class="nav-item">
+                <a class="nav-link" routerLink="/try-now">{{ 'common.menu_trial_box' | translate }}</a>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/products">{{ 'common.menu_products' | translate }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Navigation Right-end (mobile) -->
+    <div class="row pr-2 order-md-4 justify-content-end account-mobile">
+        <div *ngIf="!showOpenOrder" class="col">
+            <div *ngIf="language == 'nl' && !user" class="row pr-4 justify-content-end">
+                <div class="nav-selected">NL</div>
+                <div class="nav-dot">·</div>
+                <div class="nav-unselected" (click)="onLanguageChange('en')">EN</div>
+            </div>
+            <div *ngIf="language == 'en' && !user" class="row pr-4 justify-content-end">
+                <div class="nav-unselected" (click)="onLanguageChange('nl')">NL</div>
+                <div class="nav-dot">·</div>
+                <div class="nav-selected">EN</div>
+            </div>
+        </div>
+        <button *ngIf="user" class="col" mat-mini-fab title="Open Account" class="nav-shopping" routerLink="/account"
+            [style.background-image]="'url(' + user?.photoURL + ')'" style="background-size: cover;">
+            <span *ngIf="user?.photoURL == null || 'url(' + user?.photoURL + ')' == null">
+                <mat-icon class="primary-color">person</mat-icon>
+            </span>
+        </button>
+        <div *ngIf="showOpenOrder" class="col my-auto">
+            <button mat-mini-fab class="nav-shopping" matBadge="1" [matMenuTriggerFor]="summary"
+                #menuTrigger="matMenuTrigger">
+                <mat-icon>shopping_cart</mat-icon>
+            </button>
+
+            <!-- Checkout popup -->
+            <mat-menu #summary="matMenu" [hasBackdrop]="false">
+                <div (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
+                    <div class="row m-0 pt-1">
+                        <p class="col-auto d-flex justify-content-start">
+                            <span *ngIf="order.boxId != 'box_13'" translate
+                                [translateParams]="{boxName: order?.boxName}">
+                                account.subscription_titlebar_monthly_plan
+                            </span>
+                            <span *ngIf="order.boxId == 'box_13'">
+                                {{order?.boxName}}
+                            </span>
+                        </p>
+                        <!--  && !coupon?.price && !referral?.checkoutPrice -->
+                        <p *ngIf="!promotionItem?.price" class="text-muted col d-flex justify-content-end">
+                            {{order?.checkoutSummary.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                        </p>
+                        <!-- <p *ngIf="coupon?.price" class="text-success col d-flex justify-content-end">
+                            {{coupon.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                        </p>  && !coupon?.price -->
+                        <p *ngIf="promotionItem?.price" class="text-muted col d-flex justify-content-end">
+                            {{order?.checkoutSummary.promo.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                        </p>
+                        <!-- <p *ngIf="referral?.checkoutPrice" class="text-muted col d-flex justify-content-end">
+                            {{referral.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                        </p> -->
+                        <small class="col-12 d-flex justify-content-start">
+                            <span *ngIf="order.paymentPlan == 1">
+                                {{'order_box.review_summary_payment_plan_monthly' | translate}}
+                                | {{'account.subscription_cycle' | translate}}: {{order?.deliveryDaysApart}}
+                                {{'order_box.delivery_days_apart_select' | translate}}
+                            </span>
+                            <span *ngIf="order.paymentPlan > 1">{{order?.paymentPlan}}
+                                {{'order_box.review_summary_payment_plan_month' | translate}}
+                                | {{'account.subscription_cycle' | translate}}: {{order?.deliveryDaysApart}}
+                                {{'order_box.delivery_days_apart_select' | translate}}
+                            </span>
+                        </small>
+                        <!-- <div class="col-12">
+                            <small class="link">{{'checkout.summary_order_overview' | translate}} <i
+                                    class="ml-1 fas fa-angle-right"></i></small>
+                        </div> -->
+                    </div>
+                    <hr style="margin-bottom: 8px;">
+                    <div class="row m-0">
+                        <div class="col-6 my-auto d-flex justify-content-start">
+                            <p class="p-1" (click)="closeAlert()">
+                                <span class="link-gray">
+                                    <i class="mr-1 fas fa-times"></i>
+                                    {{'common.clear_button' | translate}}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+                            <button mat-raised-button color="primary" (click)="openOrder()">
+                                {{'checkout.title' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
+
+    <!-- Navigation Right-end (main) -->
+    <div class="navbar-collapse collapse dual-nav order-3 order-md-4 justify-content-end">
+        <ul class="navbar-nav">
+            <li class="nav-item mr-5">
+                <div *ngIf="language == 'nl'" class="row pl-1">
+                    <div class="nav-selected">NL</div>
+                    <div class="nav-dot">·</div>
+                    <div class="nav-unselected" (click)="onLanguageChange('en')">EN</div>
+                </div>
+                <div *ngIf="language == 'en'" class="row pl-1">
+                    <div class="nav-unselected" (click)="onLanguageChange('nl')">NL</div>
+                    <div class="nav-dot">·</div>
+                    <div class="nav-selected">EN</div>
+                </div>
+            </li>
+            <li class="nav-item my-auto">
+                <button *ngIf="user && !isMobile" mat-mini-fab title="Open Account" class="nav-shopping"
+                    routerLink="/account" [style.background-image]="'url(' + user?.photoURL + ')'"
+                    style="background-size: cover; background-color: #F8BEB8;">
+                    <span *ngIf="user?.photoURL == null || 'url(' + user?.photoURL + ')' == null">
+                        <mat-icon class="brand-white">person</mat-icon>
+                    </span>
+                </button>
+                <div *ngIf="!user && !showOpenOrder" class="login-bg mat-elevation-z1" routerLink="/login">
+                    {{'common.menu_login' | translate}}
+                </div>
+                <button *ngIf="!user && showOpenOrder" mat-mini-fab class="nav-shopping" routerLink="/login">
+                    <mat-icon>person</mat-icon>
+                </button>
+            </li>
+            <li *ngIf="showOpenOrder" class="nav-item ml-2 my-auto">
+                <button mat-mini-fab class="nav-shopping" matBadge="1" [matMenuTriggerFor]="summary"
+                    #menuTrigger="matMenuTrigger" (mouseenter)="mouseEnter(menuTrigger)"
+                    (mouseleave)="mouseLeave(menuTrigger)">
+                    <mat-icon>shopping_cart</mat-icon>
+                </button>
+
+                <!-- Checkout popup -->
+                <mat-menu #summary="matMenu" [hasBackdrop]="false">
+                    <div (mouseenter)="mouseEnter(menuTrigger)" (mouseleave)="mouseLeave(menuTrigger)">
+                        <div class="row m-0 pt-1">
+                            <p class="col-auto d-flex justify-content-start">
+                                <span *ngIf="order.boxId != 'box_13'" translate
+                                    [translateParams]="{boxName: order?.boxName}">
+                                    account.subscription_titlebar_monthly_plan
+                                </span>
+                                <span *ngIf="order.boxId == 'box_13'">
+                                    {{order?.boxName}}
+                                </span>
+                            </p>
+                            <p *ngIf="!promotionItem?.price" class="text-muted col d-flex justify-content-end">
+                                {{order?.checkoutSummary.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <p *ngIf="promotionItem?.price" class="text-muted col d-flex justify-content-end">
+                                {{order?.checkoutSummary.promo.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <!-- <p *ngIf="referral?.checkoutPrice" class="text-muted col d-flex justify-content-end">
+                                {{referral.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p> -->
+                            <small class="col-12 d-flex justify-content-start">
+                                <span *ngIf="order.paymentPlan == 1">
+                                    {{'order_box.review_summary_payment_plan_monthly' | translate}}
+                                    | {{'account.subscription_cycle' | translate}}: {{order?.deliveryDaysApart}}
+                                    {{'order_box.delivery_days_apart_select' | translate}}
+                                </span>
+                                <span *ngIf="order.paymentPlan > 1">{{order?.paymentPlan}}
+                                    {{'order_box.review_summary_payment_plan_month' | translate}}
+                                    | {{'account.subscription_cycle' | translate}}: {{order?.deliveryDaysApart}}
+                                    {{'order_box.delivery_days_apart_select' | translate}}
+                                </span>
+                            </small>
+                        </div>
+                        <hr style="margin-bottom: 8px;">
+                        <div class="row m-0">
+                            <div class="col my-auto d-flex justify-content-start">
+                                <p class="p-1" (click)="closeAlert()">
+                                    <span class="link-gray">
+                                        <i class="mr-1 fas fa-times"></i>
+                                        {{'common.clear_button' | translate}}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-auto pl-0 d-flex justify-content-end">
+                                <button mat-raised-button color="primary" (click)="openOrder()">
+                                    {{'checkout.title' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-menu>
+            </li>
+        </ul>
+    </div>
+</nav>

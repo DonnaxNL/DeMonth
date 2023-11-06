@@ -1,0 +1,121 @@
+@import "~@angular/material/theming";
+
+.about {
+  position: relative;
+  background-color: white;
+  // background: url("/assets/images/banner.png") no-repeat center center;
+  background-size: cover;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.about .lead {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.showcase .showcase-text-header {
+  padding-left: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  padding-right: 2rem;
+}
+
+.showcase .showcase-text-accent {
+  //background-color: #EF9A9A;
+  //color: white;
+  padding: 2rem;
+}
+
+.showcase .showcase-text {
+  background-color: #fbc3bc;
+  padding: 4rem;
+}
+
+.showcase .showcase-img {
+  min-height: 30rem;
+  background: center;
+  background-size: cover;
+}
+
+.slide-image {
+  display: block;
+  width: 100%;
+}
+
+::ng-deep .box-carousel .carousel-control {
+  display: none;
+}
+
+.slide-chocolate {
+  height: 80px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.slide-healthbar {
+  height: 80px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.vd {
+  border-left: 1px solid white;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 90%;
+}
+
+mat-chip {
+  @include mat-elevation(0);
+}
+
+.chip-basic {
+  color: white;
+  background-color: #f6db35;
+}
+
+.chip-plus {
+  color: white;
+  background-color: #fba33f;
+}
+
+.chip-complete {
+  color: #545454;
+  background-color: #f6cdd3;
+}
+
+@media (max-width: 765px) {
+  .about {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .slide-image {
+    height: 150px;
+  }
+
+  .showcase .showcase-text {
+    padding: 2rem;
+  }
+
+  .showcase .showcase-text-accent {
+    padding-top: 0rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .showcase .showcase-img {
+    min-height: 15rem;
+    background: center;
+    background-size: cover;
+  }
+
+  .vd {
+    border-left: 0px solid white;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: 0%;
+  }
+}

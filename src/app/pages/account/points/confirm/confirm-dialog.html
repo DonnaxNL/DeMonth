@@ -1,0 +1,65 @@
+<!-- Default dialog -->
+<h2 *ngIf="!savingState" mat-dialog-title>{{'points.confirm' | translate}}</h2>
+<div *ngIf="!savingState" mat-dialog-content>
+    <p>
+        <b>{{'points.box_chosen' | translate}}</b> 
+        {{box.name}}
+    </p>
+    <p>
+        <b>{{'points.dicount_chosen' | translate}} </b>
+        <span *ngIf="dialogData.discount < 1">
+            {{dialogData.discountPrice / 100 | currency:'EUR':'symbol':'1.2-2'}} ({{dialogData.discount * 100 | number:'1.0-2'}}% {{'points.discount' | translate}})
+        </span>
+        <span *ngIf="dialogData.discount == 1">{{'points.free_box' | translate}}</span>
+    </p>
+    <p *ngIf="dialogData.discount < 1">
+        <b>{{'points.dicounted_price' | translate}} </b>
+        {{(box.price-dialogData.discountPrice) / 100 | currency:'EUR':'symbol':'1.2-2'}}
+    </p>
+    <hr>
+    <div class="row">
+        <div class="col-9 d-flex justify-content-start">
+            <h6>{{'points.your_dmp' | translate}}</h6>
+        </div>
+        <div class="col-3 d-flex justify-content-end">
+            <p>{{dialogData.userPoints}}</p>
+        </div>
+        <div class="col-9 d-flex justify-content-start">
+            <h6>{{'points.redeem_dmp' | translate}}</h6>
+        </div>
+        <div class="col-3 d-flex justify-content-end">
+            <p>{{dialogData.pointsClaimed}}</p>
+        </div>
+        <div class="col-12 d-flex justify-content-end">
+            ----------
+        </div>
+        <div class="col-9 d-flex justify-content-start">
+            <h6>{{'points.remaining_dmp' | translate}}</h6>
+        </div>
+        <div class="col-3 d-flex justify-content-end">
+            <p>{{dialogData.userPoints - dialogData.pointsClaimed}}</p>
+        </div>
+    </div>
+    <hr>
+    <p [innerHTML]="'points.confirm_text' | translate: {pointsClaimed: dialogData.pointsClaimed}"></p>
+</div>
+<!-- Saving state -->
+<h2 *ngIf="savingState && !loadingDone" mat-dialog-title>{{'account.subscription_dialog_saving' | translate}}</h2>
+<div *ngIf="savingState && !loadingDone" mat-dialog-content>
+    <div class="col-12 d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+    <p class="col-12 d-flex justify-content-center">{{'account.subscription_dialog_wait' | translate}}</p>
+</div>
+<!-- Saved state -->
+<h2 *ngIf="loadingDone" mat-dialog-title>{{'points.success' | translate}}</h2>
+<div *ngIf="loadingDone" mat-dialog-content>
+    <p class="col-12 d-flex justify-content-center"
+        [innerHTML]="'points.success_text' | translate: {orderRef: dialogData.currentOrder.orderReference, deliveryDate: boxDeliveryDate | date:'d MMMM yyyy'}"></p>
+</div>
+<!-- Actions -->
+<div mat-dialog-actions style="justify-content: flex-end;">
+    <button mat-button *ngIf="!savingState" (click)="onNoClick()">{{'common.no_button' | translate}}</button>
+    <button mat-button *ngIf="!savingState" (click)="claimConfirmed()" cdkFocusInitial>{{'common.yes_button' | translate}}</button>
+    <button mat-button *ngIf="loadingDone" (click)="onFinishedClose()">{{'common.close_button' | translate}}</button>
+</div>

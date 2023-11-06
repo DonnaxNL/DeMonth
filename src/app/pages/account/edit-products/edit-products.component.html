@@ -1,0 +1,37 @@
+<h3 *ngIf="!showPreferences" class="mb-3">{{'account.subscription_products_edit_title' | translate}}</h3>
+<h3 *ngIf="showPreferences" class="mb-3">{{'account.subscription_preferences_edit_title' | translate}}</h3>
+<div class="card">
+    <div *ngIf="!showPreferences">
+        <order-pickproducts [boxTypeValue]="boxType" [productSelected]="products" [editMode]="true"></order-pickproducts>
+    </div>
+    <div *ngIf="showPreferences">
+        <order-pickpreferences [boxType]="boxType" [productSelected]="products" [editMode]="true"></order-pickpreferences>
+    </div>
+    <hr>
+    <div *ngIf="!showPreferences" class="row d-flex justify-content-end">
+        <div class="col-auto p-0 d-flex justify-content-end">
+            <button mat-button color="primary" (click)="returnToOrder()">
+                {{'common.cancel_button' | translate}}
+            </button>
+        </div>
+        <div class="col-auto p-0 d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="saveProducts()"
+                [disabled]="disableProductSubmit">
+                {{'common.save_button' | translate}}
+            </button>
+        </div>
+    </div>
+    <div *ngIf="showPreferences" class="row d-flex justify-content-end">
+        <div class="col-auto p-0 d-flex justify-content-end">
+            <button mat-button color="primary" (click)="returnToOrder()">
+                {{'common.cancel_button' | translate}}
+            </button>
+        </div>
+        <div class="col-auto p-0 d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="savePreferences()"
+                [disabled]="disablePreferenceSubmit">
+                {{'common.save_button' | translate}}
+            </button>
+        </div>
+    </div>
+</div>

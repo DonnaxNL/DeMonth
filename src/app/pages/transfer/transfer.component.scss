@@ -1,0 +1,29 @@
+.yourbox-block {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 40rem;
+    -webkit-flex-flow: column;
+    -moz-flex-flow: column;
+    -ms-flex-flow: column;
+    flex-flow: column;
+    height: 100%;
+    background-color: #fff;
+    margin: 24px;
+    //box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mat-expansion-panel {
+    padding-top: -10px;
+    padding-bottom: -10px;
+    //margin-bottom: -10px;
+    //box-shadow: none !important;
+}
+
+.mat-expansion-panel p {
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: medium;
+    font-weight: 400;
+    margin-top: 0em;
+    margin-bottom: 0em;
+}

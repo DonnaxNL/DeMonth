@@ -1,0 +1,44 @@
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.example-radio-button {
+  margin-left: 5px;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 100%;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+.example-form {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.coupon-field {
+  height: 40px;
+  padding: 2px;
+}
+
+.float {
+  width: 100%;
+  outline: none;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+}

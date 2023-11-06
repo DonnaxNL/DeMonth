@@ -1,0 +1,385 @@
+@import "./material-theme.scss";
+
+@font-face {
+  font-family: Futura;
+  src: url(/assets/font/futura_light.ttf) format("truetype");
+}
+
+// Colors
+$primary: #fbc3bc;
+
+primary-color {
+  background-color: $primary;
+}
+
+.bg-primary-color {
+  background-color: $primary;
+}
+
+.bg-primary-color-trans {
+  background-color: rgba(251, 195, 188, 0.75);
+}
+
+.bg-event-color {
+  background-color: #ef5fa7;
+}
+
+.bg-brand-white {
+  background-color: white;
+}
+
+.primary-color {
+  color: $primary;
+}
+
+.primary-color-dark {
+  color: #f78274;
+}
+
+.brand-gray {
+  color: #545454;
+}
+
+.brand-white {
+  color: #ffffff;
+}
+
+.text-warn {
+  color: red
+}
+
+// Text
+html,
+body {
+  height: 100%;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+h1,
+h2 {
+  letter-spacing: 5px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #545454;
+}
+
+h3,
+h4,
+h5 {
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #545454;
+}
+
+h6 {
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #545454;
+}
+
+p {
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #545454;
+  font-weight: 400;
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+small {
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #545454;
+}
+
+// Links
+a {
+  color: #f8beb8;
+}
+
+a:hover {
+  color: #f78274;
+}
+
+.link {
+  color: #f8beb8;
+  &:hover, &:active, &:focus {
+    outline: none;
+    color: #f78274;
+    cursor: pointer;
+  }
+}
+
+.link:hover {
+  color: #f78274;
+  cursor: pointer;
+}
+
+.link-white {
+  color: white;
+  &:hover, &:active, &:focus {
+    outline: none;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.link-text:hover {
+  text-decoration: underline;
+}
+
+// Other
+li {
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #545454;
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+.input-upper{
+  text-transform: capitalize;
+}
+
+.box-container {
+  border: 2px solid black;
+  background-color: transparent;
+  color: black;
+  padding: 10px;
+}
+
+// Buttons
+.button-black {
+  outline: none;
+  border: 4px solid black;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.button-black:hover {
+  outline: none;
+  border: 4px solid gray;
+  background-color: gray;
+  color: white;
+}
+
+.button-white {
+  border: 4px solid white;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.button-white:hover {
+  border: 4px solid lightgray;
+  background-color: lightgray;
+  color: black;
+}
+
+.button-red {
+  border: 4px solid rgb(202, 31, 23);
+  background-color: rgb(202, 31, 23);
+  color: white;
+  padding: 10px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.button-red:hover,
+.button-red:focus {
+  border: 4px solid rgb(231, 53, 45);
+  background-color: rgb(231, 53, 45);
+  color: white;
+}
+
+.button-red:disabled {
+  border: 4px solid rgb(236, 107, 100);
+  background-color: rgb(236, 107, 100);
+  color: white;
+}
+
+.button-primary-light {
+  border: 4px solid #fdd9d4;
+  background-color: #fdd9d4;
+  color: white;
+  padding: 10px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.button-primary-light:hover,
+.button-primary-light:focus {
+  border: 4px solid #faada4;
+  background-color: #faada4;
+  color: white;
+}
+
+.button-primary-light:disabled {
+  cursor: not-allowed !important;
+  border: 4px solid #E0E0E0;
+  background-color: #E0E0E0;
+  color: #B1B1B1;
+}
+
+.box-selector {
+  outline: none;
+  border: 4px solid #faada4;
+  background-color: #faada4;
+  color: white;
+  padding: 10px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.box-selector:hover,
+.box-container:focus {
+  border: 4px solid #f78274;
+  background-color: #f78274;
+  color: white;
+}
+
+.box-selector:disabled {
+  cursor: not-allowed !important;
+  border: 4px solid #E0E0E0;
+  background-color: #E0E0E0;
+  color: #B1B1B1;
+  padding: 10px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.box-selector:disabled:hover,
+.box-container:disabled:focus {
+  cursor: not-allowed !important;
+  border: 4px solid #E0E0E0;
+  background-color: #E0E0E0;
+}
+
+.button-no-border {
+  border: 4px solid transparent;
+  background-color: transparent;
+  color: black;
+  padding: 10px;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-no-border:hover,
+.button-no-border:focus {
+  border: 4px solid transparent;
+  background-color: transparent;
+  color: #faada4;
+}
+
+.bottom-sheet-radius {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 14px;
+  overflow-y: scroll;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid white;
+  background: #FAADA4;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E57373;
+}
+
+// Quotes
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+  color: #ccc;
+  font-family: Arial;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+blockquote p {
+  display: inline;
+}
+
+// Mobile font sizing
+@media (max-width: 765px) {
+  h1 {
+    letter-spacing: 2px;
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #545454;
+  }
+
+  h2 {
+    letter-spacing: 2px;
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #545454;
+  }
+
+  h3 {
+    letter-spacing: 1px;
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.4em;
+    font-weight: 500;
+    color: #545454;
+  }
+
+  h5 {
+    letter-spacing: 1px;
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #545454;
+  }
+
+  h6 {
+    letter-spacing: 1px;
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    color: #545454;
+  }
+
+  p {
+    font-size: 1em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+  }
+}

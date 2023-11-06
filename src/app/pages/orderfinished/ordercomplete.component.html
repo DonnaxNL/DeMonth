@@ -1,0 +1,91 @@
+<div class="complete">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <h1 class="brand-white">{{headerTitle}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-3">
+    <div *ngIf="dataLoaded">
+        <div *ngIf="completed">
+            <h4>{{'order_complete.thank_you_message' | translate}}</h4>
+            <br>
+            <p>
+                {{'order_complete.success_message_prefix' | translate}}
+                <span class="link" (click)="openOrder()">{{'order_complete.success_message_account' | translate}}</span>
+                <span [innerHtml]="'order_complete.success_message_suffix' | translate: {orderRef: orderRef}"></span>
+            </p>
+            <br>
+            <div [hidden]="true" class="mat-elevation-z2 p-4 mb-4" style="border-radius: 10px;">
+                <h4>{{'points.title' | translate}}</h4>
+                <p class="mt-2" [hidden]="incentiveUsed" [innerHtml]="'order_complete.points_message' | translate: {points: pointsEarned}"></p>
+                <p>{{'points.text' | translate}}</p>
+                <p class="link" routerLink="/account/points">{{'order_complete.points_link' | translate}}</p>
+            </div>
+            <div class="mat-elevation-z2 pt-4 pl-4 mb-4" style="border-radius: 10px;">
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-4 row">
+                        <div class="col-2">
+                            <div class="icon-bg"><mat-icon>today</mat-icon></div>
+                        </div>
+                        <div class="col-10">
+                            <p>{{'order_complete.deliver_message' | translate}}</p>
+                            <h6>{{order?.startDeliveryDate.toDate() | date:'d MMMM yyyy'}}</h6>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-4 row">
+                        <div class="col-2">
+                            <div class="icon-bg"><mat-icon>local_shipping</mat-icon></div>
+                        </div>
+                        <div class="col-10">
+                            <p>{{'order_complete.shipping_message' | translate}}</p>
+                            <address-view [userAddress]="order?.shippingAddress"></address-view>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-4 row">
+                        <div class="col-2">
+                            <div class="icon-bg"><mat-icon>email</mat-icon></div>
+                        </div>
+                        <div class="col-10">
+                            <p>{{'order_complete.email_message' | translate}}</p>
+                            <!-- <h6>{{this.currentUser?.email}}</h6> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-4 row">
+                        <div class="col-2">
+                            <div class="icon-bg"><mat-icon>share</mat-icon></div>
+                        </div>
+                        <div class="col-10">
+                            <p>{{'order_complete.share_message' | translate}}</p>
+                            <div class="row ml-1 d-flex justify-content-start">
+                                <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdemonth.nl&layout=button&size=large&width=77&height=28&appId" width="80" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                                <iframe *ngIf="order?.boxId == 'box_01'" allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=https://demonth.nl/order-box/basic&text=Ik%20heb%20zojuist%20een%20box%20gekocht%20bij%20DeMonth!&hashtags=DeMonth" style="width:80px; height:28px;"></iframe>
+                                <iframe *ngIf="order?.boxId == 'box_02'" allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=https://demonth.nl/order-box/plus&text=Ik%20heb%20zojuist%20een%20box%20gekocht%20bij%20DeMonth!&hashtags=DeMonth" style="width:80px; height:28px;"></iframe>
+                                <iframe allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=https://demonth.nl/order-box/complete&text=Ik%20heb%20zojuist%20een%20box%20gekocht%20bij%20DeMonth!&hashtags=DeMonth" style="width:80px; height:28px;"></iframe>
+                                <div class="whatsapp-btn" (click)="openWhatsApp()">
+                                    <i class="fab fa-whatsapp brand-white"></i> {{'common.share_button' | translate}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!completed">
+            <h4>{{'order_failed.header' | translate}}</h4>
+            <br>
+            <p>
+                {{'order_failed.text_prefix' | translate}}
+                <span class="link" (click)="openOrder()">{{'order_failed.text_account' | translate}}</span>
+                {{'order_failed.text_suffix' | translate}}
+            </p>
+        </div>
+    </div>
+    <div *ngIf="!dataLoaded">
+        <div class="mt-4 mb-4 col-12 d-flex justify-content-center">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</div>

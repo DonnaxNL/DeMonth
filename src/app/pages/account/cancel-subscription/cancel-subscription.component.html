@@ -1,0 +1,108 @@
+<div class="container">
+    <ng-container *ngIf="!confirmScreen">
+        <div class="card">
+            <h3>{{'cancel_subscription.title' | translate}}</h3>
+            <p class="mt-2">{{'cancel_subscription.text' | translate}}</p>
+            <!-- <p [innerHTML]="'cancel_subscription.points_notice' | translate: {userPoints: userPoints}" style="color: red" ></p> -->
+            <ng-container *ngIf="userPoints > 0">
+                <br>
+                <p class="text-warn" translate [translateParams]="{userPoints: userPoints}">
+                    cancel_subscription.points_notice
+                </p>
+                <p class="link" (click)="goToPoints()">
+                    {{'cancel_subscription.points_redirect' | translate}}
+                </p>
+            </ng-container>
+            <ng-container *ngIf="lastDateCheck != null && lastDateCheck < thresholdDate">
+                <br>
+                <p class="text-warn">
+                    {{'cancel_subscription.too_late_notice' | translate}} {{this.orderData.lastDeliveryDate | date:'d
+                    MMM yyyy'}}.
+                </p>
+            </ng-container>
+            <ng-container *ngIf="remainingOrders > 1">
+                <br>
+                <p translate [translateParams]="{remaining: remainingOrders}">
+                    cancel_subscription.remaining_notice
+                </p>
+            </ng-container>
+            <br>
+            <p>{{'cancel_subscription.sure' | translate}}</p>
+            <hr style="margin-bottom: 0.5em;">
+            <div class="row d-flex justify-content-end">
+                <div class="col-auto p-0 d-flex justify-content-end">
+                    <button mat-button color="warn" (click)="confirmScreen=true">
+                        {{'cancel_subscription.yes_button' | translate}}
+                    </button>
+                </div>
+                <div class="col-auto p-0 d-flex justify-content-end">
+                    <button mat-raised-button color="primary" (click)="returnToOrder()">
+                        {{'cancel_subscription.no_button' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="confirmScreen">
+        <div class="card">
+            <h3>{{'cancel_subscription.title2' | translate}}</h3>
+            <p class="mt-2">{{'cancel_subscription.text2' | translate}}</p>
+            <div *ngFor="let item of cancelOptions; let i = index">
+                <mat-radio-group class="example-radio-group" [(ngModel)]="cancelOptionSelection">
+                    <mat-radio-button class="example-radio-button" [value]="cancelOptions[i][0]">
+                        {{cancelOptions[i][1]}}
+                    </mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="cancelOptionSelection == 'monetary' && i == 0">
+                    <p>{{'cancel_subscription.reason_monetary_text' | translate}}</p>
+                </div>
+                <div *ngIf="cancelOptionSelection == 'expensive' && i == 1">
+                    <p [innerHTML]="'cancel_subscription.reason_expensive_text' | translate"></p>
+                </div>
+                <div *ngIf="cancelOptionSelection == 'offerings' && i == 2">
+                    <p [innerHTML]="'cancel_subscription.reason_offerings_text' | translate"></p>
+                </div>
+                <div *ngIf="cancelOptionSelection == 'quality_products' && i == 3">
+                    <p [innerHTML]="'cancel_subscription.reason_quality_products_text' | translate"></p>
+                </div>
+                <div *ngIf="cancelOptionSelection == 'quality_composition' && i == 4">
+                    <p [innerHTML]="'cancel_subscription.reason_quality_composition_text' | translate"></p>
+                </div>
+                <div *ngIf="cancelOptionSelection == 'alternative' && i == 5">
+                    <mat-form-field class="full-width">
+                        <textarea matInput
+                            placeholder="{{'cancel_subscription.reason_alternative_placeholder' | translate}}"
+                            [(ngModel)]="cancelAlternativeText" required></textarea>
+                        <mat-error>{{'cancel_subscription.reason_other_error' | translate}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="cancelOptionSelection == 'other' && i == 6">
+                    <mat-form-field class="full-width">
+                        <textarea matInput placeholder="{{'cancel_subscription.reason_other_placeholder' | translate}}"
+                            [(ngModel)]="cancelOtherText" required></textarea>
+                        <mat-error>{{'cancel_subscription.reason_other_error' | translate}}</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <hr style="margin-bottom: 0.5em;">
+            <div class="row d-flex justify-content-end">
+                <div class="col-auto p-0 my-auto d-flex justify-content-end">
+                    <mat-spinner *ngIf="finishRequest" [diameter]="35"></mat-spinner>
+                </div>
+                <div class="col-auto p-0 d-flex justify-content-end">
+                    <button mat-button color="warn" (click)="confirmCancellation()"
+                        [disabled]="!cancelOptionSelection || finishRequest">
+                        {{'cancel_subscription.confirm_button' | translate}}
+                    </button>
+                </div>
+                <div class="col-auto p-0 d-flex justify-content-end">
+                    <button mat-raised-button color="primary" (click)="confirmScreen = !confirmScreen"
+                        [disabled]="finishRequest">
+                        {{'cancel_subscription.go_back_button' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

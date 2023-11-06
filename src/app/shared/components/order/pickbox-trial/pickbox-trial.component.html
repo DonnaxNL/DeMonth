@@ -1,0 +1,69 @@
+<!-- Pick Trial/Gift box -->
+<!-- Pick your box -->
+<section class="boxpicker text-center">
+    <div class="container">
+        <div class="row p-0">
+            <!-- Info -->
+            <div class="col-12 col-md-6 my-auto">
+                <div class="infobox">
+                    <h4>Eénmalig proberen of cadeau geven? Kies dan voor de proefbox!</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mauris tellus, ultricies at porta vehicula, dictum non libero. Aliquam a euismod libero. Maecenas nec ultrices nulla. In sed odio leo.</p>
+                    <button class="mt-2" routerLink="/order-box/trial">Bestel nu!</button>
+                </div>
+            </div>
+            <!-- Trial Box -->
+            <div class="col-12 col-md-6 d-flex justify-content-center">
+                <div class="yourbox-block">
+                    <div class="row p-0">
+                        <div class="col-7 col-lg-12 yourbox-img">
+                            <div class="image-container" (click)="openImage('complete')">
+                                <picture>
+                                    <source class="image" srcset="/assets/images/boxes/box03.webp" type="image/webp">
+                                    <source class="image" srcset="/assets/images/boxes/box03.jpg" type="image/jpeg">
+                                    <img class="image" src="/assets/images/boxes/box03.jpg" alt="Complete">
+                                </picture>
+                            </div>
+                            <div class="middle">
+                                <button class="box-selector" routerLink="/order-box/trial">
+                                    {{'common.continue_button' | translate}} <i class="ml-2 fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="image-zoom" (click)="openImage('complete')">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="col-5 col-lg-12 yourbox-title" routerLink="/order-box/trial">
+                            <h3>{{'products.box_trial' | translate}}</h3>
+                            <h5>
+                                {{ boxes.box3.price/100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="yourbox-info" routerLink="/order-box/complete">
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                Eenmalige complete box
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start font-weight-light">
+                                <span *ngIf="cookieService.get('country')=='NL'">
+                                    {{'order_box.pick_box_features_shipping' | translate}}
+                                </span>
+                                <span *ngIf="cookieService.get('country')!='NL'">
+                                    {{'order_box.pick_box_features_shipping_asterisk' | translate}}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

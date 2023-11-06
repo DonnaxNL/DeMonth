@@ -1,0 +1,86 @@
+<div class="container" style="padding-top: 2rem">
+    <h1 class="mb-4">{{'contact.title' | translate}}</h1>
+    <div *ngIf="!completed">
+        <p class="mb-4 font-weight-light">
+            {{'contact.text' | translate}}
+        </p>
+        <form [formGroup]="formGroup">
+            <!-- Name -->
+            <div class="example-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'contact.name_label' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="formDetails.name" formControlName="name" [errorStateMatcher]="matcher"
+                        required>
+                    <mat-error>{{'common.form_default_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <!-- E-mail/phone row -->
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="example-container">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'contact.email_label' | translate}}</mat-label>
+                            <input matInput [(ngModel)]="formDetails.email" formControlName="email"
+                                [errorStateMatcher]="matcher" required>
+                            <mat-error>{{'common.form_default_error' | translate}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="example-container">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'contact.phone_label' | translate}}</mat-label>
+                            <input matInput [(ngModel)]="formDetails.phone" formControlName="phone">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <!-- Subject -->
+            <div class="example-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'contact.subject_label' | translate}}</mat-label>
+                    <mat-select placeholder="{{'contact.subject_placeholder' | translate}}" formControlName="subject"
+                        [(ngModel)]="formDetails.subject" [errorStateMatcher]="matcher" required>
+                        <mat-option *ngFor="let subject of subjects" [value]="subject">
+                            {{subject[1]}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{'common.form_select_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <!-- Order reference -->
+            <div *ngIf="formDetails.subject[0] == 'subscription'" class="example-container mb-4">
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>{{'contact.order_ref_label' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="formDetails.orderRef" maxlength="8" formControlName="orderRef"
+                        placeholder="{{'contact.order_ref_placeholder' | translate}}">
+                    <mat-hint>{{'contact.order_ref_hint' | translate}}</mat-hint>
+                    <mat-error>{{'common.form_default_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <!-- Message -->
+            <div class="example-container">
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>{{'contact.message_label' | translate}}</mat-label>
+                    <textarea matInput style="height: 100px" [(ngModel)]="formDetails.message" formControlName="message"
+                        placeholder="{{'contact.message_placeholder' | translate}}" [errorStateMatcher]="matcher"
+                        required></textarea>
+                    <mat-error>{{'common.form_default_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-0 col-md-7"></div>
+            <div class="col-12 col-md-5">
+                <div class="example-container">
+                    <button class="box-selector mb-4" (click)="sendMessage()">{{'common.send_button' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="completed">
+        <p class="mb-4 font-weight-light">
+            {{'contact.complete' | translate}}
+        </p>
+    </div>
+</div>

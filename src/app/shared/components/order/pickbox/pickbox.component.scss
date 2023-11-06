@@ -1,0 +1,267 @@
+.boxpicker {
+  padding-bottom: 4rem;
+}
+
+.yourbox-block {
+  max-width: 330px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.yourbox-block .yourbox-img img {
+  width: 100%;
+}
+
+.yourbox-img:hover .image {
+  opacity: 0.3;
+}
+
+.yourbox-img:hover .middle {
+  opacity: 1;
+}
+
+::ng-deep .image-dialog-class {
+  mat-dialog-container {
+    padding: 0;
+  }
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: 0.5s ease;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+// .yourbox-block .yourbox-img .box-badge {
+//   position: absolute;
+//   left: 0px;
+//   top: 0px;
+//   width: 80px;
+//   height: 80px;
+//   background-color: #CEE1FC; //#dacbde
+//   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+//   font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   text-transform: uppercase;
+//   font-size: 14px;
+//   text-align: center;
+//   padding: 10px 10px 10px 10px;
+//   border-radius: 100%;
+//   color: #333;
+//   line-height: 25px;
+// }
+
+.yourbox-block .box-banner {
+  position: absolute;
+  background-color: #cee1fc; //#dacbde
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
+  text-align: center;
+  padding: 12px 12px 12px 12px;
+  border-bottom-right-radius: 20px;
+  color: #333;
+  line-height: 25px;
+}
+
+.yourbox-title {
+  padding-top: 25px;
+}
+
+.yourbox-info {
+  padding: 25px;
+  flex: 1;
+}
+
+.yourbox-block .image-zoom {
+  position: absolute;
+  right: 999999px;
+}
+
+.point {
+  display: flex;
+  justify-content: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+div[ng-reflect-router-link] {
+  cursor: pointer;
+}
+
+div[ng-reflect-router-link] {
+  &:hover,
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+
+#ribbon-container {
+  margin-left: 80px;
+  position: relative;
+  right: -15px;
+  overflow: visible;
+  /* so we can see the pseudo-elements we're going to add to the anchor */
+
+  font-size: 18px;
+  /* font-size and line-height must be equal so we can account for the height of the banner */
+
+  line-height: 18px;
+}
+
+#ribbon-container:before {
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  border-top: 20px solid rgba(0, 0, 0, 0.3);
+  /* These 4 border properties create the first part of our drop-shadow */
+
+  border-bottom: 20px solid rgba(0, 0, 0, 0.3);
+  border-right: 12px solid rgba(0, 0, 0, 0.3);
+  border-left: 20px solid transparent;
+}
+
+#ribbon-container:after {
+  /* This adds the second part of our dropshadow */
+
+  content: "";
+  height: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  display: block;
+  position: absolute;
+  bottom: -3px;
+  left: 40px;
+  right: 3px;
+}
+
+#ribbon-container p {
+  display: block;
+  padding: 10px;
+  position: relative;
+  /* allows us to position our pseudo-elements properly */
+
+  background: #0089d0;
+  overflow: visible;
+  height: 40px;
+  margin-left: 29px;
+  color: #fff;
+  text-decoration: none;
+}
+
+#ribbon-container p:after {
+  /* this creates the "folded" part of our ribbon */
+
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  bottom: -15px;
+  right: 0;
+  border-top: 15px solid #004a70;
+  border-right: 15px solid transparent;
+}
+
+#ribbon-container p:before {
+  /* this creates the "forked" part of our ribbon */
+
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -20px;
+  border-top: 20px solid #0089d0;
+  border-bottom: 20px solid #0089d0;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+}
+
+@media (max-width: 1000px) {
+  #ribbon-container {
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+
+  .yourbox-title {
+    margin-left: -15px;
+  }
+}
+
+@media (max-width: 765px) {
+  .yourbox-block {
+    max-width: 300px;
+  }
+
+  .yourbox-title {
+    margin-left: -15px;
+  }
+
+  .middle {
+    position: absolute;
+    left: -999999px;
+  }
+
+  .yourbox-info {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex: 1;
+  }
+
+  .yourbox-img:hover .image {
+    opacity: 1;
+  }
+
+  .yourbox-img:hover .middle {
+    opacity: 0;
+  }
+
+  .yourbox-block .image-zoom {
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+    padding: 5px;
+  }
+
+  .yourbox-block .box-banner {
+    font-size: 14px;
+    padding: 8px 8px 8px 8px;
+  }
+
+  .bulletpoints {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+
+  .point {
+    justify-content: flex-start;
+  }
+}

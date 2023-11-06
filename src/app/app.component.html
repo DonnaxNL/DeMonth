@@ -1,0 +1,59 @@
+<mat-sidenav-container class="flex-center-vertically">
+  <mat-sidenav #sidenav class="sidenav">
+    <sidenav [user]="user" [promotion]="promotion"></sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content class="main-content">
+    <!-- Navbar -->
+    <app-navbar [promotion]="promotion" [referral]="referral"></app-navbar>
+    
+    <!-- Promo -->
+    <nav *ngIf="showPromotion" class="navbar navbar-promo fixed-top">
+
+      <!-- Eye catcher -->
+      <p class="col-12 d-flex justify-content-center">
+        <a href="/" routerLink="/order-box" style="color: #545454">
+          {{promoEyeCatcher}}
+        </a>
+        <i class="ml-2 flex-center-vertically fas fa-chevron-right" routerLink="/order-box"></i>
+      </p>
+    </nav>
+
+    <!-- Progress bar -->
+    <div class="fixed-top loading-bar" *ngIf="showProgress()">
+      <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+    </div>
+
+    <!-- Loading bar -->
+    <div class="fixed-top loading-bar" *ngIf="isLoading">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <!-- Body -->
+    <div [ngStyle]="bodyStyle">
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+
+    <!-- Add to Home Screen Button -->
+    <button [hidden]="!isMobile || !showContactButton() || hideAddButton" title="Add button" class="float-left mat-rounded-button" (click)="addToHomeScreen()">
+      <div class="row my-auto p-2" *ngIf="showAddText">
+        <mat-icon class="col-auto">add_to_home_screen</mat-icon>
+        <p class="col brand-white text-truncate" *ngIf="!startAnimation" [@add-to-home-shrink]>{{'common.add_to_home' | translate}}</p>
+      </div>
+      <mat-icon class="m-2" *ngIf="!showAddText">add_to_home_screen</mat-icon>
+    </button>
+
+    <!-- Contact Button -->
+    <button [hidden]="!isMobile || !showContactButton()" mat-mini-fab title="Contact button" class="float mat-rounded-button purechat-button-expand" disabled>
+      <mat-icon class="brand-white">mail</mat-icon>
+    </button>
+    <button #contact [hidden]="isMobile || !showContactButton()" mat-fab title="Contact button" class="float mat-rounded-button purechat-button-expand" disabled>
+      <mat-icon class="brand-white">mail</mat-icon>
+    </button>
+
+    <script id="CookieDeclaration" src="https://consent.cookiebot.com/f02b2b5e-ae75-45db-94d3-bfe0654244ee/cd.js"
+      type="text/javascript" async></script>
+  </mat-sidenav-content>
+</mat-sidenav-container>

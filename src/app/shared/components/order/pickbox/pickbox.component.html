@@ -1,0 +1,276 @@
+<!-- Pick your box -->
+<section class="boxpicker text-center">
+    <div class="container">
+        <h1 class="mb-4 black" *ngIf="!isTrial">{{'order_box.pick_box_header' | translate}}</h1>
+        <h3 class="mt-4 mb-4 black" *ngIf="isTrial && promotion">{{'order_box.pick_box_header_trial_promo' | translate}}</h3>
+        <h3 class="mt-4 mb-4 black" *ngIf="isTrial && !promotion">{{'order_box.pick_box_header_trial' | translate}}</h3>
+        <p class="mb-4" translate [translateParams]="{price: boxes.box3.price/100 | currency:'EUR':'symbol':'1.2-2'}">
+            order_box.pick_box_text
+        </p>
+        <div class="row bulletpoints mb-5">
+            <div class="point col-12 col-md-4 col-lg-4">
+                <i class="mt-1 fas fa-check-circle primary-color"></i>
+                <p class="ml-2 brand-gray">{{'order_box.pick_box_bullet_fees' | translate}}</p>
+            </div>
+            <div class="point col-12 col-md-4 col-lg-4">
+                <i class="mt-1 fas fa-check-circle primary-color"></i>
+                <p class="ml-2 brand-gray">{{'order_box.pick_box_bullet_commitment' | translate}}</p>
+            </div>
+            <div class="point col-12 col-md-4 col-lg-4">
+                <i class="mt-1 fas fa-check-circle primary-color"></i>
+                <p class="ml-2 brand-gray">{{'order_box.pick_box_bullet_cancel' | translate}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Complete -->
+            <div class="mb-4 col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <div class="yourbox-block Box_3">
+                    <div class="row p-0">
+                        <div class="col-7 col-lg-12 yourbox-img">
+                            <div class="box-banner">
+                                <p>{{'order_box.pick_box_banner_best_value' | translate}}</p>
+                            </div>
+                            <div class="image" (click)="openImage('complete')">
+                                <picture>
+                                    <source srcset="/assets/images/boxes/box03.webp" type="image/webp">
+                                    <source srcset="/assets/images/boxes/box03.jpg" type="image/jpeg">
+                                    <img src="/assets/images/boxes/box03.jpg" alt="Complete">
+                                </picture>
+                            </div>
+                            <div class="middle">
+                                <button class="box-selector" routerLink="/order-box/complete">
+                                    {{'common.continue_button' | translate}} <i class="ml-2 fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="image-zoom" (click)="openImage('complete')">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="col-5 col-lg-12 yourbox-title" routerLink="/order-box/complete">
+                            <h3>{{'order_box.pick_box_box_03_name' | translate}}</h3>
+                            <h5 *ngIf="!promotion" translate
+                                [translateParams]="{price: boxes.box3.price/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                order_box.pick_box_box_price_from
+                            </h5>
+                            <s *ngIf="promotion" class="text-warn">
+                                <h5 translate
+                                    [translateParams]="{price: boxes.box3.price/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                    order_box.pick_box_box_price_from
+                                </h5>
+                            </s>
+                        </div>
+                        <div *ngIf="promotion" class="col-12">
+                            <div id="ribbon-container">
+                                <p id="ribbon" translate
+                                    [translateParams]="{price: (boxes.box3.price*promotionMultiplier)/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                    order_box.pick_box_box_price_from_promo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="yourbox-info" routerLink="/order-box/complete">
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_03_features_tea' | translate}}
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_03_features_luxury' | translate}}
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start font-weight-light">
+                                <span *ngIf="cookieService.get('country')=='NL'">
+                                    {{'order_box.pick_box_features_shipping' | translate}}
+                                </span>
+                                <span *ngIf="cookieService.get('country')!='NL'">
+                                    {{'order_box.pick_box_features_shipping_asterisk' | translate}}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-plus primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_03_features_basic' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                    <button class="box-selector full-width" routerLink="/order-box/complete">
+                        <span>{{'order_box.pick_box_personalise_button' | translate}}</span>
+                        <i class="ml-2 fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Plus Box -->
+            <div class="mb-4 col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <div class="yourbox-block Box_2">
+                    <div class="row">
+                        <div class="col-7 col-lg-12 yourbox-img">
+                            <div class="image" (click)="openImage('plus')">
+                                <picture>
+                                    <source srcset="/assets/images/boxes/box02.webp" type="image/webp">
+                                    <source srcset="/assets/images/boxes/box02.jpg" type="image/jpeg">
+                                    <img src="/assets/images/boxes/box02.jpg" alt="Plus">
+                                </picture>
+                            </div>
+                            <div class="middle">
+                                <button class="box-selector" routerLink="/order-box/plus">
+                                    {{'common.continue_button' | translate}} <i class="ml-2 fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="image-zoom" (click)="openImage('plus')">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="col-5 col-lg-12 yourbox-title" routerLink="/order-box/plus">
+                            <h3>{{'order_box.pick_box_box_02_name' | translate}}</h3>
+                            <h5 *ngIf="!promotion" translate
+                                [translateParams]="{price: boxes.box2.price/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                order_box.pick_box_box_price_from
+                            </h5>
+                            <s *ngIf="promotion" class="text-warn">
+                                <h5 translate
+                                    [translateParams]="{price: boxes.box2.price/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                    order_box.pick_box_box_price_from
+                                </h5>
+                            </s>
+                        </div>
+                        <div *ngIf="promotion" class="col-12">
+                            <div id="ribbon-container">
+                                <p id="ribbon" translate
+                                    [translateParams]="{price: (boxes.box2.price*promotionMultiplier)/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                    order_box.pick_box_box_price_from_promo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="yourbox-info" routerLink="/order-box/plus">
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_02_features_bars' | translate}}
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_02_features_products' | translate}}
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                <span *ngIf="cookieService.get('country')=='NL'">
+                                    {{'order_box.pick_box_features_shipping' | translate}}
+                                </span>
+                                <span *ngIf="cookieService.get('country')!='NL'">
+                                    {{'order_box.pick_box_features_shipping_asterisk' | translate}}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-plus primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_02_features_basic' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                    <button class="box-selector full-width" routerLink="/order-box/plus">
+                        <span>{{'order_box.pick_box_personalise_button' | translate}}</span>
+                        <i class="ml-2 fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Basic Box -->
+            <div class="mb-4 col-12 col-md-12 col-lg-4 d-flex justify-content-center">
+                <div class="yourbox-block Box_1">
+                    <div class="row">
+                        <div class="col-7 col-lg-12 yourbox-img">
+                            <div class="image" (click)="openImage('basic')">
+                                <picture>
+                                    <source srcset="/assets/images/boxes/box01.webp" type="image/webp">
+                                    <source srcset="/assets/images/boxes/box01.jpg" type="image/jpeg">
+                                    <img src="/assets/images/boxes/box01.jpg" alt="Basic">
+                                </picture>
+                            </div>
+                            <div class="middle">
+                                <button class="box-selector">
+                                    {{'common.continue_button' | translate}} <i class="ml-2 fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="image-zoom" (click)="openImage('basic')">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="col-5 col-lg-12 yourbox-title" routerLink="/order-box/basic">
+                            <h3>{{'order_box.pick_box_box_01_name' | translate}}</h3>
+                            <h5 *ngIf="!promotion" translate
+                                [translateParams]="{price: boxes.box1.price/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                order_box.pick_box_box_price_from
+                            </h5>
+                            <s *ngIf="promotion" class="text-warn">
+                                <h5 translate
+                                    [translateParams]="{price: boxes.box1.price/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                    order_box.pick_box_box_price_from
+                                </h5>
+                            </s>
+                        </div>
+                        <div *ngIf="promotion" class="col-12">
+                            <div id="ribbon-container">
+                                <p id="ribbon" translate
+                                    [translateParams]="{price: (boxes.box1.price*promotionMultiplier)/100 | currency:'EUR':'symbol':'1.2-2'}">
+                                    order_box.pick_box_box_price_from_promo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="yourbox-info" routerLink="/order-box/basic">
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_01_features_essentials' | translate}}
+                            </p>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-1 d-flex my-auto justify-content-start">
+                                <i class="fas fa-check-circle primary-color"></i>
+                            </div>
+                            <p class="col-10 d-flex my-auto justify-content-start">
+                                {{'order_box.pick_box_box_01_features_cycle' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                    <button class="box-selector full-width" routerLink="/order-box/basic">
+                        <span>{{'order_box.pick_box_personalise_button' | translate}}</span>
+                        <i class="ml-2 fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <p *ngIf="cookieService.get('country')!='NL'" class="text-left">
+            {{'order_box.pick_box_free_shipping_footnote' | translate}}
+        </p>
+    </div>
+</section>

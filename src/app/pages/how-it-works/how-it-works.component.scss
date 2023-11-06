@@ -1,0 +1,58 @@
+.about {
+    position: relative;
+    background-color: #fbc3bc;
+    // background: url("/assets/images/banner.png") no-repeat center center;
+    background-size: cover;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.about .lead {
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.step-label {
+    color: #fbc3bc;
+}
+
+mat-divider {
+    align-self: center;
+    width: 95%;
+}
+
+.yourbox-info {
+    height: 100%;
+    width: 100%;
+    padding: 8px;
+  }
+
+.radio-btn {
+    display: flex;
+    width: 100%;
+    margin: 10px;
+    border: 4px solid #fbc3bc;
+    border-radius: 10px;
+}
+
+.showcase .showcase-text {
+    background-color: white;
+    padding: 2rem;
+}
+
+.showcase .showcase-img {
+    min-height: 20rem;
+    background: center;
+    background-size: cover;
+}
+
+@media (min-width: 768px) {
+    .about {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+
+    .showcase .showcase-text {
+        padding: 5rem;
+    }
+}

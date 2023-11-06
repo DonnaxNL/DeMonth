@@ -1,0 +1,233 @@
+<!-- Complete -->
+<div class="block mb-4">
+    <div class="row">
+        <div class="col-4 col-md-3 pr-0">
+            <img src="/assets/images/boxes/box03-square.jpg" alt="Complete" width="100%">
+        </div>
+        <div class="col-8 col-md-9 mt-2 p-0 pr-3">
+            <div class="text">
+                <h5><b>Complete</b></h5>
+                <p *ngIf="discountComplete < 1">
+                    {{discountComplete * 100 | number:'1.0-2'}}% {{'points.discount' | translate}}
+                    <span *ngIf="discountPriceComplete > 0"> 
+                        ({{discountPriceComplete / 100 | currency:'EUR':'symbol':'1.2-2'}})
+                    </span><br>
+                    <span *ngIf="current < amountRedeemComplete && amountRedeemComplete-current == amountRedeemComplete"
+                        [innerHTML]="'points.points_until_free_none' | translate: {remaining: amountRedeemComplete-current}"></span>
+                    <span *ngIf="current < amountRedeemComplete && amountRedeemComplete-current > 30 && amountRedeemComplete-current != amountRedeemComplete"
+                        [innerHTML]="'points.points_until_free' | translate: {remaining: amountRedeemComplete-current}"></span>
+                    <span *ngIf="current < amountRedeemComplete && amountRedeemComplete-current <= 30"
+                        [innerHTML]="'points.points_until_free_close' | translate: {remaining: amountRedeemComplete-current}"></span>
+                </p>
+                <p *ngIf="discountComplete >= 1">{{'points.free_box' | translate}}</p>
+            </div>
+            <div *ngIf="!isMobile" class="bottom">
+                <hr style="margin-top: 0em; margin-bottom: 0em; ">
+                <div class="row ml-3 pl-3" style="display: flex; align-items: center; height: 50px;">
+                    <div class="col-1 d-flex justify-content-start">
+                        <p>0</p>
+                    </div>
+                    <div class="col-9 d-flex justify-content-center">
+                        <mat-slider style="width: 100%;" [(ngModel)]="selectedPointsComplete" step="{{stepComplete}}"
+                            min=0 [max]="amountRedeemComplete" (input)="onChange('complete', $event)"></mat-slider>
+                    </div>
+                    <div class="col-1 d-flex justify-content-center">
+                        <p>{{amountRedeemComplete}}</p>
+                    </div>
+                </div>
+                <hr style="margin-top: 0em; margin-bottom: 0em; ">
+                <div class="row" style="display: flex; align-items: center;">
+                    <div class="col-8 d-flex justify-content-start">
+                        <p class="pl-3">{{'points.redeem' | translate}}: {{selectedPointsComplete}}DMP</p>
+                    </div>
+                    <div class="col-4 d-flex justify-content-end">
+                        <button class="box-selector" (click)="claimBox('complete')"
+                            [disabled]="selectedPointsComplete <= minimalToRedeemComplete">
+                            <span>{{'points.redeem' | translate}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isMobile">
+        <hr style="margin-top: 0em; margin-bottom: 0em; ">
+        <div class="row pl-3" style="display: flex; align-items: center; height: 50px;">
+            <div class="col-1 d-flex justify-content-start">
+                <p>0</p>
+            </div>
+            <div class="col-9 d-flex justify-content-center">
+                <mat-slider style="width: 100%;" [(ngModel)]="selectedPointsComplete" step="{{stepComplete}}" min=0
+                    [max]="amountRedeemComplete" (input)="onChange('complete', $event)"></mat-slider>
+            </div>
+            <div class="col-1 d-flex justify-content-center">
+                <p>{{amountRedeemComplete}}</p>
+            </div>
+        </div>
+        <hr style="margin-top: 0em; margin-bottom: 0em; ">
+        <div class="row" style="display: flex; align-items: center;">
+            <div class="col-8 d-flex justify-content-start">
+                <p class="pl-3">{{'points.redeem' | translate}}: {{selectedPointsComplete}}DMP</p>
+            </div>
+            <div class="col-4 d-flex justify-content-end">
+                <button class="box-selector" (click)="claimBox('complete')"
+                    [disabled]="selectedPointsComplete <= minimalToRedeemComplete">
+                    <span>{{'points.redeem' | translate}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Plus -->
+<div class="block mb-4">
+    <div class="row">
+        <div class="col-4 col-md-3 pr-0">
+            <img src="/assets/images/boxes/box02-square.jpg" alt="Plus" width="100%">
+        </div>
+        <div class="col-8 col-md-9 mt-2 p-0 pr-3">
+            <div class="text">
+                <h5><b>Plus</b></h5>
+                <p *ngIf="discountPlus < 1">
+                    {{discountPlus * 100 | number:'1.0-2'}}% {{'points.discount' | translate}}
+                    <span *ngIf="discountPricePlus > 0"> 
+                        ({{discountPricePlus / 100 | currency:'EUR':'symbol':'1.2-2'}})
+                    </span><br>
+                    <span *ngIf="current < amountRedeemPlus && amountRedeemPlus-current == amountRedeemPlus"
+                        [innerHTML]="'points.points_until_free_none' | translate: {remaining: amountRedeemPlus-current}"></span>
+                    <span *ngIf="current < amountRedeemPlus && amountRedeemPlus-current > 22.5 && amountRedeemPlus-current != amountRedeemPlus"
+                        [innerHTML]="'points.points_until_free' | translate: {remaining: amountRedeemPlus-current}"></span>
+                    <span *ngIf="current < amountRedeemPlus && amountRedeemPlus-current <= 22.5"
+                        [innerHTML]="'points.points_until_free_close' | translate: {remaining: amountRedeemPlus-current}"></span>
+                </p>
+                <p *ngIf="discountPlus >= 1">{{'points.free_box' | translate}}</p>
+            </div>
+            <div *ngIf="!isMobile" class="bottom">
+                <hr style="margin-top: 0em; margin-bottom: 0em; ">
+                <div class="row ml-3 pl-3" style="display: flex; align-items: center; height: 50px;">
+                    <div class="col-1 d-flex justify-content-start">
+                        <p>0</p>
+                    </div>
+                    <div class="col-9 d-flex justify-content-center">
+                        <mat-slider style="width: 100%;" [(ngModel)]="selectedPointsPlus" step="{{stepPlus}}" min=0
+                            [max]="amountRedeemPlus" (input)="onChange('plus', $event)"></mat-slider>
+                    </div>
+                    <div class="col-1 d-flex justify-content-center">
+                        <p>{{amountRedeemPlus}}</p>
+                    </div>
+                </div>
+                <hr style="margin-top: 0em; margin-bottom: 0em; ">
+                <div class="row" style="display: flex; align-items: center;">
+                    <div class="col-8 d-flex justify-content-start">
+                        <p class="pl-3">{{'points.redeem' | translate}}: {{selectedPointsPlus}}DMP</p>
+                    </div>
+                    <div class="col-4 d-flex justify-content-end">
+                        <button class="box-selector" (click)="claimBox('plus')"
+                            [disabled]="selectedPointsPlus <= minimalToRedeemPlus">
+                            <span>{{'points.redeem' | translate}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isMobile">
+        <hr style="margin-top: 0em; margin-bottom: 0em; ">
+        <div class="row pl-3" style="display: flex; align-items: center; height: 50px;">
+            <div class="col-1 d-flex justify-content-start">
+                <p>0</p>
+            </div>
+            <div class="col-9 d-flex justify-content-center">
+                <mat-slider style="width: 100%;" [(ngModel)]="selectedPointsPlus" step="{{stepPlus}}" min=0
+                    [max]="amountRedeemPlus" (input)="onChange('plus', $event)"></mat-slider>
+            </div>
+            <div class="col-1 d-flex justify-content-center">
+                <p>{{amountRedeemPlus}}</p>
+            </div>
+        </div>
+        <hr style="margin-top: 0em; margin-bottom: 0em; ">
+        <div class="row" style="display: flex; align-items: center;">
+            <div class="col-8 d-flex justify-content-start">
+                <p class="pl-3">{{'points.redeem' | translate}}: {{selectedPointsPlus}}DMP</p>
+            </div>
+            <div class="col-4 d-flex justify-content-end">
+                <button class="box-selector" (click)="claimBox('plus')"
+                    [disabled]="selectedPointsPlus <= minimalToRedeemPlus">
+                    <span>{{'points.redeem' | translate}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Basic -->
+<!-- <div class="mat-elevation-z2 mb-4">
+    <div class="row">
+        <div class="col-4 col-md-3 pr-0">
+            <img src="/assets/images/boxes/box01.jpg" alt="Basic" width="100%">
+        </div>
+        <div class="col-8 col-md-9 mt-2 p-0 pr-3">
+            <div class="text">
+                <h5><b>Basic</b></h5>
+                <p *ngIf="discountBasic < 1">
+                    {{discountBasic * 100 | number:'1.0-2'}}% {{'points.discount' | translate}}<br>
+                    <span *ngIf="current < amountRedeemBasic"
+                        [innerHTML]="'points.points_until_free' | translate: {remaining: amountRedeemBasic-current}"></span>
+                </p>
+                <p *ngIf="discountBasic >= 1">{{'points.free_box' | translate}}</p>
+            </div>
+            <div *ngIf="!isMobile" class="bottom">
+                <hr style="margin-top: 0em; margin-bottom: 0em; ">
+                <div class="row ml-3 pl-3" style="display: flex; align-items: center; height: 50px;">
+                    <h6 class="col-1 d-flex justify-content-start">
+                        <p>0</p>
+                    </h6>
+                    <h6 class="col-9 d-flex justify-content-center">
+                        <mat-slider style="width: 100%;" [(ngModel)]="selectedPointsBasic" step="{{stepBasic}}" min=0 [max]="amountRedeemBasic"
+                            (input)="onChange('basic', $event)"></mat-slider>
+                    </h6>
+                    <h6 class="col-1 d-flex justify-content-center">
+                        <p>{{amountRedeemBasic}}</p>
+                    </h6>
+                </div>
+                <hr style="margin-top: 0em; margin-bottom: 0em; ">
+                <div class="row" style="display: flex; align-items: center;">
+                    <div class="col-8 d-flex justify-content-start">
+                        <p class="pl-3">{{'points.redeem' | translate}}: {{selectedPointsBasic}}DMP</p>
+                    </div>
+                    <div class="col-4 d-flex justify-content-end">
+                        <button class="box-selector" (click)="claimBox('basic')"
+                            [disabled]="selectedPointsBasic < minimalToRedeemBasic">
+                            <span>{{'points.redeem' | translate}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isMobile">
+        <hr style="margin-top: 0em; margin-bottom: 0em; ">
+        <div class="row pl-3" style="display: flex; align-items: center; height: 50px;">
+            <h6 class="col-1 d-flex justify-content-start">
+                <p>0</p>
+            </h6>
+            <h6 class="col-9 d-flex justify-content-center">
+                <mat-slider style="width: 100%;" [(ngModel)]="selectedPointsBasic" step="{{stepBasic}}" min=0 [max]="amountRedeemBasic"
+                    (input)="onChange('basic', $event)"></mat-slider>
+            </h6>
+            <h6 class="col-1 d-flex justify-content-center">
+                <p>{{amountRedeemBasic}}</p>
+            </h6>
+        </div>
+        <hr style="margin-top: 0em; margin-bottom: 0em; ">
+        <div class="row" style="display: flex; align-items: center;">
+            <div class="col-8 d-flex justify-content-start">
+                <p class="pl-3">{{'points.redeem' | translate}}: {{selectedPointsBasic}}DMP</p>
+            </div>
+            <div class="col-4 d-flex justify-content-end">
+                <button class="box-selector" (click)="claimBox('basic')"
+                    [disabled]="selectedPointsBasic < minimalToRedeemBasic">
+                    <span>{{'points.redeem' | translate}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->

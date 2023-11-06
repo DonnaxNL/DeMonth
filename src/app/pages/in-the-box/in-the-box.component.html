@@ -1,0 +1,143 @@
+<!-- About us subscription -->
+<section class="about text-center">
+    <!-- <div class="overlay"></div> -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <h1 class="mb-4">{{'contentbox.title' | translate}}</h1>
+                <p class="lead mb-0">
+                    {{'contentbox.introduction' | translate}}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Showcases -->
+<section class="showcase">
+    <div class="container-fluid p-0">
+        <div class="row no-gutters" style="background-color: #fbc3bc;">
+            <div class="col-lg-6 order-2 order-lg-1 my-auto showcase-text">
+                <h2 class="brand-white">{{'contentbox.products_header' | translate}}</h2>
+                <p class="lead mb-0 brand-white" [innerHTML]="'contentbox.products_text' | translate"></p>
+                <mat-chip-list aria-label="Box types">
+                    <mat-chip class="chip-basic">Basic</mat-chip>
+                    <mat-chip class="chip-plus">Plus</mat-chip>
+                    <mat-chip class="chip-complete">Complete</mat-chip>
+                </mat-chip-list>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 text-white showcase-img">
+                <picture>
+                    <source srcset="/assets/images/products/product-group.webp" type="image/webp" height="100%"
+                        width="100%">
+                    <source srcset="/assets/images/products/product-group.jpg" type="image/jpeg" height="100%"
+                        width="100%">
+                    <img src="/assets/images/products/product-group.jpg" alt="Group" height="100%" width="100%">
+                </picture>
+            </div>
+        </div>
+        <div class="row no-gutters" style="background-color: #EF9A9A;">
+            <div class="box-carousel col-6 col-md-4 order-md-1 col-lg-3 order-lg-1">
+                <carousel [interval]="slideConfig.interval" 
+                    [showIndicators]="slideConfig.showIndicators" [isAnimated]="slideConfig.isAnimated">
+                    <slide *ngFor="let slide of slidesBox2; let index=index">
+                        <img class="slide-image" [src]="slide.img">
+                    </slide>
+                </carousel>
+            </div>
+            <div class="box-carousel col-6 col-md-4 order-md-3 col-lg-3 order-lg-3">
+                <carousel [interval]="slideConfig.interval"
+                    [showIndicators]="slideConfig.showIndicators" [isAnimated]="slideConfig.isAnimated">
+                    <slide *ngFor="let slide of slidesBox3; let index=index">
+                        <img class="slide-image" [src]="slide.img">
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-md-6 order-md-2 col-lg-6 order-lg-2 my-auto showcase-text-header">
+                <h2 class="brand-white">{{'contentbox.premium_box_introduction' | translate}}</h2>
+                <h5 class="brand-white">{{'contentbox.premium_box_text' | translate}}</h5>
+            </div>
+        </div>
+        <div class="row no-gutters" style="background-color: #fbc3bc;">
+            <div class="col-12 my-auto showcase-text-header d-flex justify-content-center">
+                <div class="text-center">
+                    <h3 class="mb-0 brand-white" [innerHTML]="'contentbox.products_snacks' | translate"></h3>
+                    <p class="brand-white" [innerHTML]="'contentbox.products_snacks_about' | translate"></p>
+                    <mat-chip-list aria-label="Box types">
+                        <mat-chip class="chip-plus">Plus: 1 per box</mat-chip>
+                        <mat-chip class="chip-complete">Complete: 2 per box</mat-chip>
+                    </mat-chip-list>
+                </div>
+            </div>
+            <div class="col-lg-4 order-lg-1 my-auto">
+                <carousel [interval]="slideChocolateConfig.interval" 
+                    [showIndicators]="slideChocolateConfig.showIndicators" [isAnimated]="slideChocolateConfig.isAnimated">
+                    <slide *ngFor="let slide of slidesChocolate; let index=index" class="d-flex justify-content-center">
+                        <img class="slide-chocolate" [src]="slide[3]" alt="{{slide[2]}}">
+                        <p class="text-center brand-white">{{slide[2]}}</p>
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-lg-8 order-lg-2 my-auto showcase-text-accent">
+                <mat-chip-list aria-label="Box types">
+                    <mat-chip class="chip-plus">Plus</mat-chip>
+                    <mat-chip class="chip-complete">Complete</mat-chip>
+                </mat-chip-list>
+                <p class="mt-1 brand-white" [innerHTML]="'contentbox.products_snacks_chocolate_text' | translate"></p>
+            </div>
+            <div class="col-lg-3 order-lg-4 my-auto">
+                <carousel [interval]="slideHealthbarConfig.interval"
+                    [showIndicators]="slideHealthbarConfig.showIndicators" [isAnimated]="slideHealthbarConfig.isAnimated">
+                    <slide *ngFor="let slide of slidesHealthbar; let index=index" class="d-flex justify-content-center">
+                        <img class="slide-healthbar" [src]="slide[3]" alt="{{slide[2]}}">
+                        <p class="text-center brand-white">{{slide[2]}}</p>
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-lg-9 order-lg-3 my-auto showcase-text-accent">
+                <mat-chip-list aria-label="Box types">
+                    <mat-chip class="chip-plus">Plus</mat-chip>
+                    <mat-chip class="chip-complete">Complete</mat-chip>
+                </mat-chip-list>
+                <p class="mt-1 brand-white" [innerHTML]="'contentbox.products_snacks_healthbar_text' | translate"></p>
+            </div>
+            <div class="col-lg-3 order-lg-5 my-auto">
+                <carousel [interval]="slideGranolaConfig.interval"
+                    [showIndicators]="slideGranolaConfig.showIndicators" [isAnimated]="slideGranolaConfig.isAnimated">
+                    <slide *ngFor="let slide of slidesGranola; let index=index" class="d-flex justify-content-center">
+                        <img style="height: 150px; padding: 5px" [src]="slide[3]" alt="{{slide[2]}}">
+                        <p class="text-center brand-white">{{slide[2]}}</p>
+                    </slide>
+                </carousel>
+            </div>
+            <div class="col-lg-9 order-lg-6 my-auto showcase-text-accent">
+                <mat-chip-list aria-label="Box types">
+                    <mat-chip class="chip-complete">Complete</mat-chip>
+                </mat-chip-list>
+                <p class="mt-1 brand-white" [innerHTML]="'contentbox.products_snacks_granola_text' | translate"></p>
+            </div>
+        </div>
+        <div class="row no-gutters" style="background-color: #EF9A9A;">
+            <div class="col-12 my-auto showcase-text-header text-center">
+                <h3 class="mb-0 brand-white" [innerHTML]="'contentbox.products_care' | translate"></h3>
+                <p class="brand-white" [innerHTML]="'contentbox.products_care_about' | translate"></p>
+            </div>
+            <div class="col-lg showcase-text-accent">
+                <mat-chip-list aria-label="Box types">
+                    <mat-chip class="chip-plus">Plus</mat-chip>
+                    <mat-chip class="chip-complete">Complete</mat-chip>
+                </mat-chip-list>
+                <p class="mt-2 mb-0 brand-white" [innerHTML]="'contentbox.products_care_plus_text' | translate"></p>
+            </div>
+            <div class="col-lg-auto col-0">
+                <div class="vd"></div>
+            </div>
+            <div class="col-lg showcase-text-accent">
+                <mat-chip-list aria-label="Box types">
+                    <mat-chip class="chip-complete">Complete</mat-chip>
+                </mat-chip-list>
+                <p class="mt-2 mb-0 brand-white" [innerHTML]="'contentbox.products_care_complete_text' | translate"></p>
+            </div>
+        </div>
+    </div>
+</section>

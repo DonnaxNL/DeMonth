@@ -1,0 +1,75 @@
+@import "~@angular/material/theming";
+
+.card {
+    @include mat-elevation(0);
+    margin-bottom: 16px;
+    border: 1px solid #E5E5E5;
+    border-radius: 10px;
+}
+
+.card-active {
+    @include mat-elevation(0);
+    margin-bottom: 16px;
+    border: 1px solid #E5E5E5;
+    border-radius: 10px;
+}
+
+.card-active:hover {
+    cursor: pointer;
+    @include mat-elevation(1);
+}
+
+.header-spacing {
+    margin-top: 2rem;
+}
+
+.infoblock {
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.active {
+    color: #fbc3bc;
+    //font-weight: bold !important;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.example-container > * {
+    width: 100%;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 800px) {
+    .example-headers-align .mat-expansion-panel-header-description {
+        position: absolute;
+        left: -999999px;
+    }
+}
+@media (max-width: 480px) {
+    .header-spacing {
+        margin-top: 0px;
+    }
+}
+
+mat-form-field {
+    margin-right: 12px;
+}
+
+table {
+    width: 100%;
+}

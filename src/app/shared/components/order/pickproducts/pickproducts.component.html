@@ -1,0 +1,352 @@
+<!-- Personalisation -->
+<div *ngIf="!editMode">
+    <h1 class="mb-4 text-center">{{'order_box.personalise_header' | translate}}</h1>
+    <p class="mb-4 text-center font-weight-light"
+        [innerHTML]="'order_box.personalise_text' | translate:{maxAmountProducts: maxAmountProducts}"></p>
+</div>
+<div *ngIf="editMode">
+    <p class="mb-4 text-center font-weight-light"
+        [innerHTML]="'account.subscription_products_edit_text' | translate:{maxAmountProducts: maxAmountProducts}">
+    </p>
+</div>
+<p class="text-right"
+    [innerHTML]="'order_box.personalise_selected' | translate:{amountProductsSelected: amountProductsSelected+amountExtraProductsSelected,maxAmountProducts: maxAmountProducts+amountExtraProductsSelected}">
+</p>
+<!-- Pads -->
+<div class="row mt-4">
+    <h3 class="col-10">
+        {{'order_box.personalise_pads_header' | translate}}
+        <span *ngIf="boxTypeId != 'box_01'" style="vertical-align: center; font-size: 0.5em;"
+            [innerHTML]="'order_box.personalise_pads_max' | translate:{maxPads: maxPads}"></span>
+    </h3>
+    <h6 class="col-2 mt-2 d-flex justify-content-end">
+        {{'order_box.personalise_table_amount' | translate}}
+    </h6>
+</div>
+<div class="divider-thick"></div>
+<div *ngFor="let product of productPads; let i = index">
+    <div class="row" [ngClass]="padsAmount[i]>0? 'product-selected-row' : 'product-row'">
+        <div class="col-auto col-md-auto pr-0">
+            <i class="fas fa-info-circle" (click)="fillModalInfo(i, 'pads')"></i>
+        </div>
+        <div class="col col-md pr-0">
+            <p>{{ product.name }}</p>
+        </div>
+        <div class="col-auto col-md-auto p-0">
+            <ul class="list-inline m-0">
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 0" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel == 0" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 0" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel == 0" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 0" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel == 0" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 1" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 2" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 1" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 2" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 1" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 2" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 2" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 3" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 2" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 3" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 2" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 3" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 3" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 4" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 3" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 4" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 3" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 4" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+            </ul>
+        </div>
+        <div class="col-3 col-md-2 pl-0 d-flex justify-content-end">
+            <mat-select class="select" [ngModel]="padsAmount[i]"
+                [disabled]="amountProductsSelected == maxAmountProducts && padsAmount[i] == 0 || maxPads == amountPadsSelected && padsAmount[i] == 0"
+                (ngModelChange)="onChange(i, $event, 'pads')">
+                <mat-option *ngFor="let number of selectorOptions[i]" [value]="number">
+                    {{number}}
+                </mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <mat-divider *ngIf="i != (productPads.length-1)"></mat-divider>
+</div>
+<!-- Tampons -->
+<div class="row mt-2">
+    <h3 class="col-9">
+        {{'order_box.personalise_tampons_header' | translate}}
+    </h3>
+    <h6 class="col-3 mt-2 d-flex justify-content-end">
+        {{'order_box.personalise_table_amount' | translate}}
+    </h6>
+</div>
+<div class="divider-thick"></div>
+<div *ngFor="let product of productTampon; let i = index">
+    <div class="row" [ngClass]="tamponAmount[i]>0? 'product-selected-row' : 'product-row'">
+        <div class="col-auto col-md-auto pr-0">
+            <i class="fas fa-info-circle" (click)="fillModalInfo(i, 'tampons')"></i>
+        </div>
+        <div class="col col-md pr-0">
+            <p>{{ product.name }}</p>
+        </div>
+        <div class="col-auto col-md-auto p-0">
+            <ul class="list-inline m-0">
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 0" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel == 0" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 0" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel == 0" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 0" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel == 0" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 1" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 2" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 1" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 2" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 1" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 2" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 2" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 3" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 2" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 3" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 2" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 3" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 3" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 4" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 3" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 4" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 3" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 4" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+            </ul>
+        </div>
+        <div class="col-3 col-md-2 pl-0 d-flex justify-content-end">
+            <mat-select class="select" [ngModel]="tamponAmount[i]"
+                [disabled]="amountProductsSelected == maxAmountProducts && tamponAmount[i] == 0"
+                (ngModelChange)="onChange(i, $event, 'tampons')">
+                <mat-option *ngFor="let number of selectorOptions[i + this.productTypeAmounts.pads]" [value]="number">
+                    {{number}}
+                </mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <mat-divider *ngIf="i != (productTampon.length-1)"></mat-divider>
+</div>
+<!-- Liners -->
+<div class="row mt-2">
+    <h3 class="col-9">
+        {{'order_box.personalise_liners_header' | translate}}
+    </h3>
+    <h6 class="col-3 mt-2 d-flex justify-content-end">
+        {{'order_box.personalise_table_amount' | translate}}
+    </h6>
+</div>
+<div class="divider-thick"></div>
+<div *ngFor="let product of productLiners; let i = index">
+    <div class="row" [ngClass]="linersAmount[i]>0? 'product-selected-row' : 'product-row'">
+        <div class="col-auto col-md-auto pr-0">
+            <i class="fas fa-info-circle" (click)="fillModalInfo(i, 'liners')"></i>
+        </div>
+        <div class="col col-md pr-0">
+            <p>{{ product.name }}</p>
+        </div>
+        <div class="col-auto col-md-auto p-0">
+            <ul class="list-inline m-0">
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 0" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel == 0" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 0" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel == 0" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 0" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel == 0" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 1" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 2" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 1" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 2" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 1" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 2" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item mr-1">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 2" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 3" src="/assets/icons/product-drops/regular-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 2" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 3" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 2" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 3" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+                <li class="list-inline-item">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel > 3" src="/assets/icons/product-drops/regular-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'regular' && product.heavinessLevel < 4" src="/assets/icons/product-drops/-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel > 3" src="/assets/icons/product-drops/super-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'super' && product.heavinessLevel < 4" src="/assets/icons/product-drops/super-outline.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel > 3" src="/assets/icons/product-drops/light-filled.png" height="15px">
+                    <img *ngIf="product.heaviness == 'light' && product.heavinessLevel < 4" src="/assets/icons/product-drops/light-outline.png" height="15px">
+                </li>
+            </ul>
+        </div>
+        <div class="col-3 col-md-2 pl-0 d-flex justify-content-end">
+            <mat-select class="select" [ngModel]="linersAmount[i]"
+                [disabled]="amountProductsSelected == maxAmountProducts && linersAmount[i] == 0"
+                (ngModelChange)="onChange(i, $event, 'liners')">
+                <mat-option
+                    *ngFor="let number of selectorOptions[i + this.productTypeAmounts.pads + this.productTypeAmounts.tampons]"
+                    [value]="number">
+                    {{number}}
+                </mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <mat-divider *ngIf="i != (productLiners.length-1)"></mat-divider>
+</div>
+<h5 class="mt-4 mb-3">{{'order_box.personalise_extra_header' | translate}}</h5>
+<div *ngIf="boxTypeId != 'box_01'">
+    <mat-checkbox class="example-margin" [(ngModel)]="selectedProducts.removeBuds"
+        (change)="changeStatus('removeBuds', $event)">
+        <p>{{'order_box.personalise_extra_remove_pads_checkbox' | translate}}</p>
+    </mat-checkbox>
+    <p class="mb-1">{{'order_box.personalise_extra_remove_pads_text' | translate}}</p>
+</div>
+<div *ngIf="!referralMode">
+    <div *ngIf="boxTypeId == 'box_01'">
+        <div style="display: inline-block;" matTooltip="{{'order_box.personalise_extra_tooltip_disabled' | translate}}"
+            [matTooltipDisabled]="!disableCheckbox('pads') || !disableCheckbox('tampons') || !disableCheckbox('liners')">
+            <mat-checkbox class="example-margin" [ngModel]="extraPads" (change)="changeStatus('pads', $event)"
+                [disabled]="disableCheckbox('pads')">
+                <p>{{'order_box.personalise_extra_pads' | translate}}</p>
+            </mat-checkbox>
+        </div>
+        <br>
+        <div *ngIf="extraPads && !disableCheckbox('pads')">
+            <div class="row">
+                <h6 class="col-9 col-lg-10 d-flex justify-content-end">
+                    {{'order_box.personalise_table_price_pp' | translate}}
+                </h6>
+                <h6 class="col-3 col-lg-2 d-flex justify-content-end">
+                    {{'order_box.personalise_table_amount' | translate}}
+                </h6>
+            </div>
+            <div class="divider-thick"></div>
+            <div *ngFor="let product of productPads; let i = index">
+                <div class="row" [ngClass]="padsExtraAmount[i]>0? 'product-selected-row' : 'product-row'">
+                    <div class="col-6 col-lg-8">
+                        <p>{{product.name}}</p>
+                    </div>
+                    <div class="col-3 col-lg-2 d-flex justify-content-end">
+                        <p>{{product.price / 100 | currency:'EUR':'symbol':'1.2-2'}}</p>
+                    </div>
+                    <div class="col-3 col-lg-2 d-flex justify-content-end">
+                        <mat-select class="select" [ngModel]="padsExtraAmount[i]"
+                            [disabled]="amountExtraPadsSelected == maxExtraPads && padsExtraAmount[i] == 0"
+                            (ngModelChange)="onChangeExtra(i, $event, 'pads')">
+                            <mat-option *ngFor="let number of selectorExtraOptions[i]" [value]="number">
+                                {{number}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div style="display: inline-block;" matTooltip="{{'order_box.personalise_extra_tooltip_disabled' | translate}}"
+        [matTooltipDisabled]="!disableCheckbox('tampons') || !disableCheckbox('pads') || !disableCheckbox('liners')">
+        <mat-checkbox class="example-margin" [ngModel]="extraTampons" (change)="changeStatus('tampons', $event)"
+            [disabled]="disableCheckbox('tampons')">
+            <p>{{'order_box.personalise_extra_tampons' | translate}}</p>
+        </mat-checkbox>
+    </div>
+    <br>
+    <div *ngIf="extraTampons && !disableCheckbox('tampons')">
+        <div class="row">
+            <h6 class="col-9 col-lg-10 d-flex justify-content-end">
+                {{'order_box.personalise_table_price_pp' | translate}}
+            </h6>
+            <h6 class="col-3 col-lg-2 d-flex justify-content-end">
+                {{'order_box.personalise_table_amount' | translate}}
+            </h6>
+        </div>
+        <div class="divider-thick"></div>
+        <div *ngFor="let product of productTampon; let i = index">
+            <div class="row" [ngClass]="tamponsExtraAmount[i]>0? 'product-selected-row' : 'product-row'">
+                <div class="col-6 col-lg-8">
+                    <p>{{product.name}}</p>
+                </div>
+                <div class="col-3 col-lg-2 d-flex justify-content-end">
+                    <p>{{product.price / 100 | currency:'EUR':'symbol':'1.2-2'}}</p>
+                </div>
+                <div class="col-3 col-lg-2 d-flex justify-content-end">
+                    <mat-select class="select" [ngModel]="tamponsExtraAmount[i]"
+                        [disabled]="amountExtraTamponsSelected == maxExtraTampons && tamponsExtraAmount[i] == 0"
+                        (ngModelChange)="onChangeExtra(i, $event, 'tampons')">
+                        <mat-option *ngFor="let number of selectorExtraOptions[i + this.productTypeAmounts.pads]"
+                            [value]="number">
+                            {{number}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+        </div>
+        <br>
+    </div>
+    <div style="display: inline-block;" matTooltip="{{'order_box.personalise_extra_tooltip_disabled' | translate}}"
+        [matTooltipDisabled]="!disableCheckbox('liners') || !disableCheckbox('pads') || !disableCheckbox('tampons')">
+        <mat-checkbox class="example-margin" [ngModel]="extraLiners" (change)="changeStatus('liners', $event)"
+            [disabled]="disableCheckbox('liners')">
+            <p>{{'order_box.personalise_extra_liners' | translate}}</p>
+        </mat-checkbox>
+    </div>
+    <br>
+    <div *ngIf="extraLiners">
+        <div class="row">
+            <h6 class="col-9 col-lg-10 d-flex justify-content-end">
+                {{'order_box.personalise_table_price_pp' | translate}}
+            </h6>
+            <h6 class="col-3 col-lg-2 d-flex justify-content-end">
+                {{'order_box.personalise_table_amount' | translate}}
+            </h6>
+        </div>
+        <div class="divider-thick"></div>
+        <div *ngFor="let product of productLiners; let i = index">
+            <div class="row" [ngClass]="linersExtraAmount[i]>0? 'product-selected-row' : 'product-row'">
+                <div class="col-6 col-lg-8">
+                    <p>{{product.name}}</p>
+                </div>
+                <div class="col-3 col-lg-2 d-flex justify-content-end">
+                    <p>{{product.price / 100 | currency:'EUR':'symbol':'1.2-2'}}</p>
+                </div>
+                <div class="col-3 col-lg-2 d-flex justify-content-end">
+                    <mat-select class="select" [ngModel]="linersExtraAmount[i]"
+                        [disabled]="amountExtraLinersSelected == maxExtraLiners && linersExtraAmount[i] == 0"
+                        (ngModelChange)="onChangeExtra(i, $event, 'liners')">
+                        <mat-option
+                            *ngFor="let number of selectorExtraOptions[i + this.productTypeAmounts.pads + this.productTypeAmounts.tampons]"
+                            [value]="number">
+                            {{number}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+        </div>
+        <br>
+    </div>
+    <p>{{'order_box.personalise_extra_costs' | translate}}</p>
+</div>

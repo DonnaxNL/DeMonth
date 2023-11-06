@@ -1,0 +1,59 @@
+@import "~@angular/material/theming";
+
+.example-container > * {
+    width: 100%;
+}
+
+.header {
+    float: none;
+    display: table-cell;
+    vertical-align: bottom;
+}
+
+.card {
+    @include mat-elevation(0);
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #E5E5E5;
+    border-radius: 10px;
+}
+
+.no-card {
+    margin-bottom: 16px;
+    border: 0px;
+    border-radius: 0px;
+}
+
+.fa-google {
+    background: linear-gradient(to bottom left, transparent 49%, #fbbc05 50%) 0 25%/48% 40%,
+        linear-gradient(to top left, transparent 49%, #fbbc05 50%) 0 75%/48% 40%,
+        linear-gradient(-40deg, transparent 53%, #ea4335 54%), linear-gradient(45deg, transparent 46%, #4285f4 48%),
+        #34a853;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.google-button {
+    width: 125px;
+    text-transform: none;
+    padding: 5px;
+}
+
+.facebook-button {
+    width: 125px;
+    text-transform: none;
+    background-color: #1877F2; 
+    color: white;
+    padding: 5px;
+}
+
+.facebook-button-disabled {
+    width: 125px;
+    text-transform: none;
+    background-color: gray; 
+    color: white;
+    padding: 5px;
+}

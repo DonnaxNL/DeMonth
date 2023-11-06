@@ -1,0 +1,61 @@
+<!-- Default dialog -->
+<h2 *ngIf="!savingState" mat-dialog-title>{{'account.subscription_actions_change_box' | translate}}</h2>
+<div *ngIf="!savingState" mat-dialog-content>
+    <h6>{{'account.subscription_changes' | translate}}</h6>
+    <p>{{'account.subscription_change_box_current_box' | translate}} {{data.order.boxName}}<br>
+        {{'account.subscription_change_box_current_plan' | translate}} 
+        <span *ngIf="data.order.paymentPlan == 1">{{'order_box.review_summary_payment_plan_monthly' | translate}}</span>
+        <span *ngIf="data.order.paymentPlan != 1">{{data.order.paymentPlan}} {{'order_box.review_summary_payment_plan_month' | translate}}</span>
+    <br>
+    {{'account.subscription_change_box_current_pricing' | translate}} 
+    <span *ngIf="!data.order.products.extraProducts?.extraPrice">
+        {{data.order.checkoutSummary.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+    </span>
+    <span *ngIf="data.order.products.extraProducts?.extraPrice">
+        {{(data.order.checkoutSummary.checkoutPrice + data.order.products.extraProducts?.extraPrice) / 100 | currency:'EUR':'symbol':'1.2-2'}}
+    </span>
+    </p>
+    <hr>
+    <p>{{'account.subscription_change_box_select_box' | translate}}</p>
+    <mat-radio-group class="row" aria-label="Select box" [(ngModel)]="boxSelected" (ngModelChange)="onChange()">
+        <mat-radio-button class="col-12 col-md-4" value="box_01">{{'order_box.pick_box_box_01_name' | translate}}</mat-radio-button>
+        <mat-radio-button class="col-12 col-md-4" value="box_02">{{'order_box.pick_box_box_02_name' | translate}}</mat-radio-button>
+        <mat-radio-button class="col-12 col-md-4" value="box_03">{{'order_box.pick_box_box_03_name' | translate}}</mat-radio-button>
+    </mat-radio-group>
+    <p>{{'account.subscription_change_box_select_plan' | translate}}</p>
+    <mat-radio-group class="row" aria-label="Select payment plan" [(ngModel)]="planSelected" (ngModelChange)="onChange()">
+        <mat-radio-button class="col-12 col-md-4" value=1>{{'order_box.payment_plan_monthly_name' | translate}}</mat-radio-button>
+        <mat-radio-button class="col-12 col-md-4" value=3>{{'order_box.payment_plan_3_months_name' | translate}}</mat-radio-button>
+        <mat-radio-button class="col-12 col-md-4" value=12>{{'order_box.payment_plan_12_months_name' | translate}}</mat-radio-button>
+    </mat-radio-group>
+    <hr>
+    <p>
+        {{'account.subscription_change_box_new_pricing' | translate}} {{checkoutSummary?.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+    </p>
+</div>
+<!-- Saving state -->
+<h2 *ngIf="savingState && !loadingDone" mat-dialog-title>{{'account.subscription_dialog_saving' | translate}}</h2>
+<div *ngIf="savingState && !loadingDone" mat-dialog-content>
+    <div class="col-12 d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+    <p class="col-12 d-flex justify-content-center">{{'account.subscription_dialog_wait' | translate}}</p>
+</div>
+<!-- Saved state -->
+<h2 *ngIf="loadingDone" mat-dialog-title>{{'account.subscription_dialog_saved' | translate}}</h2>
+<div *ngIf="loadingDone" mat-dialog-content>
+    <p *ngIf="nextDeliveryDate" class="col-12 d-flex justify-content-center">
+        {{'account.subscription_changes' | translate}}<br>
+        {{'account.subscription_dialog_next_payment' | translate}} {{ nextDeliveryDate | date:'d MMMM yyyy'}}.
+    </p>
+    <p *ngIf="deliveryDates" class="col-12 d-flex justify-content-center">
+        {{'account.subscription_changes' | translate}}<br>
+        {{'account.subscription_dialog_next_payment' | translate}} {{ deliveryDates[0] | date:'d MMMM yyyy'}}.
+    </p>
+</div>
+<!-- Actions -->
+<div mat-dialog-actions style="justify-content: flex-end;">
+    <button mat-button color="primary" *ngIf="!loadingDone" (click)="onNoClick()" [disabled]="savingState">{{'common.cancel_button' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="!savingState" (click)="changeBox()" [disabled]="disableSubmit">{{'common.save_button' | translate}}</button>
+    <button mat-button color="primary" *ngIf="loadingDone" (click)="onNoClick()">{{'common.close_button' | translate}}</button>
+</div>

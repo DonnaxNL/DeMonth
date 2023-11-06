@@ -1,0 +1,158 @@
+.boxpicker {
+    background-color: #FDD8E0;
+    padding: 32px;
+}
+
+.yourbox-block {
+    max-width: 300px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.yourbox-block .yourbox-img img {
+    width: 100%;
+}
+
+.yourbox-img:hover .image {
+    opacity: 0.3;
+}
+
+.yourbox-img:hover .middle {
+    opacity: 1;
+}
+
+::ng-deep .image-dialog-class {
+    mat-dialog-container {
+        padding: 0;
+    }
+}
+
+.image-container {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: 0.5s ease;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.image {
+    object-fit: cover;
+    height: 200px;
+}
+
+.middle {
+    transition: 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.yourbox-title {
+    padding-top: 25px;
+}
+
+.yourbox-info {
+    padding: 25px;
+    flex: 1;
+}
+
+.yourbox-block .image-zoom {
+    position: absolute;
+    right: 999999px;
+}
+
+.point {
+    display: flex;
+    justify-content: center;
+}
+
+.full-width {
+    width: 100%;
+}
+
+div[ng-reflect-router-link] {
+    cursor: pointer;
+}
+
+div[ng-reflect-router-link] {
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    .yourbox-title {
+        margin-left: -15px;
+    }
+}
+
+@media (max-width: 765px) {
+    .infobox {
+        margin-bottom: 2rem;
+    }
+
+    .yourbox-block {
+        max-width: 300px;
+    }
+
+    .yourbox-title {
+        margin-left: -15px;
+    }
+
+    .image {
+        height: 100%;
+    }
+
+    .middle {
+        position: absolute;
+        left: -999999px;
+    }
+
+    .yourbox-info {
+        padding-top: 10px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        flex: 1;
+    }
+
+    .yourbox-img:hover .image {
+        opacity: 1;
+    }
+
+    .yourbox-img:hover .middle {
+        opacity: 0;
+    }
+
+    .yourbox-block .image-zoom {
+        position: absolute;
+        bottom: 0px;
+        right: 20px;
+        padding: 5px;
+    }
+
+    .yourbox-block .box-banner {
+        font-size: 14px;
+        padding: 8px 8px 8px 8px;
+    }
+
+    .bulletpoints {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+
+    .point {
+        justify-content: flex-start;
+    }
+}

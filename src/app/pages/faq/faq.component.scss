@@ -1,0 +1,24 @@
+.faq {
+    height: 100%;
+    position: relative;
+    background-color: #fbc3bc;
+    // background: url("/assets/images/banner.png") no-repeat center center;
+    background-size: cover;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.faq .container {
+    height: 100%;
+}
+
+@media (max-width: 480px) {
+    .faq {
+        text-align: center;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+}

@@ -1,0 +1,43 @@
+<!-- Default dialog -->
+<h2 *ngIf="!savingState" mat-dialog-title>{{'account.subscription_dialog_pause_title' | translate}}</h2>
+<div *ngIf="!savingState" mat-dialog-content>
+    <p>{{'account.subscription_dialog_pause_text' | translate}}</p>
+    <hr>
+    <p>{{'account.subscription_dialog_pause_select' | translate}}</p>
+    <mat-form-field class="mt-2 col-12 d-flex justify-content-center">
+        <mat-select placeholder="{{'account.subscription_dialog_pause_placeholder' | translate}}" 
+            [(ngModel)]="type" (ngModelChange)="onSelectChanged()">
+            <mat-option *ngFor="let number of months" [value]="number">
+                <span *ngIf="number==1">{{'account.subscription_dialog_pause_default' | translate}}</span>
+                <span *ngIf="number!=1">{{number}} {{'account.subscription_dialog_pause_multiple' | translate}}</span>
+            </mat-option>
+        </mat-select>
+        <mat-error>{{'common.form_select_error' | translate}}</mat-error>
+    </mat-form-field>
+    <hr>
+    <p class="text-warn" *ngIf="this.dialogData.isTooLate">
+        {{'account.subscription_actions_pause_late_disabled' | translate}} {{oldDeliveryDate | date:'d MMMM yyyy'}}.
+    </p>
+    <p>{{'account.subscription_dialog_pause_resume' | translate}} {{nextDeliveryDate | date:'dd-MM-yyyy'}}</p>
+</div>
+<!-- Saving state -->
+<h2 *ngIf="savingState && !loadingDone" mat-dialog-title>{{'account.subscription_dialog_saving' | translate}}</h2>
+<div *ngIf="savingState && !loadingDone" mat-dialog-content>
+    <div class="col-12 d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+    <p class="col-12 d-flex justify-content-center">{{'account.subscription_dialog_wait' | translate}}</p>
+</div>
+<!-- Saved state -->
+<h2 *ngIf="loadingDone" mat-dialog-title>{{'account.subscription_dialog_saved' | translate}}</h2>
+<div *ngIf="loadingDone" mat-dialog-content>
+    <p class="col-12 d-flex justify-content-center">
+        {{'account.subscription_dialog_resume_date' | translate}} {{nextDeliveryDate | date:'d MMMM yyyy'}}.
+    </p>
+</div>
+<!-- Actions -->
+<div mat-dialog-actions style="justify-content: flex-end;">
+    <button mat-button color="primary" *ngIf="!loadingDone" (click)="onCloseClick()" [disabled]="savingState">{{'common.cancel_button' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="!savingState" (click)="pauseSubscription()">{{'common.save_button' | translate}}</button>
+    <button mat-button color="primary" *ngIf="loadingDone" [mat-dialog-close]="dialogData">{{'common.close_button' | translate}}</button>
+</div>

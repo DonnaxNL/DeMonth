@@ -1,0 +1,188 @@
+.navbar-default {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-toggler {
+  border-width: 1px;
+  border-color: #fbc3bc;
+  background-color: transparent;
+}
+
+.navbar-toggler:hover {
+  border-width: 1px;
+  border-color: #f78274;
+  background-color: transparent;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none;
+  box-shadow: none;
+  border-width: 1px;
+  border-color: #fbc3bc;
+  background-color: transparent;
+}
+
+.navbar-default .nav-link {
+  color: #fbc3bc;
+}
+
+.navbar-default .nav-link:hover {
+  color: #f78274;
+}
+
+.navbar-default .nav-selected {
+  color: #fbc3bc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  vertical-align: middle;
+  text-decoration: underline;
+}
+
+.navbar-default .nav-selected:hover {
+  color: #f78274;
+}
+
+.navbar-default .nav-unselected {
+  color: #fbc3bc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  vertical-align: middle;
+}
+
+.navbar-default .nav-unselected:hover {
+  color: #f78274;
+}
+
+.navbar-default .nav-dot {
+  color: #fbc3bc;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  vertical-align: middle;
+}
+
+.navbar-default .nav-shopping {
+  margin-left: -5px;
+  color: #fbc3bc;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+img {
+  height: 70px;
+}
+
+.toast-order {
+  margin-top: 120px;
+  margin-right: 15px;
+}
+
+.toast-order:hover, .toast-order:focus {
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  img {
+    height: 40px;
+  }
+
+  .toast-order {
+    margin-top: 80px;
+    margin-right: 5px;
+  }
+
+  .navbar-default .nav-selected {
+    color: #fbc3bc;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align: middle;
+    text-decoration: underline;
+  }
+  
+  .navbar-default .nav-selected:hover {
+    color: #f78274;
+  }
+  
+  .navbar-default .nav-unselected {
+    color: #fbc3bc;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align: middle;
+  }
+  
+  .navbar-default .nav-unselected:hover {
+    color: #f78274;
+  }
+  
+  .navbar-default .nav-dot {
+    color: #fbc3bc;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align: middle;
+  }
+}
+
+.link-gray {
+  color: #545454;
+  &:hover,
+  &:active,
+  &:focus {
+      color: black;
+      outline: none;
+      cursor: pointer;
+  }
+}
+
+@media (max-width: 765px) {
+  .account {
+    position: absolute;  left: -999999px;
+  }
+}
+
+@media (min-width: 765px) {
+  .account {
+    position: relative;  left: 0px;
+  }
+
+  .account-mobile {
+    position: absolute;  left: -999999px;
+  }
+}
+
+.test-bg {
+  margin-left: 5px;
+  vertical-align: top;
+  background-color: orange;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: x-small;
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.login-bg {
+  outline: none;
+  vertical-align: middle;
+  background-color: #fbc3bc;
+  font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 80%;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 5px 20px 5px 20px;
+  border-radius: 25px;
+  color: #fff;
+}
+
+.login-bg:hover {
+  background-color: #f78274;
+}

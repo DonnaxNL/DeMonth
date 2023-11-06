@@ -1,0 +1,760 @@
+<div class="container">
+    <div class="row">
+        <div *ngIf="!isMobile" class="col-12 col-lg-3 pt-0">
+            <mat-nav-list style="padding-top: 2rem">
+                <mat-list-item *ngIf="additionalDataEntered" (click)="changePage('overview')"
+                    [class.active]="isNavActive('overview')">
+                    <mat-icon matListIcon>account_circle</mat-icon>
+                    <a matLine>{{'account.tab_overview' | translate}}</a>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="additionalDataEntered" (click)="changePage('subscriptions')"
+                    [class.active]="isNavActive('subscriptions')">
+                    <mat-icon matListIcon>sync</mat-icon>
+                    <a matLine>{{'account.tab_subscription' | translate}}</a>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="additionalDataEntered && oneOffOrders.length > 0" (click)="changePage('orders')"
+                    [class.active]="isNavActive('orders')">
+                    <mat-icon matListIcon>local_mall</mat-icon>
+                    <a matLine>{{'account.tab_orders' | translate}}</a>
+                </mat-list-item>
+
+                <!-- <mat-list-item *ngIf="additionalDataEntered" (click)="changePage('points')"
+                    [class.active]="isNavActive('points')">
+                    <mat-icon matListIcon>loyalty</mat-icon>
+                    <a matLine>{{'points.title' | translate}}</a>
+                    <div mat-line> {{userPoints}}DMP </div>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="additionalDataEntered" (click)="changePage('referral')"
+                    [class.active]="isNavActive('referral')">
+                    <mat-icon matListIcon>link</mat-icon>
+                    <a matLine>{{'referral.title' | translate}}</a>
+                </mat-list-item> -->
+
+                <mat-list-item *ngIf="additionalDataEntered" (click)="changePage('settings')"
+                    [class.active]="isNavActive('settings')">
+                    <mat-icon matListIcon>settings</mat-icon>
+                    <a matLine>{{'account.tab_account' | translate}}</a>
+                </mat-list-item>
+
+                <mat-list-item (click)="signOut()">
+                    <mat-icon matListIcon>exit_to_app</mat-icon>
+                    <a matLine>{{'login.sign_out' | translate}}</a>
+                </mat-list-item>
+            </mat-nav-list>
+
+            <div *ngIf="menuSelected=='points'">
+                <div class="card p-3 mt-4 mb-4">
+                    <h6>{{'points.points_to_earn' | translate}}</h6>
+                    <p [innerHtml]="'points.complete_points' | translate: {dmp: 10}"></p>
+                    <p [innerHtml]="'points.plus_points' | translate: {dmp: 7.5}"></p>
+                    <p [innerHtml]="'points.basic_points' | translate: {dmp: 5}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-9">
+            <div *ngIf="additionalDataEntered">
+                <!-- Overview -->
+                <div *ngIf="menuSelected=='overview'">
+                    <div *ngIf="dataLoaded">
+                        <h3 *ngIf="!isMobile" class="header-spacing mb-3" translate
+                            [translateParams]="{firstName: currentUserData?.firstName}">
+                            account.overview_welcome_message
+                        </h3>
+                        <div *ngIf="isMobile" class="row header-spacing mb-3">
+                            <div class="col-10 d-flex">
+                                <h3 class="mt-3" translate [translateParams]="{firstName: currentUserData?.firstName}">
+                                    account.overview_welcome_message
+                                </h3>
+                            </div>
+                            <div class="col-2 d-flex mt-2 justify-content-end">
+                                <button mat-icon-button (click)="signOut()"
+                                    matTooltip="{{'login.sign_out' | translate}}">
+                                    <mat-icon>exit_to_app</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <p>{{'account.overview_message' | translate}}</p>
+                        <div class="row mt-4">
+                            <!-- Current Subscription -->
+                            <div class="mb-3 order-1 order-md-1"
+                                [ngClass]="oneOffOrders.length == 0 ? 'col-md-12' : 'col-md-6'">
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'account.overview_subscription_header' | translate}}</h4>
+                                    </div>
+                                    <div *ngIf="this.orders.length > 1" class="col-4 d-flex pl-0 justify-content-end">
+                                        <p matRipple matRippleCentered="true" class="link align-self-center p-1"
+                                            (click)="changePage('subscriptions')">
+                                            <span class="link-text">
+                                                {{'account.overview_list' | translate}}
+                                            </span>
+                                            <i class="ml-2 fas fa-chevron-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div *ngIf="!orders || orders.length == 0" class="card">
+                                    <div class="infoblock">
+                                        <p>{{'account.subscription_no_orders' | translate}}</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="orders.length > 0 && latestOrder" class="card-active" matRipple
+                                    (click)="viewOrder(latestOrder)">
+                                    <div class="infoblock">
+                                        <div class="row">
+                                            <div class="col-3 pr-0"
+                                                [ngClass]="oneOffOrders.length == 0 ? 'col-md-2' : 'col-md-3'">
+                                                <img *ngIf="latestOrder.boxId == 'box_01'"
+                                                    src="/assets/images/boxes/box01.jpg" alt="Basic" width="100%">
+                                                <img *ngIf="latestOrder.boxId == 'box_02'"
+                                                    src="/assets/images/boxes/box02.jpg" alt="Plus" width="100%">
+                                                <img *ngIf="latestOrder.boxId == 'box_03' || latestOrder.boxId == 'box_13'"
+                                                    src="/assets/images/boxes/box03.jpg" alt="Complete" width="100%">
+                                            </div>
+                                            <div class="col pr-0">
+                                                <div class="text">
+                                                    <h5><b>{{latestOrder.boxName}}</b></h5>
+                                                    <p>
+                                                        <span *ngIf="latestOrder?.paymentPlan == '1'"
+                                                            [innerHTML]="'account.overview_subscription_monthly_plan' | translate:{boxName: latestOrder?.boxName}"></span>
+                                                        <span
+                                                            *ngIf="latestOrder?.paymentPlan != '1' && latestOrder?.paymentPlan != '0'"
+                                                            [innerHTML]="'account.overview_subscription_month_plan' | translate:{paymentPlan: latestOrder?.paymentPlan}"></span>
+                                                        <span
+                                                            *ngIf="latestOrder?.paymentPlan == '0' && latestOrder?.checkoutSummary.referral  || latestOrder?.paymentPlan == '0' && latestOrder?.checkoutSummary.points">
+                                                            {{'account.referral_free_box' | translate}}
+                                                        </span>
+                                                    </p>
+                                                    <p *ngIf="latestOrder.paymentDetails.isPaid">
+                                                        <span *ngIf="latestOrder?.paymentPlan != '0'">
+                                                            {{'account.overview_subscription_next_delivery' |
+                                                            translate}}
+                                                        </span>
+                                                        <span *ngIf="latestOrder?.paymentPlan == '0'">
+                                                            {{'account.overview_subscription_delivery' | translate}}
+                                                        </span>
+                                                        <span *ngIf="latestOrder?.startDeliveryDate.toDate() > today">
+                                                            {{latestOrder?.startDeliveryDate.toDate() |
+                                                            date:'dd-MM-yy'}}
+                                                        </span>
+                                                        <span
+                                                            *ngIf="latestOrder?.startDeliveryDate.toDate() < today && latestOrder?.deliveries.length > 0">
+                                                            {{latestOrder?.deliveries[latestOrder?.deliveries.length-1].deliveryDate.toDate()
+                                                            | date:'dd-MM-yy'}}
+                                                        </span>
+                                                    </p>
+                                                    <p *ngIf="!latestOrder.paymentDetails.isPaid" class="text-warn">
+                                                        {{'account.subscription_not_paid' | translate}}
+                                                    </p>
+                                                    <p *ngIf="latestOrder.subscriptionDetails.subscriptionStatus == 'paused'">
+                                                        {{'account.subscription_paused' | translate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto p-0 d-flex justify-content-end">
+                                                <i class="mr-2 fas fa-chevron-right align-self-center"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Last order -->
+                            <div class="mb-3 order-1 order-md-1" [hidden]="oneOffOrders.length == 0"
+                                [ngClass]="latestOrder ? 'col-md-6' : 'col-md-12'">
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'account.overview_order_header' | translate}}</h4>
+                                    </div>
+                                    <div *ngIf="this.oneOffOrders.length > 1"
+                                        class="col-4 d-flex pl-0 justify-content-end">
+                                        <p matRipple matRippleCentered="true" class="link align-self-center p-1"
+                                            (click)="changePage('orders')">
+                                            <span class="link-text">
+                                                {{'account.overview_list' | translate}}
+                                            </span>
+                                            <i class="ml-2 fas fa-chevron-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div *ngIf="!oneOffOrders || oneOffOrders.length == 0" class="card">
+                                    <div class="infoblock">
+                                        <p>{{'account.overview_subscription_no_orders' | translate}}</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="oneOffOrders.length > 0" class="card-active" matRipple
+                                    (click)="viewOrder(oneOffOrders[0], true)">
+                                    <div class="infoblock">
+                                        <div class="row">
+                                            <div class="col-3 pr-0" [ngClass]="latestOrder ? 'col-md-3' : 'col-md-2'">
+                                                <img *ngIf="oneOffOrders[0].boxId == 'box_01'"
+                                                    src="/assets/images/boxes/box01.jpg" alt="Basic" width="100%">
+                                                <img *ngIf="oneOffOrders[0].boxId == 'box_02'"
+                                                    src="/assets/images/boxes/box02.jpg" alt="Plus" width="100%">
+                                                <img *ngIf="oneOffOrders[0].boxId == 'box_03' || oneOffOrders[0].boxId == 'box_13'"
+                                                    src="/assets/images/boxes/box03.jpg" alt="Complete" width="100%">
+                                            </div>
+                                            <div class="col pr-0">
+                                                <div class="text">
+                                                    <h5><b>{{oneOffOrders[0].boxName}}</b></h5>
+                                                    <p
+                                                        *ngIf="oneOffOrders[0]?.paymentPlan == '0' && oneOffOrders[0]?.checkoutSummary.referral  || oneOffOrders[0]?.paymentPlan == '0' && oneOffOrders[0]?.checkoutSummary.points">
+                                                        {{'account.referral_free_box' | translate}}
+                                                    </p>
+                                                    <p *ngIf="oneOffOrders[0].paymentDetails.isPaid">
+                                                        <span *ngIf="oneOffOrders[0]?.paymentPlan != '0'">
+                                                            {{'account.overview_subscription_next_delivery' |
+                                                            translate}}
+                                                        </span>
+                                                        <span *ngIf="oneOffOrders[0]?.paymentPlan == '0'">
+                                                            {{'account.overview_subscription_delivery' | translate}}
+                                                        </span>
+                                                        <span
+                                                            *ngIf="oneOffOrders[0]?.startDeliveryDate.toDate() > today">
+                                                            {{oneOffOrders[0]?.startDeliveryDate.toDate() |
+                                                            date:'dd-MM-yy'}}
+                                                        </span>
+                                                        <span
+                                                            *ngIf="oneOffOrders[0]?.startDeliveryDate.toDate() < today && oneOffOrders[0]?.deliveries.length > 0">
+                                                            {{oneOffOrders[0]?.deliveries[oneOffOrders[0]?.deliveries.length-1].deliveryDate.toDate()
+                                                            | date:'dd-MM-yy'}}
+                                                        </span>
+                                                    </p>
+                                                    <p *ngIf="!oneOffOrders[0].paymentDetails.isPaid" class="text-warn">
+                                                        {{'account.subscription_not_paid' | translate}}
+                                                    </p>
+                                                    <p *ngIf="oneOffOrders[0].subscriptionDetails.subscriptionStatus == 'paused'">
+                                                        {{'account.subscription_paused' | translate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto p-0 d-flex justify-content-end">
+                                                <i class="mr-2 fas fa-chevron-right align-self-center"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Points/Referral -->
+                            <!-- <div class="col-md-6 mb-4 order-2 order-md-3">
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'points.title' | translate}}</h4>
+                                    </div>
+                                    <div class="col-4 pl-0 d-flex justify-content-end">
+                                        <p matRipple matRippleCentered="true" class="link align-self-center p-1"
+                                            (click)="changePage('points')">
+                                            <span class="link-text">{{'points.redeem' | translate}}</span>
+                                            <i class="ml-2 fas fa-chevron-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="card-active mb-4" matRipple (click)="changePage('points')">
+                                    <div class="infoblock">
+                                        <p [innerHtml]="'points.user_amount' | translate: {userPoints: userPoints}"></p>
+                                    </div>
+                                </div>
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'account.referral_header' | translate}}</h4>
+                                    </div>
+                                    <div class="col-4 pl-0 d-flex justify-content-end">
+                                        <p matRipple matRippleCentered="true" class="link align-self-center p-1"
+                                            (click)="changePage('referral')">
+                                            <span class="link-text">{{'about.learn_more_header' | translate}}</span>
+                                            <i class="ml-2 fas fa-chevron-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card-active" matRipple (click)="changePage('referral')">
+                                    <div class="infoblock">
+                                        <p>{{'referral.account_description' | translate}}</p>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- About you -->
+                            <div class="col-md-6 mb-4 order-3 order-md-2">
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'account.overview_details_header' | translate}}</h4>
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <p matRipple matRippleCentered="true" class="link align-self-center p-1"
+                                            (click)="changePage('settings')">
+                                            <span class="link-text">
+                                                {{'account.overview_details_manage' | translate}}
+                                            </span>
+                                            <i class="ml-2 fas fa-chevron-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card-active" matRipple (click)="changePage('settings')">
+                                    <div class="infoblock">
+                                        <h5><b>{{'account.overview_details_you' | translate}}</b></h5>
+                                        <address-view [userAddress]="currentUserData?.address"></address-view>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!dataLoaded">
+                        <div class="header-spacing mb-2">
+                            <ngx-skeleton-loader *ngIf="!isMobile" class=" w-100"
+                                [theme]="{ width: '200px', height: '30px'}">
+                            </ngx-skeleton-loader>
+                        </div>
+                        <div *ngIf="isMobile" class="row header-spacing mb-3">
+                            <div class="col-10 d-flex pt-3">
+                                <ngx-skeleton-loader class=" w-100" [theme]="{ width: '150px', height: '30px'}">
+                                </ngx-skeleton-loader>
+                            </div>
+                            <div class="col-2 d-flex mt-2 justify-content-end">
+                                <button mat-icon-button (click)="signOut()"
+                                    matTooltip="{{'login.sign_out' | translate}}">
+                                    <mat-icon>exit_to_app</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <ngx-skeleton-loader class="w-100" [theme]="{ width: '250px', height: '16px', margin: '0px'}">
+                        </ngx-skeleton-loader>
+                        <div class="row mt-4">
+                            <!-- Current Subscription -->
+                            <div class="col-md-12 mb-3 order-1 order-md-1">
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'account.overview_subscription_header' | translate}}</h4>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="infoblock">
+                                        <div class="row">
+                                            <div class="col-md-2 col-3 pr-0">
+                                                <ngx-skeleton-loader class="w-100"
+                                                    [theme]="{ width: '100%', height: '100px', margin: '0px'}">
+                                                </ngx-skeleton-loader>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <div class="text">
+                                                    <ngx-skeleton-loader class="w-100" [theme]="{ width: '100px'}">
+                                                    </ngx-skeleton-loader><br>
+                                                    <ngx-skeleton-loader class="w-100"
+                                                        [theme]="{ width: '180px', height: '16px', 'margin-bottom': '2px'}">
+                                                    </ngx-skeleton-loader><br>
+                                                    <ngx-skeleton-loader class="w-100"
+                                                        [theme]="{ width: '200px', height: '16px', 'margin-bottom': '2px'}">
+                                                    </ngx-skeleton-loader>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto p-0 d-flex justify-content-end">
+                                                <i class="mr-2 fas fa-chevron-right align-self-center"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Points/Referral -->
+                            <div class="col-md-6 mb-4 order-2 order-md-3">
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'points.title' | translate}}</h4>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="infoblock">
+                                        <ngx-skeleton-loader class="w-100"
+                                            [theme]="{ width: '180px', height: '16px', margin: '0px'}">
+                                        </ngx-skeleton-loader>
+                                    </div>
+                                </div>
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'account.referral_header' | translate}}</h4>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="infoblock">
+                                        <ngx-skeleton-loader class="w-100"
+                                            [theme]="{ width: '100%', height: '16px', margin: '0px'}">
+                                        </ngx-skeleton-loader>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- About you -->
+                            <div class="col-md-6 mb-4 order-3 order-md-2">
+                                <div class="row" style="vertical-align: center; height: 35px">
+                                    <div class="col-8 d-flex justify-content-start">
+                                        <h4>{{'account.overview_details_header' | translate}}</h4>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="infoblock">
+                                        <ngx-skeleton-loader class="w-100" [theme]="{ width: '100px' }">
+                                        </ngx-skeleton-loader>
+                                        <address-view [userAddress]="currentUserData?.address"></address-view>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Subscriptions -->
+                <div *ngIf="menuSelected=='subscriptions'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-8">
+                            <p class="pt-3 pb-3 link" (click)="changePage('overview')">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.tab_overview' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="pt-2 col-4 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'account.subscription_header' | translate}}</h3>
+                    <div *ngFor="let order of orders; let i = index">
+                        <p>{{order.orderCreated.toDate() | date:'d MMMM yyyy'}} | {{'account.subscription_order_reference' | translate}}: {{order.orderReference}}</p>
+                        <div class="mb-3 card-active" matRipple (click)="viewOrder(order)">
+                            <div class="infoblock">
+                                <div class="row">
+                                    <div class="col-3 col-md-2 pr-0">
+                                        <img *ngIf="order.boxId == 'box_01'" src="/assets/images/boxes/box01.jpg"
+                                            alt="Basic" width="100%">
+                                        <img *ngIf="order.boxId == 'box_02'" src="/assets/images/boxes/box02.jpg"
+                                            alt="Plus" width="100%">
+                                        <img *ngIf="order.boxId == 'box_03' || order.boxId == 'box_13'"
+                                            src="/assets/images/boxes/box03.jpg" alt="Complete" width="100%">
+                                    </div>
+                                    <div class="col-8 col-md-9 pr-0">
+                                        <div class="text">
+                                            <h5 class="d-flex justify-content-start">
+                                                <b>{{order.boxName}}</b>
+                                            </h5>
+                                            <p>
+                                                <span *ngIf="order?.paymentPlan == '1'"
+                                                    [innerHTML]="'account.overview_subscription_monthly_plan' | translate:{boxName: order?.boxName}"></span>
+                                                <span *ngIf="order?.paymentPlan != '1' && order?.paymentPlan != '0'"
+                                                    [innerHTML]="'account.overview_subscription_month_plan' | translate:{paymentPlan: order?.paymentPlan}"></span>
+                                                <span
+                                                    *ngIf="order?.paymentPlan == '0' && order?.checkoutSummary.referral || order?.paymentPlan == '0' && order?.checkoutSummary.points">
+                                                    {{'account.referral_free_box' | translate}}
+                                                </span>
+                                            </p>
+                                            <p *ngIf="order.paymentDetails.isPaid">
+                                                {{'account.overview_subscription_next_delivery' | translate}}
+                                                <span *ngIf="order?.startDeliveryDate.toDate() > today">
+                                                    {{order?.startDeliveryDate.toDate() | date:'dd-MM-yy'}}
+                                                </span>
+                                                <span
+                                                    *ngIf="order?.startDeliveryDate.toDate() < today && order?.deliveries.length > 0">
+                                                    {{order?.deliveries[order?.deliveries.length-1].deliveryDate.toDate()
+                                                    | date:'dd-MM-yy'}}
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <span *ngIf="!order.paymentDetails.isPaid && orders.length !== 1">
+                                                    {{'account.subscription_not_paid' | translate}}
+                                                </span>
+                                                <span *ngIf="order.subscriptionDetails.subscriptionStatus == 'paused'">
+                                                    {{'account.subscription_paused' | translate}}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 p-0 d-flex justify-content-end">
+                                        <i class="mr-2 fas fa-chevron-right align-self-center"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="orders.length == 0">
+                        <h6>{{'account.subscription_no_orders' | translate}}</h6>
+                    </div>
+                    <div *ngIf="oldOrders.length != 0">
+                        <h4 class="header-spacing mb-3">
+                            {{'account.subscription_expired_canceled_header' | translate}}</h4>
+                        <div *ngFor="let order of oldOrders; let i = index">
+                            <div class="mb-3 card-active" matRipple (click)="viewOrder(order)">
+                                <div class="infoblock">
+                                    <div class="row">
+                                        <div class="col-11 pr-0">
+                                            <div class="text">
+                                                <div class="row">
+                                                    <h5 class="col-6 d-flex justify-content-start">
+                                                        <b>{{order.boxName}}</b>
+                                                    </h5>
+                                                    <div class="col-6 d-flex justify-content-end">
+                                                        <h6>{{order.orderReference}}</h6>
+                                                    </div>
+                                                </div>
+                                                <p>
+                                                    <span *ngIf="order?.paymentPlan == '1'"
+                                                        [innerHTML]="'account.overview_subscription_monthly_plan' | translate:{boxName: order?.boxName}"></span>
+                                                    <span *ngIf="order?.paymentPlan != '1' && order?.paymentPlan != '0'"
+                                                        [innerHTML]="'account.overview_subscription_month_plan' | translate:{paymentPlan: order?.paymentPlan}"></span>
+                                                    <span
+                                                        *ngIf="order?.paymentPlan == '0' && order?.checkoutSummary.referral || order?.paymentPlan == '0' && order?.checkoutSummary.points">
+                                                        {{'account.referral_free_box' | translate}}
+                                                    </span>
+                                                </p>
+                                                <p>{{order.orderCreated.toDate() | date:'d MMMM yyyy'}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-1 p-0 d-flex justify-content-end">
+                                            <i class="mr-2 fas fa-chevron-right align-self-center"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Orders -->
+                <div *ngIf="menuSelected=='orders'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-8">
+                            <p class="pt-3 pb-3 link" (click)="changePage('overview')">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.tab_overview' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="pt-2 col-4 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'account.order_header' | translate}}</h3>
+                    <div *ngFor="let order of oneOffOrders; let i = index">
+                        <p>{{order.orderCreated.toDate() | date:'d MMMM yyyy'}} | {{'account.subscription_order_reference' | translate}}: {{order.orderReference}}</p>
+                        <div class="mb-3 card-active" matRipple (click)="viewOrder(order, true)">
+                            <div class="infoblock">
+                                <div class="row">
+                                    <div class="col-3 col-md-2 pr-0">
+                                        <img *ngIf="order.boxId == 'box_01'" src="/assets/images/boxes/box01.jpg"
+                                            alt="Basic" width="100%">
+                                        <img *ngIf="order.boxId == 'box_02'" src="/assets/images/boxes/box02.jpg"
+                                            alt="Plus" width="100%">
+                                        <img *ngIf="order.boxId == 'box_03' || order.boxId == 'box_13'"
+                                            src="/assets/images/boxes/box03.jpg" alt="Complete" width="100%">
+                                    </div>
+                                    <div class="col-8 col-md-9 pr-0">
+                                        <div class="text">
+                                            <h5 class="d-flex justify-content-start">
+                                                <b>{{order.boxName}}</b>
+                                            </h5>
+                                            <p>
+                                                <span *ngIf="order?.paymentPlan == '1'"
+                                                    [innerHTML]="'account.overview_subscription_monthly_plan' | translate:{boxName: order?.boxName}"></span>
+                                                <span *ngIf="order?.paymentPlan != '1' && order?.paymentPlan != '0'"
+                                                    [innerHTML]="'account.overview_subscription_month_plan' | translate:{paymentPlan: order?.paymentPlan}"></span>
+                                                <span
+                                                    *ngIf="order?.paymentPlan == '0' && order?.checkoutSummary.referral || order?.paymentPlan == '0' && order?.checkoutSummary.points">
+                                                    {{'account.referral_free_box' | translate}}
+                                                </span>
+                                            </p>
+                                            <!-- <p>{{order.orderCreated.toDate() | date:'d MMMM yyyy'}}</p> -->
+                                            <p>{{'account.overview_subscription_delivery' | translate}}
+                                                {{order.startDeliveryDate.toDate() | date:'d MMMM yyyy'}}</p>
+                                            <p *ngIf="!order.paymentDetails.isPaid && orders.length !== 1">
+                                                {{'account.subscription_not_paid' | translate}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 p-0 d-flex justify-content-end">
+                                        <i class="mr-2 fas fa-chevron-right align-self-center"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="orders.length == 0">
+                        <h6>{{'account.subscription_no_orders' | translate}}</h6>
+                    </div>
+                </div>
+                <!-- Subscription/Order details -->
+                <div *ngIf="menuSelected=='subscriptionDetails' || menuSelected=='orderDetails'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-8">
+                            <p class="pt-3 pb-3 link" (click)="changePage('overview')">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.tab_overview' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end" matRipple matRippleCentered="true"
+                            [matMenuTriggerFor]="menu" matTooltip="Menu">
+                            <span class="my-auto link-text">Menu</span>
+                            <button mat-icon-button class="mt-2">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="!isMobile" style="height: 2rem"></div>
+                    <account-subscription [currentUser]="currentUser" [orderRef]="selectedOrderRef">
+                    </account-subscription>
+                </div>
+                <!-- Cancel Subscription -->
+                <div *ngIf="menuSelected=='subscriptionCancel'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-8">
+                            <p class="pt-3 pb-3 link" (click)="updateData('details', selectedOrderItem)">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.subscription_go_back' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="pt-2 col-4 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="!isMobile" style="height: 2rem"></div>
+                    <cancel-subscription [orderItem]="selectedOrderItem" [userPoints]="userPoints">
+                    </cancel-subscription>
+                </div>
+                <!-- Edit Subscription -->
+                <div *ngIf="menuSelected=='subscriptionEdit'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-8">
+                            <p class="pt-3 pb-3 link" (click)="updateData('details', selectedOrderItem)">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.subscription_go_back' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="pt-2 col-4 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="!isMobile" style="height: 2rem"></div>
+                    <edit-products [componentData]="selectedOrderItem"></edit-products>
+                </div>
+                <!-- DeMonthly Points -->
+                <div *ngIf="menuSelected=='points'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-8">
+                            <p class="pt-3 pb-3 link" (click)="changePage('overview')">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.tab_overview' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="pt-2 col-4 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'points.title' | translate}}</h3>
+                    <h5 class="mb-4" [innerHtml]="'points.user_amount' | translate: {userPoints: userPoints}"></h5>
+                    <p class="mb-4">{{'points.text' | translate}}</p>
+                    <div *ngIf="isMobile">
+                        <div class="card p-3 mt-4 mb-4">
+                            <h6>{{'points.points_to_earn' | translate}}</h6>
+                            <p [innerHtml]="'points.complete_points' | translate: {dmp: 10}"></p>
+                            <p [innerHtml]="'points.plus_points' | translate: {dmp: 7.5}"></p>
+                            <p [innerHtml]="'points.basic_points' | translate: {dmp: 5}"></p>
+                        </div>
+                    </div>
+                    <app-points [currentPoints]="userPoints" [lifetimePoints]="userLifePoints"
+                        [currentOrder]="currentActiveOrder"></app-points>
+                </div>
+                <!-- DeMonthly Invite -->
+                <div *ngIf="menuSelected=='referral'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-6">
+                            <p class="pt-3 pb-3 link" (click)="changePage('overview')">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.tab_overview' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="pt-2 col-6 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'account.referral_header' | translate}}</h3>
+                    <referral [currentOrder]="currentActiveOrder"></referral>
+                </div>
+                <!-- Settings -->
+                <div *ngIf="menuSelected=='settings'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="col-8">
+                            <p class="pt-3 pb-3 link" (click)="changePage('overview')">
+                                <i class="mr-2 fas fa-chevron-left"></i>
+                                <span class="link-text">{{'account.tab_overview' | translate}}</span>
+                            </p>
+                        </div>
+                        <div class="pt-2 col-4 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'account.account_header' | translate}}</h3>
+                    <account-settings [latestOrder]="latestOrder" [currentUser]="currentUser"
+                        [currentUserData]="currentUserData"></account-settings>
+                </div>
+            </div>
+            <!-- Enter extra details -->
+            <div *ngIf="!additionalDataEntered">
+                <div class="row" *ngIf="isMobile">
+                    <div class="pt-2 col-12 d-flex justify-content-end">
+                        <button mat-icon-button (click)="signOut()" matTooltip="{{'login.sign_out' | translate}}">
+                            <mat-icon>exit_to_app</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="!isMobile" style="height: 2rem"></div>
+                <h2 class="mb-4">{{'account.finalise_title' | translate}}</h2>
+                <account-additional-data [currentUser]="currentUser" [currentUserData]="currentUserData">
+                </account-additional-data>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pop out menu -->
+<mat-menu #menu="matMenu" xPosition="before" tabindex="-1">
+    <button mat-menu-item (click)="changePage('overview')" [class.active]="menuSelected=='overview'">
+        <mat-icon matListIcon>account_circle</mat-icon>
+        <a matLine>{{'account.tab_overview' | translate}}</a>
+    </button>
+
+    <button mat-menu-item (click)="changePage('subscriptions')" [class.active]="isNavActive('subscriptions')">
+        <mat-icon matListIcon>sync</mat-icon>
+        <a matLine>{{'account.tab_subscription' | translate}}</a>
+    </button>
+
+    <button mat-menu-item (click)="changePage('orders')" [class.active]="isNavActive('orders')">
+        <mat-icon matListIcon>local_mall</mat-icon>
+        <a matLine>{{'account.tab_orders' | translate}}</a>
+    </button>
+
+    <!-- <button mat-menu-item (click)="changePage('points')" [class.active]="isNavActive('points')">
+        <mat-icon matListIcon>loyalty</mat-icon>
+        <a matLine>{{'points.title' | translate}}</a>
+        <div mat-line> {{userPoints}}DMP </div>
+    </button>
+
+    <button mat-menu-item (click)="changePage('referral')" [class.active]="isNavActive('referral')">
+        <mat-icon matListIcon>link</mat-icon>
+        <a matLine>{{'referral.title' | translate}}</a>
+    </button> -->
+
+    <button mat-menu-item (click)="changePage('settings')" [class.active]="isNavActive('settings')">
+        <mat-icon matListIcon>settings</mat-icon>
+        <a matLine>{{'account.tab_account' | translate}}</a>
+    </button>
+
+    <button mat-menu-item (click)="signOut()">
+        <mat-icon matListIcon>exit_to_app</mat-icon>
+        <a matLine>{{'login.sign_out' | translate}}</a>
+    </button>
+</mat-menu>

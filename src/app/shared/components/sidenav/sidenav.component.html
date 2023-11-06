@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row top">
+        <div class="col-3 my-auto">
+            <button class="navbar-toggler" type="button" (click)="toggleSideNav()" matRipple matRippleCentered="true">
+                <i class="fas fa-times" style="color:#F8BEB8; width: 25px;"></i>
+            </button>
+        </div>
+        <div class="col-9 d-flex justify-content-center">
+            <img src="assets/images/logo-de-month.png" alt="DeMonth" width="50%">
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+        <a mat-list-item title="Home" [routerLink]="'/'" (click)="toggleSideNav()">
+            <span class="nav-link">{{ 'common.menu_home' | translate }}</span>
+        </a>
+        <a mat-list-item title="How it works" [routerLink]="'/how-it-works'" (click)="toggleSideNav()">
+            <span class="nav-link">{{ 'common.menu_how_it_works' | translate }}</span>
+        </a>
+        <!-- <a mat-list-item title="Trial Box" [routerLink]="'/try-now'" (click)="toggleSideNav()">
+            <span class="nav-link">{{ 'common.menu_trial_box' | translate }}</span>
+        </a> -->
+        <a mat-list-item title="Products" [routerLink]="'/products'" (click)="toggleSideNav()">
+            <span class="nav-link">{{ 'common.menu_products' | translate }}</span>
+        </a>
+        <a mat-list-item title="Subscribe now!" [routerLink]="'/order-box'" (click)="toggleSideNav()">
+            <span class="nav-link">{{ 'common.menu_subscribe_now' | translate }}</span>
+        </a>
+        <a mat-list-item title="Promo" class="promo" [routerLink]="'/order-box'" (click)="toggleSideNav()" *ngIf="promotionItem">
+            <p class="col-12 d-flex justify-content-center" href="/" routerLink="/order-box">
+                {{promotionEyeCatcher}}
+            </p>
+        </a>
+    </mat-nav-list>
+    <div style="display: flex; flex-direction: column; flex: 1;"></div>
+    <mat-divider></mat-divider>
+    <div class="row m-0 link-gray p-1 pl-4 my-auto d-flex justify-content-start" matRipple matRippleCentered="true"
+        routerLink="/account" (click)="toggleSideNav()">
+        <span class="col my-auto p-0">{{ 'login.account' | translate }}</span>
+        <div class="col-auto my-auto d-flex justify-content-end">
+            <button class="m-1" *ngIf="user && user?.photoURL != null && 'url(' + user?.photoURL + ')' != null" mat-mini-fab color="primary"
+                [style.background-image]="'url(' + user?.photoURL + ')'" style="background-size: cover;">
+            </button>
+            <span class="pt-2" [hidden]="user && user?.photoURL != null || 'url(' + user?.photoURL + ')' == null">
+                <mat-icon>person</mat-icon>
+            </span>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="link-gray p-2 pl-4 purechat-button-expand my-auto d-flex justify-content-start" matRipple
+        matRippleCentered="true" (click)="toggleSideNav()">
+        <span>{{'common.footer_contact' | translate}}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="link-gray p-2 pl-4 my-auto d-flex justify-content-start" matRipple matRippleCentered="true"
+        [routerLink]="'/about'" (click)="toggleSideNav()">
+        <span>{{'linktree.about' | translate}}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="language == 'nl'" class="row m-0 p-2 my-auto justify-content-center">
+        <div class="nav-selected">Nederlands</div>
+        <div class="nav-dot">·</div>
+        <div class="nav-unselected" (click)="onLanguageChange('en')">English</div>
+    </div>
+    <div *ngIf="language == 'en'" class="row m-0 p-2 my-auto justify-content-center">
+        <div class="nav-unselected" (click)="onLanguageChange('nl')">Nederlands</div>
+        <div class="nav-dot">·</div>
+        <div class="nav-selected">English</div>
+    </div>
+</div>

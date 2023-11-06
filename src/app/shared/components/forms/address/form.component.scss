@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.container > * {
+    width: 100%;
+}
+
+.smaller-space {
+    margin-top: -10px;
+}
+
+::ng-deep .mat-form-field-subscript-wrapper {
+    overflow: visible !important;
+}
+
+mat-error {
+    text-align: right;
+    margin-top: -5px;
+}
+
+@media (min-width: 768px) {
+    // No padding left special
+    .npls {
+        padding-left: 0px;
+    }
+    // No padding left
+    .npl {
+        padding-left: 0px;
+    }
+    // No padding left
+    .npr {
+        padding-right: 0px;
+    }
+    // No padding sides
+    .nsp {
+        padding: 0px;
+    }
+}
+
+@media (max-width: 768px) {
+    // No padding left special
+    .npls {
+        padding-left: 0px;
+    }
+}

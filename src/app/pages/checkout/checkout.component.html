@@ -1,0 +1,370 @@
+<div class="container">
+    <!-- Progress -->
+    <order-progress-bar [section]="'checkout'" [hideBoxPicker]="freeBoxClaimed || order?.boxId == 'box_13'">
+    </order-progress-bar>
+    <div class="row mt-2">
+        <!-- Summary (Cart) -->
+        <div class="col-md-4 order-md-2">
+            <div *ngIf="isMobile" class="row pt-3 pb-3 pl-2 pr-2 my-auto" (click)="showOverview=!showOverview"
+                matRipple>
+                <div class="col-1 my-auto">
+                    <i class="fas fa-shopping-basket primary-color"></i>
+                </div>
+                <p class="col-auto primary-color my-auto">
+                    <span *ngIf="!showOverview">{{'checkout.summmary_show_header' | translate}}</span>
+                    <span *ngIf="showOverview">{{'checkout.summmary_hide_header' | translate}}</span>
+                    <i *ngIf="!showOverview" class="ml-2 fas fa-angle-down"></i>
+                    <i *ngIf="showOverview" class="ml-2 fas fa-angle-up"></i>
+                </p>
+                <h5 *ngIf="!promotion?.price && !coupon?.price && !referral?.checkoutPrice"
+                    class="text-muted col my-auto d-flex justify-content-end">
+                    {{order?.checkoutSummary.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                </h5>
+                <h5 *ngIf="coupon?.price" class="text-success col my-auto d-flex justify-content-end">
+                    {{coupon.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                </h5>
+                <h5 *ngIf="promotion?.price && !coupon?.price"
+                    class="text-success col my-auto d-flex justify-content-end">
+                    {{order?.checkoutSummary.promo.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                </h5>
+                <h5 *ngIf="referral?.checkoutPrice" class="text-muted col my-auto d-flex justify-content-end">
+                    {{referral.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                </h5>
+            </div>
+            <h4 *ngIf="!isMobile">{{'checkout.summmary_header' | translate}}</h4>
+            <div *ngIf="showOverview || !isMobile">
+                <ul class="list-group mb-3">
+                    <li class="list-group-item" (click)="showSummary()" matRipple>
+                        <div class="row">
+                            <p class="col-8 d-flex justify-content-start">{{order?.boxName}}</p>
+                            <p class="text-muted col-4 d-flex justify-content-end">
+                                {{order?.checkoutSummary.subTotal / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <p *ngIf="order?.products.extraProducts" class="col-9 d-flex justify-content-start">
+                                {{'order_box.personalise_extra_products' | translate}}
+                            </p>
+                            <p *ngIf="order?.products.extraProducts"
+                                class="text-muted col-3 d-flex justify-content-end">
+                                {{(order?.products.extraProducts.extraPrice / 100) * order?.paymentPlan |
+                                currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <small *ngIf="order?.products.extraProducts && order?.paymentPlan > 1"
+                                style="margin-top: -5px" class="text-muted col-12 d-flex justify-content-start">
+                                {{order?.paymentPlan}} x
+                                {{order?.products.extraProducts.extraPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </small>
+                            <div class="col-12">
+                                <small class="link">{{'checkout.summary_order_overview' | translate}} <i
+                                        class="ml-1 fas fa-angle-right"></i></small>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <p *ngIf="freeBoxClaimed" class="text-success col d-flex justify-content-start">
+                                {{'order_box.review_summary_referral_claimed' | translate}}
+                                {{order?.checkoutSummary?.referral.name}}
+                            </p>
+                            <p *ngIf="freeBoxClaimed" class="text-success col-auto d-flex justify-content-end"
+                                style="float: right">
+                                - {{ order?.checkoutSummary?.subTotal / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <p class="col-9 d-flex justify-content-start">
+                                {{'checkout.summary_shipping' | translate}}
+                            </p>
+                            <p *ngIf="order?.checkoutSummary.shippingPrice == '0'"
+                                class="text-success col-3 d-flex justify-content-end" style="float: right">
+                                {{'checkout.summary_shipping_free' | translate}}
+                            </p>
+                            <p *ngIf="order?.checkoutSummary.shippingPrice != '0'"
+                                class="text-muted col-3 d-flex justify-content-end" style="float: right">
+                                {{(order?.checkoutSummary.shippingPrice / 100) * shippingMultiplier |
+                                currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <small *ngIf="order?.checkoutSummary.shippingPrice != '0'" style="margin-top: -5px"
+                                class="text-muted col-12 d-flex justify-content-start">
+                                {{shippingMultiplier}} x
+                                {{order?.checkoutSummary.shippingPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </small>
+                            <p *ngIf="referral?.discount" class="text-success col-8 d-flex justify-content-start"
+                                translate
+                                [translateParams]="{discount: referral.discount, referrer: referral.referrer | titlecase}">
+                                checkout.summary_referral_discount
+                            </p>
+                            <p *ngIf="referral?.price" class="text-success col-4 d-flex justify-content-end"
+                                style="float: right">
+                                - {{referral?.price / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <div *ngIf="promotion?.discount" class="col-8 d-flex justify-content-start">
+                                <div class="row">
+                                    <!-- <p class="col-12 text-success m-0">{{'checkout.summary_promo_discount' | translate}}
+                                    </p> -->
+                                    <p class="col-12 text-success m-0" *ngIf="translate.currentLang == 'nl'">
+                                        {{promotion?.checkoutDescription.nl | translate}}
+                                    </p>
+                                    <p class="col-12 text-success m-0" *ngIf="translate.currentLang != 'nl'">
+                                        {{promotion?.checkoutDescription.en | translate}}
+                                    </p>
+                                </div>
+                            </div>
+                            <p *ngIf="promotion?.price" class="text-success col-4 d-flex justify-content-end"
+                                style="float: right">
+                                - {{promotion?.price / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                            <p *ngIf="coupon?.price" class="text-success col-8 d-flex justify-content-start" translate
+                                [translateParams]="{couponName: coupon?.name}">
+                                checkout.summary_coupon
+                            </p>
+                            <p *ngIf="coupon?.price" class="text-success col-4 d-flex justify-content-end"
+                                style="float: right">
+                                - {{coupon?.price / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </p>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <h5 class="col-9 d-flex justify-content-start">
+                                {{'checkout.summary_grand_total' | translate}}
+                            </h5>
+                            <strong *ngIf="!promotion?.price && !coupon?.price && !referral?.checkoutPrice"
+                                class="text-muted col-3 d-flex justify-content-end">
+                                {{order?.checkoutSummary.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </strong>
+                            <strong *ngIf="coupon?.price" class="text-muted col-3 d-flex justify-content-end">
+                                {{coupon.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </strong>
+                            <strong *ngIf="promotion?.price && !coupon?.price"
+                                class="text-muted col-3 d-flex justify-content-end">
+                                {{order?.checkoutSummary.promo.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </strong>
+                            <strong *ngIf="referral?.checkoutPrice" class="text-muted col-3 d-flex justify-content-end">
+                                {{referral.checkoutPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}
+                            </strong>
+                            <small class="text-muted col-12 d-flex justify-content-start" style="margin-top: -10px">
+                                {{'checkout.summary_tax' | translate}}
+                                <i class="ml-2 fas fa-info-circle" #tooltip="matTooltip" (click)="tooltip.show()"
+                                    matTooltip="{{order?.checkoutSummary.taxPrice / 100 | currency:'EUR':'symbol':'1.2-2'}}"></i>
+                            </small>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Coupon field -->
+                <ul *ngIf="!referral || !order?.checkoutSummary.referral" class="list-group mb-3">
+                    <li class="list-group-item">
+                        <div class="row pl-1 pr-1">
+                            <input class="col coupon-field" [(ngModel)]="couponCode"
+                                [ngModelOptions]="{standalone: true}" [disabled]="finishingOrder"
+                                (keyup.enter)="checkCoupon()" placeholder="Coupon code">
+                            <button class="col-auto coupon-field box-selector" [disabled]="finishingOrder"
+                                (click)="checkCoupon()">{{'checkout.summary_coupon_redeem' | translate}}</button>
+                        </div>
+                        <span *ngIf="couponSuccess && !couponError" class="text-success">{{couponSuccess}}</span>
+                        <span *ngIf="couponError" class="text-warn">{{couponError}}</span>
+                    </li>
+                </ul>
+            </div>
+            <hr *ngIf="!showOverview && isMobile" style="margin-top: 0px;">
+        </div>
+
+        <!-- Checkout flow -->
+        <div class="col-md-8 order-md-1">
+            <h4>{{'checkout.checkout_customer_details_header' | translate}}</h4>
+            <div *ngIf="dataLoaded">
+                <!-- <div *ngIf="!currentUser">
+                    <p class="mb-3">{{'checkout.checkout_customer_details_create_account' | translate}}</p>
+                    <auth-component (onSuccess)="redirect($event)" [isLogin]=false></auth-component>
+                    <div class="row" *ngIf="!isMobile">
+                        <button class="ml-3 mb-4 button-primary-light" (click)="goBack()">
+                            {{'order_box.previous_button' | translate}}
+                        </button>
+                    </div>
+                </div> -->
+                <div *ngIf="!loginNoAddress && !currentUser" class="mt-3">
+                    <div class="row">
+                        <div class="col">
+                            <h5>{{'checkout.checkout_customer_details_billing_address' | translate}}</h5>
+                            <address-view [userAddress]="currentUserData?.address"></address-view>
+                        </div>
+                        <div class="col-auto d-flex justify-content-end">
+                            <button mat-icon-button (click)="editData()">
+                                <mat-icon matTooltip="{{'checkout.checkout_customer_details_edit' | translate}}">
+                                    edit
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="loginNoAddress" class="mt-3">
+                    <form-component [appearance]="'outline'" [formType]="'standard'" [currentUserData]="currentUserData"
+                        [userAddress]="currentUserData.address" (formGroupEvent)="setFormGroup($event, 'standard')">
+                    </form-component>
+                    <div class="row">
+                        <div *ngIf="editMode" class="col col-md-auto">
+                            <div class="example-container">
+                                <button class="button-no-border" (click)="cancelEdit()">
+                                    {{'common.cancel_button' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col col-md-auto">
+                            <div class="example-container">
+                                <button class="box-selector" (click)="saveData()">
+                                    {{'common.save_button' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <hr class="mb-4">
+                    <h4 class="mb-3">{{'checkout.checkout_delivery_header' | translate}}</h4>
+                    <div *ngFor="let option of deliveryOptions; let i = index">
+                        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                            [(ngModel)]="deliveryAddressSelection" (ngModelChange)="onShippingChanged()">
+                            <mat-radio-button class="example-radio-button" [value]="option[0]">
+                                {{option[1]}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                        <div *ngIf="i == 1 && deliveryAddressSelection ==='differentAddress'">
+                            <div *ngIf="!currentUserData?.additionalAddresses || editAddMode" class="mt-2">
+                                <form-component [appearance]="'outline'" [formType]="'additional'"
+                                    [userAddress]="additionalAddress"
+                                    (formGroupEvent)="setFormGroup($event, 'additional')">
+                                </form-component>
+                                <!-- Save for later -->
+                                <div class="row" *ngIf="!editAddMode">
+                                    <div class="col-md-5">
+                                        <mat-checkbox class="example-margin" [(ngModel)]="saveForLaterChecked"
+                                            style="font-family: Futura, Lato, Helvetica Neue, Helvetica, Arial, sans-serif; color: #545454;">
+                                            {{'checkout.checkout_delivery_different_save' | translate}}
+                                        </mat-checkbox>
+                                    </div>
+                                    <!-- <div class="col-md-7">
+                                            <mat-checkbox class="example-margin" formControlName="addresscommonAdd"
+                                                [(ngModel)]="addresscommonChecked">
+                                                Set this address as common for shipping
+                                            </mat-checkbox>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div *ngIf="currentUserData?.additionalAddresses && !editAddMode">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5>{{'checkout.checkout_delivery_shipping_header' | translate}}</h5>
+                                        <address-view [userAddress]="currentUserData?.additionalAddresses[0]">
+                                        </address-view>
+                                    </div>
+                                    <div class="col-md-8 d-flex justify-content-end">
+                                        <button class="button-no-border" (click)="editAddData()">
+                                            {{'checkout.checkout_delivery_edit' | translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="i == 2 && deliveryAddressSelection ==='giftAddress'">
+                            <h5 class="mb-4">{{'checkout.checkout_delivery_gift_header' | translate}}</h5>
+                            <form-component [appearance]="'outline'" [formType]="'gift'"
+                                [userAddress]="giftAddress" (formGroupEvent)="setFormGroup($event, 'gift')">
+                            </form-component>
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <div *ngIf="!freeBoxClaimed">
+                        <h4 class="mb-3">{{'checkout.checkout_payment_header' | translate}}</h4>
+                        <p *ngIf="coupon && coupon?.discount == 100"
+                            [innerHTML]="'checkout.checkout_payment_select' | translate">
+                        </p>
+                        <div *ngFor="let index of paymentOptionOrder">
+                            <mat-radio-group aria-labelledby="radio-group-paymentMethods" class="example-radio-group"
+                                [(ngModel)]="paymentOptionSelection">
+                                <mat-radio-button class="example-radio-button" [value]="paymentOptions[index][0]">
+                                    <div>
+                                        <span class="mr-2">{{paymentOptions[index][1]}}</span>
+                                        <img *ngIf="paymentOptions[index][0] == 'ideal'" src="/assets/icons/payment-options/ideal.png"
+                                            height="35px" alt="Ideal">
+                                        <img *ngIf="paymentOptions[index][0] == 'bancontact'"
+                                            src="/assets/icons/payment-options/bancontact-logo.svg" height="40px" alt="bancontact">
+                                        <img *ngIf="paymentOptions[index][0] == 'cards'"
+                                            src="/assets/icons/payment-options/mastercard.png" height="35px" alt="Mastercard">
+                                        <img *ngIf="paymentOptions[index][0] == 'cards'" src="/assets/icons/payment-options/visa.png"
+                                            height="20px" alt="Visa">
+                                        <img *ngIf="paymentOptions[index][0] == 'cards'" class="ml-2"
+                                            src="/assets/icons/payment-options/applepay.svg" height="35px" alt="Apple Pay">
+                                    </div>
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <div *ngIf="index == 0 && paymentOptionSelection==='ideal'" class="p-3 mat-elevation-z2">
+                                <mat-form-field [hidden]="!issuers">
+                                    <mat-label>
+                                        {{'checkout.checkout_payment_ideal_select_bank' | translate}}
+                                    </mat-label>
+                                    <mat-select [(ngModel)]="idealOptionSelection" required>
+                                        <mat-option *ngFor="let issuer of issuers" [value]="issuer">
+                                            <img src="{{issuer.image.svg}}" height="20px" class="mr-2" alt="Logo" *ngIf="issuer.image">
+                                            {{issuer.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div [hidden]="issuers" class="mt-3">
+                                    <ngx-skeleton-loader class="w-100" [theme]="{ width: '180px', height: '32px'}"></ngx-skeleton-loader>
+                                </div>
+                                <p class='mandate' [hidden]="order?.boxId == 'box_13'">
+                                    {{'checkout.checkout_payment_ideal_mandate' | translate}}</p>
+                            </div>
+                            <div *ngIf="index == 1 && paymentOptionSelection==='bancontact' && order?.boxId != 'box_13'"
+                                class="p-3 mat-elevation-z2">
+                                <p class='mandate'>{{'checkout.checkout_payment_ideal_mandate' | translate}}</p>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                    </div>
+                    <div class="row" *ngIf="!isMobile">
+                        <!-- Previous -->
+                        <button class="ml-3 mb-4 button-primary-light" (click)="goBack()" [disabled]="finishingOrder">
+                            {{'order_box.previous_button' | translate}}
+                        </button>
+                        <button color="primary" *ngIf="!referralClaimBox" class="ml-3 mb-4 box-selector"
+                            (click)="finishOrder()" [disabled]="finishingOrder || loginNoAddress">
+                            {{'checkout.checkout_finish_pay_button' | translate}}
+                        </button>
+                        <button *ngIf="referralClaimBox" class="ml-3 mb-4 box-selector" (click)="finishOrder()"
+                            [disabled]="finishingOrder || loginNoAddress">
+                            {{'checkout.checkout_finish_order_button' | translate}}
+                        </button>
+                        <mat-spinner *ngIf="finishingOrder" class="ml-2" [diameter]="50"></mat-spinner>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!dataLoaded">
+                <div class="col-12 d-flex justify-content-center">
+                    <mat-spinner></mat-spinner>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isMobile" class="float">
+    <div class="row no-gutters">
+        <!-- Previous -->
+        <div class="col-5 p-0">
+            <button class="button-primary-light w-100" (click)="goBack()" [disabled]="finishingOrder">
+                {{'order_box.previous_button' | translate}}
+            </button>
+        </div>
+        <!-- Next -->
+        <div *ngIf="!referralClaimBox" class="col-7 p-0">
+            <button color="primary" class="box-selector w-100" (click)="finishOrder()"
+                [disabled]="finishingOrder || loginNoAddress || !currentUser">
+                {{'checkout.checkout_finish_pay_button' | translate}}
+            </button>
+        </div>
+        <div *ngIf="referralClaimBox" class="col-7 p-0">
+            <button class="box-selector w-100" (click)="finishOrder()"
+                [disabled]="finishingOrder || loginNoAddress || !currentUser">
+                {{'checkout.checkout_finish_order_button' | translate}}
+            </button>
+        </div>
+    </div>
+</div>

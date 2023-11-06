@@ -1,0 +1,12 @@
+@import "~@angular/material/theming";
+
+.card {
+  @include mat-elevation(0);
+  margin-bottom: 16px;
+  border: 1px solid #E5E5E5;
+  border-radius: 10px;
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}

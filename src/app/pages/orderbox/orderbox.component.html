@@ -1,0 +1,425 @@
+<div class="container">
+    <h3 *ngIf="freeBoxClaimed && isMobile" class="mt-3 mb-2 text-center">{{'referral.order_box_claim' | translate}}</h3>
+    <!-- Progress -->
+    <order-progress-bar [section]="sectionSelected" [boxType]="boxType" [hideBoxPicker]="freeBoxClaimed || trialBox"></order-progress-bar>
+    <!-- Pick box -->
+    <div *ngIf="sectionSelected=='pick-box'" class="mt-4">
+        <order-pickbox [isMobile]="isMobile"></order-pickbox>
+    </div>
+    <div *ngIf="sectionSelected!='' && sectionSelected!='pick-box'" class="p-4">
+        <div class="row">
+            <div class="col-12 col-lg-9">
+                <!-- Personalise -->
+                <div *ngIf="sectionSelected=='personalise'" data-aos="fade-right" data-aos-duration="500">
+                    <order-pickproducts [boxTypeValue]="boxType" [productSelected]="recoveredProducts"
+                        [recovered]="recovered" [editMode]="false" [referralMode]="freeBoxClaimed"></order-pickproducts>
+                </div>
+                <!-- Preferences -->
+                <div *ngIf="sectionSelected=='preferences'" data-aos="fade-right" data-aos-duration="500">
+                    <order-pickpreferences [boxType]="boxType" [recovered]="recovered"
+                        [productSelected]="recoveredProducts" [trialBox]="trialBox">
+                    </order-pickpreferences>
+                </div>
+                <!-- Delivery -->
+                <div *ngIf="sectionSelected=='delivery'" class="text-center" data-aos="fade-right"
+                    data-aos-duration="500">
+                    <h1 class="mb-4">{{'order_box.delivery_stepper_header' | translate}}</h1>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12 d-flex mb-4 justify-content-center">
+                            <div class="container">
+                                <h3 class="mb-2">{{'order_box.delivery_delivery_date_header' | translate}}</h3>
+                                <p class="mb-2" *ngIf="!freeBoxClaimed && !trialBox">
+                                    {{'order_box.delivery_delivery_date_text' | translate}}
+                                </p>
+                                <form [formGroup]="formGroup">
+                                    <mat-form-field style="width: 100%;">
+                                        <input matInput [matDatepicker]="picker"
+                                            [matDatepickerFilter]="nonDeliveryFilter" [min]="minDate"
+                                            placeholder="{{selectDeliveryPlaceholder}}"
+                                            formControlName="selectedDate" [(ngModel)]="order.startDeliveryDate"
+                                            [errorStateMatcher]="matcher" (click)="picker.open()" [readonly]="true"
+                                            (dateChange)="datePickerEvent('change', $event)">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-error>{{'order_box.delivery_delivery_date_error' | translate}}</mat-error>
+                                    </mat-form-field>
+                                </form>
+                                <!-- <p class="mb-4 font-weight-light">* Every subsequent delivery will happen on the same day.</p> -->
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex mb-4 justify-content-center" *ngIf="!freeBoxClaimed && !trialBox">
+                            <div class="container">
+                                <h3 class="mb-2">{{'order_box.delivery_days_apart_header' | translate}}</h3>
+                                <p class="mb-2">
+                                    {{'order_box.delivery_days_apart_text' | translate}}
+                                    <!-- <i class="ml-2 fas fa-info-circle" matTooltipPosition="left" #tooltip="matTooltip"
+                                        (click)="tooltip.show()"
+                                        matTooltip="{{'order_box.delivery_days_apart_tooltop' | translate}}"></i> -->
+                                    <br>
+                                </p>
+                                <!-- <p class="mb-2 font-weight-light"
+                                    [innerHTML]="'order_box.delivery_days_apart_text2' | translate">
+                                </p> -->
+                                <form [formGroup]="formGroup">
+                                    <div class="mt-3 row">
+                                        <div class="col-5">
+                                            <mat-form-field *ngIf="!customDays" style="width: 100%;">
+                                                <mat-select
+                                                    placeholder="{{'order_box.delivery_days_apart_placeholder' | translate}}"
+                                                    formControlName="selectedDays" [(ngModel)]="numberOfDays"
+                                                    (ngModelChange)="onSelectChanged('days', $event)">
+                                                    <mat-option *ngFor="let number of noDays" [value]="number">
+                                                        {{number}}
+                                                        {{'order_box.delivery_days_apart_select' | translate}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-hint *ngIf="!isMobile" class="link" (click)="toggleCustomDays()">
+                                                    {{'order_box.delivery_days_apart_hint' | translate}}</mat-hint>
+                                                <mat-error>{{'order_box.delivery_days_apart_error' | translate}}
+                                                </mat-error>
+                                            </mat-form-field>
+                                            <mat-form-field *ngIf="customDays" style="width: 100%;">
+                                                <mat-label>{{'order_box.delivery_days_apart_placeholder' | translate}}
+                                                </mat-label>
+                                                <input matInput type="number" formControlName="selectedDays"
+                                                    [errorStateMatcher]="matcher" min="15" max="365"
+                                                    [(ngModel)]="numberOfDays"
+                                                    (ngModelChange)="onSelectChanged('days', $event)">
+                                                <mat-hint>{{'order_box.delivery_days_apart_custom_hint' | translate}}
+                                                </mat-hint>
+                                                <mat-error *ngIf="formGroup.get('selectedDays').errors?.required">
+                                                    {{'order_box.delivery_days_apart_error' | translate}}</mat-error>
+                                                <mat-error *ngIf="formGroup.get('selectedDays').errors?.min">
+                                                    {{'order_box.delivery_days_apart_error_min' | translate}}
+                                                </mat-error>
+                                                <mat-error *ngIf="formGroup.get('selectedDays').errors?.max">
+                                                    {{'order_box.delivery_days_apart_error_max' | translate}}
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-2 p-0">
+                                            <p class="mt-3 text-center">{{'order_box.delivery_days_or' | translate}}</p>
+                                        </div>
+                                        <div class="col-5">
+                                            <mat-form-field style="width: 100%;">
+                                                <mat-select
+                                                    placeholder="{{'order_box.delivery_weeks_apart_placeholder' | translate}}"
+                                                    formControlName="selectedWeeks" [(ngModel)]="numberOfWeeks"
+                                                    (ngModelChange)="onSelectChanged('weeks', $event)">
+                                                    <mat-option *ngFor="let number of noWeeks" [value]="number">
+                                                        {{number}}
+                                                        {{'order_box.delivery_weeks_apart_select' | translate}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error>{{'order_box.delivery_days_apart_error' | translate}}
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <small *ngIf="isMobile && !customDays" class="link" (click)="toggleCustomDays()">
+                                        {{'order_box.delivery_days_apart_hint' | translate}}
+                                    </small>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div *ngIf="!isMobile" class="mt-4 text-center">
+                    <!-- Go back (on free box) -->
+                    <button *ngIf="freeBoxClaimed && sectionSelectedIndex == 1" class="button-primary-light mr-1"
+                        routerLink="/account/invite">
+                        {{'login.forgot_password_go_back' | translate}}
+                    </button>
+                    <!-- Previous -->
+                    <button *ngIf="!freeBoxClaimed || sectionSelectedIndex != 1" class="button-primary-light mr-1"
+                        (click)="goToPage(false, sectionSelectedIndex)">
+                        {{'order_box.previous_button' | translate}}
+                    </button>
+                    <!-- Next -->
+                    <button *ngIf="sectionSelected!='delivery'" class="box-selector"
+                        (click)="goToPage(true, sectionSelectedIndex)" [disabled]="sectionSelected=='personalise' && order.productQuantity == 0">
+                        {{'order_box.next_button' | translate}}
+                    </button>
+                    <!-- To Checkout -->
+                    <button *ngIf="sectionSelected=='delivery'" class="box-selector"
+                        (click)="goToPage(true, sectionSelectedIndex)" [disabled]="order.productQuantity == 0">
+                        <span>{{'order_box.review_summary_checkout' | translate}}</span>
+                        <i class="ml-2 fas fa-shopping-basket"></i>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="!isMobile" class="col-12 col-lg-3 pl-0">
+                <div [ngClass]="openDialog ? '' : 'sticky-top'">
+                    <div *ngIf="sectionSelected=='personalise'" style="height: 100px;"></div>
+                    <h3 *ngIf="freeBoxClaimed" class="mt-3 mb-2 text-center">
+                        {{'referral.order_box_claim' | translate}}
+                    </h3>
+                    <div class="card p-0">
+                        <div class="image">
+                            <picture *ngIf="boxType.id == 'box_01'">
+                                <source srcset="/assets/images/boxes/box01.webp" type="image/webp" height="100%" width="100%">
+                                <source srcset="/assets/images/boxes/box01.jpg" type="image/jpeg" height="100%" width="100%">
+                                <img src="/assets/images/boxes/box01.jpg" alt="Basic" height="100%" width="100%">
+                            </picture>
+                            <picture *ngIf="boxType.id == 'box_02'">
+                                <source srcset="/assets/images/boxes/box02.webp" type="image/webp" height="100%" width="100%">
+                                <source srcset="/assets/images/boxes/box02.jpg" type="image/jpeg" height="100%" width="100%">
+                                <img src="/assets/images/boxes/box02.jpg" alt="Plus" height="100%" width="100%">
+                            </picture>
+                            <picture *ngIf="boxType.id == 'box_03' || boxType.id == 'box_13'">
+                                <source srcset="/assets/images/boxes/box03.webp" type="image/webp" height="100%" width="100%">
+                                <source srcset="/assets/images/boxes/box03.jpg" type="image/jpeg" height="100%" width="100%">
+                                <img src="/assets/images/boxes/box03.jpg" alt="Complete" height="100%" width="100%">
+                            </picture>
+                            <h5 class="bottom-right brand-white">{{boxType.name}}</h5>
+                        </div>
+
+                        <div style="padding: 15px;">
+                            <div class="row">
+                                <p class="col-10 d-flex justify-content-start">
+                                    {{'order_box.review_summary_product_quantity' | translate}}
+                                </p>
+                                <p class="col-2 d-flex justify-content-end">
+                                    {{order.productQuantity}}
+                                </p>
+                            </div>
+                            <!-- Pads -->
+                            <div class="row">
+                                <p *ngIf="order.products?.pads" class="col-12 d-flex justify-content-start">
+                                    {{'order_box.review_summary_pads_header' | translate}}
+                                </p>
+                            </div>
+                            <div class="row" *ngFor=" let product of order.products?.pads; let i = index">
+                                <p class="col-10 d-flex justify-content-start">
+                                    {{product.brand}} - {{product.name}}
+                                </p>
+                                <p class="col-2 d-flex justify-content-end">{{product.amount}}</p>
+                            </div>
+                            <!-- Extra pads -->
+                            <div class="row">
+                                <p *ngIf="order.products?.extraProducts?.pads"
+                                    class="col-12 d-flex justify-content-start">
+                                    Extra {{'order_box.review_summary_pads_header' | translate}}
+                                </p>
+                            </div>
+                            <div class="row"
+                                *ngFor=" let product of order.products?.extraProducts?.pads; let i = index">
+                                <p class="col-10 d-flex justify-content-start">
+                                    {{product.brand}} - {{product.name}}
+                                </p>
+                                <p class="col-2 d-flex justify-content-end">{{product.amount}}</p>
+                            </div>
+                            <!-- Tampons -->
+                            <div class="row">
+                                <p *ngIf="order.products?.tampons" class="col-12 d-flex justify-content-start">
+                                    {{'order_box.review_summary_tampon_header' | translate}}
+                                </p>
+                            </div>
+                            <div class="row" *ngFor=" let product of order.products?.tampons; let i = index">
+                                <p class="col-10 d-flex justify-content-start">
+                                    {{product.brand}} - {{product.name}}
+                                </p>
+                                <p class="col-2 d-flex justify-content-end">{{product.amount}}</p>
+                            </div>
+                            <!-- Extra tampons -->
+                            <div class="row">
+                                <p *ngIf="order.products?.extraProducts?.tampons"
+                                    class="col-12 d-flex justify-content-start">
+                                    Extra {{'order_box.review_summary_tampon_header' | translate}}
+                                </p>
+                            </div>
+                            <div class="row"
+                                *ngFor=" let product of order.products?.extraProducts?.tampons; let i = index">
+                                <p class="col-10 d-flex justify-content-start">
+                                    {{product.brand}} - {{product.name}}
+                                </p>
+                                <p class="col-2 d-flex justify-content-end">{{product.amount}}</p>
+                            </div>
+                            <!-- Liners -->
+                            <div class="row">
+                                <p *ngIf="order.products?.liners" class="col-12 d-flex justify-content-start">
+                                    {{'order_box.review_summary_liners_header' | translate}}
+                                </p>
+                            </div>
+                            <div class="row" *ngFor=" let product of order.products?.liners; let i = index">
+                                <p class="col-10 d-flex justify-content-start">
+                                    {{product.brand}} - {{product.name}}
+                                </p>
+                                <p class="col-2 d-flex justify-content-end">{{product.amount}}</p>
+                            </div>
+                            <!-- Extra Liners -->
+                            <div class="row">
+                                <p *ngIf="order.products?.extraProducts?.liners"
+                                    class="col-12 d-flex justify-content-start">
+                                    Extra {{'order_box.review_summary_liners_header' | translate}}
+                                </p>
+                            </div>
+                            <div class="row"
+                                *ngFor=" let product of order.products?.extraProducts?.liners; let i = index">
+                                <p class="col-10 d-flex justify-content-start">
+                                    {{product.brand}} - {{product.name}}
+                                </p>
+                                <p class="col-2 d-flex justify-content-end">{{product.amount}}</p>
+                            </div>
+                            <!-- Preferences -->
+                            <div class="row">
+                                <p *ngIf="order.products?.preferences" class="col-12 d-flex justify-content-start">
+                                    {{'order_box.personalise_preference_header' | translate}}:
+                                </p>
+                            </div>
+                            <div class="row" *ngIf="order.products?.preferences">
+                                <p class="col-5 d-flex justify-content-start"
+                                    *ngIf="order?.products.preferences.chocolate[0]!= 'none'">
+                                    {{'order_box.personalise_preference_chocolate' | translate}}
+                                </p>
+                                <div class="col-7" *ngIf="order?.products.preferences.chocolate[0] != 'none'">
+                                    <div class="d-flex justify-content-end"
+                                        *ngFor="let item of order?.products.preferences.chocolate; let i = index">
+                                        <p *ngIf="item == 'no_pref'" style="text-align:right;">
+                                            {{'order_box.personalise_preference_no_preference' | translate}}
+                                        </p>
+                                        <p *ngIf="item == 'none'" style="text-align:right;">
+                                            {{'order_box.personalise_preference_chocolate_none' | translate}}
+                                        </p>
+                                        <p *ngIf="item.name" style="text-align:right;">{{item.name}}</p>
+                                    </div>
+                                </div>
+                                <p class="col-5 d-flex justify-content-start"
+                                    *ngIf="order?.products.preferences.healthbar[0] != 'none'">
+                                    {{'order_box.personalise_preference_healthbar' | translate}}
+                                </p>
+                                <div class="col-7" *ngIf="order?.products.preferences.healthbar[0] != 'none'">
+                                    <div class="d-flex justify-content-end"
+                                        *ngFor="let item of order?.products.preferences.healthbar; let i = index">
+                                        <p *ngIf="item == 'no_pref'" style="text-align:right;">
+                                            {{'order_box.personalise_preference_no_preference' | translate}}
+                                        </p>
+                                        <p *ngIf="item.name" style="text-align:right;">{{item.name}}</p>
+                                    </div>
+                                </div>
+                                <p class="col-5 d-flex justify-content-start"
+                                    *ngIf="order?.products.preferences.granola[0] != 'none'">
+                                    {{'order_box.personalise_preference_granola' | translate}}
+                                </p>
+                                <div class="col-7" *ngIf="order?.products.preferences.granola[0] != 'none'">
+                                    <div class="d-flex justify-content-end"
+                                        *ngFor="let item of order?.products.preferences.granola; let i = index">
+                                        <p *ngIf="item == 'no_pref'" style="text-align:right;">
+                                            {{'order_box.personalise_preference_no_preference' | translate}}
+                                        </p>
+                                        <p *ngIf="item.name" style="text-align:right;">{{item.name}}</p>
+                                    </div>
+                                </div>
+                                <p class="col-5 d-flex justify-content-start">
+                                    {{'order_box.personalise_preference_skin' | translate}}</p>
+                                <div class="col-7">
+                                    <div class="d-flex justify-content-end">
+                                        <p *ngIf="order.products?.preferences.skinType == 'normal'"
+                                            style="text-align:right;">
+                                            {{'products.skin_type_normal' | translate}}
+                                        </p>
+                                        <p *ngIf="order.products?.preferences.skinType == 'mixed'"
+                                            style="text-align:right;">
+                                            {{'products.skin_type_mixed' | translate}}
+                                        </p>
+                                        <p *ngIf="order.products?.preferences.skinType == 'dry'"
+                                            style="text-align:right;">
+                                            {{'products.skin_type_dry' | translate}}
+                                        </p>
+                                        <p *ngIf="order.products?.preferences.skinType == 'oil'"
+                                            style="text-align:right;">
+                                            {{'products.skin_type_oil' | translate}}
+                                        </p>
+                                        <p *ngIf="order.products?.preferences.skinType == 'no_pref'"
+                                            style="text-align:right;">
+                                            {{'order_box.personalise_preference_no_preference' | translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p class="col-6 d-flex justify-content-start">
+                                    {{'order_box.review_summary_delivery_date' | translate}}
+                                </p>
+                                <p class="col-6 d-flex justify-content-end">
+                                    <span *ngIf="order.startDeliveryDate">
+                                        {{order.startDeliveryDate | date:'dd-MM-yy'}}
+                                    </span>
+                                    <span *ngIf="!order.startDeliveryDate">
+                                        ----
+                                    </span>
+                                </p>
+                                <p class="col-6 d-flex justify-content-start" *ngIf="!freeBoxClaimed && !trialBox">
+                                    {{'order_box.review_summary_days_apart' | translate}}
+                                </p>
+                                <p class="col-6 d-flex justify-content-end" *ngIf="!freeBoxClaimed && !trialBox">
+                                    <span *ngIf="!numberOfWeeks && order.deliveryDaysApart>0">
+                                        {{order.deliveryDaysApart}}
+                                        {{'order_box.delivery_days_apart_select' | translate}}
+                                    </span>
+                                    <span *ngIf="!numberOfWeeks && order.deliveryDaysApart==0">
+                                        ----
+                                    </span>
+                                    <span *ngIf="numberOfWeeks">
+                                        {{numberOfWeeks}} {{'order_box.delivery_weeks_apart_select' | translate}}
+                                    </span>
+                                </p>
+                                <!-- <p class="col-6 d-flex justify-content-start" *ngIf="!freeBoxClaimed">
+                                    {{'order_box.review_summary_payment_plan' | translate}}
+                                </p>
+                                <p class="col-6 d-flex justify-content-end" *ngIf="!freeBoxClaimed">
+                                    <span *ngIf="order.paymentPlan == 1">
+                                        {{'order_box.review_summary_payment_plan_monthly' | translate}}
+                                    </span>
+                                    <span *ngIf="order.paymentPlan > 1">{{order.paymentPlan}}
+                                        {{'order_box.review_summary_payment_plan_month' | translate}}
+                                    </span>
+                                    <span *ngIf="order.paymentPlan == 0">----</span>
+                                </p> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div *ngIf="isMobile && sectionSelected != 'pick-box'" class="float">
+    <div class="row no-gutters">
+        <!-- Go back (on free box) -->
+        <div *ngIf="sectionSelected != 'delivery' && sectionSelectedIndex == 1 && freeBoxClaimed"
+            class="col-5 p-0">
+            <button class="button-primary-light w-100" routerLink="/account/invite">
+                {{'login.forgot_password_go_back' | translate}}
+            </button>
+        </div>
+        <!-- Previous -->
+        <div *ngIf="!freeBoxClaimed || sectionSelectedIndex != 1 && freeBoxClaimed"
+            class="col-5 p-0">
+            <button class="button-primary-light w-100" (click)="goToPage(false, sectionSelectedIndex)">
+                {{'order_box.previous_button' | translate}}
+            </button>
+        </div>
+        <!-- Next -->
+        <div *ngIf="sectionSelected != 'delivery'" class="col-5 p-0">
+            <button class="box-selector w-100" (click)="goToPage(true, sectionSelectedIndex)"
+                [disabled]="sectionSelected=='personalise' && order.productQuantity == 0">
+                {{'order_box.next_button' | translate}}
+            </button>
+        </div>
+        <!-- Checkout (on review) -->
+        <div *ngIf="sectionSelected == 'delivery'" class="col-5 p-0">
+            <button class="box-selector w-100" (click)="goToPage(true, sectionSelectedIndex)">
+                {{'order_box.review_summary_checkout' | translate}}
+            </button>
+        </div>
+        <!-- Overview -->
+        <div *ngIf="sectionSelected != 'review'" class="col-2 p-0">
+            <button class="overview w-100 h-100" (click)="openBottomSheet()">
+                <i class="fas fa-shopping-basket"></i>
+            </button>
+        </div>
+    </div>
+</div>

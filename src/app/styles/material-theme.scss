@@ -1,0 +1,150 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "~@angular/material/theming";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$DeMonth-primary: mat-palette($mat-red, 200, 100, 300);
+$DeMonth-accent: mat-palette($mat-red, 300, 200, 400);
+
+// The warn palette is optional (defaults to red).
+$DeMonth-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$DeMonth-theme: mat-light-theme($DeMonth-primary, $DeMonth-accent, $DeMonth-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($DeMonth-theme);
+
+.mat-raised-button {
+    &.mat-button-focus-overlay {
+        background-color: transparent;
+    }
+    &:hover,
+    &:active,
+    &:focus {
+        //background-color: mat-color($DeMonth-primary, 300);
+        border-color: transparent;
+        border-width: 0px;
+    }
+    &:disabled {
+        cursor: not-allowed !important;
+    }
+    &.mat-primary {
+        color: white;
+        border-color: transparent;
+    }
+    &.mat-accent {
+        color: mat-color($DeMonth-accent);
+    }
+}
+
+.mat-button {
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+        color: mat-color($DeMonth-accent);
+        background-color: transparent;
+        border-color: mat-color($DeMonth-accent);
+        border-width: 0px;
+    }
+    &.mat-primary {
+        border-color: transparent;
+    }
+    &.mat-accent {
+        color: mat-color($DeMonth-accent);
+    }
+}
+
+.mat-rounded-button {
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+        color: white;
+        background-color: mat-color($DeMonth-accent);
+        border-color: mat-color($DeMonth-accent);
+        border-width: 0px;
+        border-radius: 16px;
+    }
+    &.mat-primary {
+        border-color: transparent;
+    }
+    &.mat-accent {
+        color: mat-color($DeMonth-accent);
+    }
+}
+
+.mat-icon-button {
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+        color: mat-color($DeMonth-accent);
+        background-color: transparent;
+        border-color: mat-color($DeMonth-accent);
+        border-width: 0px;
+    }
+    &.mat-primary {
+        border-color: transparent;
+    }
+    &.mat-accent {
+        color: mat-color($DeMonth-accent);
+    }
+}
+
+.mat-menu-item {
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+        //color: mat-color($DeMonth-accent);
+        background-color: transparent;
+        border-color: mat-color($DeMonth-accent);
+        border-width: 0px;
+    }
+    &.mat-primary {
+        border-color: transparent;
+    }
+    &.mat-accent {
+        color: mat-color($DeMonth-accent);
+    }
+}
+
+.mat-fab,
+.mat-mini-fab {
+    @include mat-elevation(0);
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+        border-color: transparent;
+        border-width: 0px;
+    }
+}
+
+.mat-chip-list {
+    pointer-events: none;
+}
+
+.mat-badge-content {
+    top: -5px !important;
+    right: -5px !important;
+    background-color: black;
+    color: white;
+}
+
+.mat-radio-button {
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+    color: #545454;
+}

@@ -1,0 +1,104 @@
+<!-- Default dialog -->
+<h2 *ngIf="!savingState" mat-dialog-title>{{'account.subscription_cycle_change' | translate}}</h2>
+<div *ngIf="!savingState" mat-dialog-content>
+    <p>{{'order_box.delivery_days_apart_text' | translate}}
+        <i class="ml-2 fas fa-info-circle" #tooltip="matTooltip" (click)="tooltip.show()"
+            matTooltip="{{'order_box.delivery_days_apart_tooltop' | translate}}"></i><br>
+        {{'account.subscription_changes' | translate}}
+    </p>
+    <form [formGroup]="formGroup">
+        <div class="mt-3 row">
+            <div class="col-6">
+                <mat-form-field *ngIf="!customDays" class="w-100">
+                    <mat-select placeholder="{{'order_box.delivery_days_apart_placeholder' | translate}}"
+                        formControlName="selectedDays" [(ngModel)]="numberOfDays"
+                        (ngModelChange)="onSelectChanged('days', $event)">
+                        <mat-option *ngFor="let number of noDays" [value]="number">
+                            {{number}} {{'order_box.delivery_days_apart_select' | translate}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{'order_box.delivery_days_apart_error' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field *ngIf="customDays" class="w-100">
+                    <mat-label>{{'order_box.delivery_days_apart_placeholder' | translate}}</mat-label>
+                    <input matInput type="number" formControlName="selectedDays" [errorStateMatcher]="matcher" min="14"
+                        max="365" [(ngModel)]="numberOfDays" (ngModelChange)="onSelectChanged('days', $event)">
+                    <mat-hint>{{'order_box.delivery_days_apart_custom_hint' | translate}}</mat-hint>
+                    <mat-error *ngIf="formGroup.get('selectedDays').errors?.required">
+                        {{'order_box.delivery_days_apart_error' | translate}}</mat-error>
+                    <mat-error *ngIf="formGroup.get('selectedDays').errors?.min">
+                        {{'order_box.delivery_days_apart_error_min' | translate}}</mat-error>
+                    <mat-error *ngIf="formGroup.get('selectedDays').errors?.max">
+                        {{'order_box.delivery_days_apart_error_max' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-1 p-0">
+                <p class="mt-3 text-center">{{'order_box.delivery_days_or' | translate}}</p>
+            </div>
+            <div class="col-5">
+                <mat-form-field style="width: 100%;">
+                    <mat-select placeholder="{{'order_box.delivery_weeks_apart_placeholder' | translate}}"
+                        formControlName="selectedWeeks" [(ngModel)]="numberOfWeeks"
+                        (ngModelChange)="onSelectChanged('weeks', $event)">
+                        <mat-option *ngFor="let number of noWeeks" [value]="number">
+                            {{number}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{'order_box.delivery_days_apart_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <small *ngIf="!customDays" class="link" (click)="customDays=true">
+            {{'order_box.delivery_days_apart_hint' | translate}}
+        </small>
+    </form>
+    <p class="mt-3">{{'account.subscription_cycle_change_date' | translate}}</p>
+    <mat-form-field class="mt-2 w-100">
+        <input matInput [matDatepicker]="picker" [matDatepickerFilter]="nonDeliveryFilter" [min]="minDate"
+            [(ngModel)]="datePicker" placeholder="{{'account.subscription_cycle_change_date_placeholder' | translate}}"
+            (dateChange)="datePickerEvent('change', $event)" (click)="picker.open()" [readonly]="true">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error>{{'order_box.delivery_delivery_date_error' | translate}}</mat-error>
+    </mat-form-field>
+    <hr>
+    <p>{{'account.subscription_next_delivery' | translate}}</p>
+    <div class="row mt-2 mb-2">
+        <p class="col-5 d-flex justify-content-end">{{currentDeliveryDate | date:'dd-MM-yyyy' }}</p>
+        <i class="col-2 my-auto d-flex justify-content-center fas fa-arrow-right"></i>
+        <p *ngIf="newDeliveryDate >= minDate" class="col-5">{{newDeliveryDate | date:'dd-MM-yyyy' }}</p>
+        <p *ngIf="newDeliveryDate < minDate" class="col-5 text-warn">{{newDeliveryDate | date:'dd-MM-yyyy' }}
+        </p>
+    </div>
+    <p *ngIf="newDeliveryDate < minDate">{{'account.subscription_cycle_change_notice' | translate}}</p>
+</div>
+<!-- Saving state -->
+<h2 *ngIf="savingState && !loadingDone" mat-dialog-title>{{'account.subscription_dialog_saving' | translate}}</h2>
+<div *ngIf="savingState && !loadingDone" mat-dialog-content>
+    <div class="col-12 d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+    <p class="col-12 d-flex justify-content-center">{{'account.subscription_dialog_wait' | translate}}</p>
+</div>
+<!-- Saved state -->
+<h2 *ngIf="loadingDone" mat-dialog-title>{{'account.subscription_dialog_saved' | translate}}</h2>
+<div *ngIf="loadingDone" mat-dialog-content>
+    <div *ngIf="newNextDeliveryDate">
+        <p *ngIf="!dialogData.order.paymentDetails.isPaid">{{'account.subscription_new_startdate' | translate}}: {{ newNextDeliveryDate | date:'dd-MM-yyyy'}}</p> 
+        <p>{{'account.subscription_changes' | translate}}</p>
+        <p *ngIf="dialogData.order.paymentDetails.isPaid">{{'account.subscription_dialog_next_payment' | translate}} {{ newNextDeliveryDate | date:'d MMMM yyyy'}}.</p>
+    </div>
+    <!-- <p *ngIf="deliveryDates" class="col-12 d-flex justify-content-center">
+        {{'account.subscription_changes' | translate}}<br>
+        {{'account.subscription_dialog_next_payment' | translate}} {{ deliveryDates[0] | date:'d MMMM yyyy'}}.
+    </p> -->
+</div>
+<!-- Actions -->
+<div mat-dialog-actions style="justify-content: flex-end;">
+    <button mat-button color="primary" *ngIf="!loadingDone" (click)="onNoClick()"
+        [disabled]="savingState">{{'common.cancel_button' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="!savingState" (click)="changeDays()"
+        [disabled]="disableSubmit">{{'common.save_button' | translate}}</button>
+    <button mat-button color="primary" *ngIf="loadingDone"
+        (click)="onNoClick()">{{'common.close_button' | translate}}</button>
+</div>

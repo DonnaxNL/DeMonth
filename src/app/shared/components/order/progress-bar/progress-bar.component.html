@@ -1,0 +1,65 @@
+<!-- Progress -->
+<div class="mt-3 nav justify-content-center">
+    <li class="nav-item p-2" *ngIf="!hideBoxPicker">
+        <div class="section">
+            <span class="fa-stack">
+                <i *ngIf="sectionSelected=='pick-box'" class="fas fa-circle fa-stack-2x primary-color-dark"></i>
+                <i *ngIf="sectionSelected!='pick-box'" class="fas fa-circle fa-stack-2x primary-color"></i>
+                <i class="fas fa-box-open fa-stack-1x fa-inverse"></i>
+            </span>
+            <p *ngIf="!isMobile && sectionSelected=='pick-box'" class="ml-2 mt-2 my-auto">
+                {{'order_box.pick_box_header' | translate}}
+            </p>
+        </div>
+    </li>
+    <li class="my-auto" *ngIf="!hideBoxPicker">
+        <i class="fas fa-angle-right mt-1"></i>
+    </li>
+    <li class="nav-item p-2">
+        <div class="section">
+            <span class="fa-stack">
+                <i *ngIf="sectionSelected=='personalise' || sectionSelected=='preferences'"
+                    class="fas fa-circle fa-stack-2x primary-color-dark"></i>
+                <i *ngIf="sectionSelected!='personalise' && sectionSelected!='preferences'"
+                    class="fas fa-circle fa-stack-2x primary-color"></i>
+                <i class="fas fa-sliders-h fa-stack-1x fa-inverse"></i>
+            </span>
+            <p *ngIf="!isMobile && sectionSelected=='personalise'" class="ml-2 mt-2 my-auto">
+                {{'order_box.personalise_header' | translate}}
+            </p>
+            <p *ngIf="!isMobile && sectionSelected=='preferences'" class="ml-2 mt-2 my-auto">
+                {{'order_box.personalise_preference_header' | translate}}
+            </p>
+        </div>
+    </li>
+    <li class="my-auto">
+        <i class="fas fa-angle-right mt-1"></i>
+    </li>
+    <li class="nav-item p-2">
+        <div class="section">
+            <span class="fa-stack">
+                <i *ngIf="sectionSelected=='delivery'" class="fas fa-circle fa-stack-2x primary-color-dark"></i>
+                <i *ngIf="sectionSelected!='delivery'" class="fas fa-circle fa-stack-2x primary-color"></i>
+                <i class="fas fa-box-open fa-stack-1x fa-inverse"></i>
+            </span>
+            <p *ngIf="!isMobile && sectionSelected=='delivery'" class="ml-2 mt-2 my-auto">
+                {{'order_box.delivery_stepper_header' | translate}}
+            </p>
+        </div>
+    </li>
+    <li class="my-auto">
+        <i class="fas fa-angle-right mt-1"></i>
+    </li>
+    <li class="nav-item p-2">
+        <div class="section">
+            <span class="fa-stack">
+                <i *ngIf="sectionSelected=='checkout'" class="fas fa-circle fa-stack-2x primary-color-dark"></i>
+                <i *ngIf="sectionSelected!='checkout'" class="fas fa-circle fa-stack-2x primary-color"></i>
+                <i class="fas fa-shopping-basket fa-stack-1x fa-inverse"></i>
+            </span>
+            <p *ngIf="!isMobile && sectionSelected=='checkout'" class="ml-2 mt-2 my-auto">
+                {{'checkout.title' | translate}}
+            </p>
+        </div>
+    </li>
+</div>

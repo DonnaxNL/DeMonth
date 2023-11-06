@@ -1,0 +1,22 @@
+.img {
+    min-height: 10rem;
+    background: url("/assets/images/cover-temp.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.button {
+    width: 100%;
+    outline: none;
+    border: 4px solid #474747;
+    background-color: #474747;
+    color: white;
+    padding: 10px;
+    font-family: "Futura", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.full-width {
+    width: 100%;
+}

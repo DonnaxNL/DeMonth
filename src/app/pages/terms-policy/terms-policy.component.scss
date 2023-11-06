@@ -1,0 +1,20 @@
+.header-spacing {
+    margin-top: 2rem;
+}
+
+.active {
+    color: #fbc3bc;
+    //font-weight: bold !important;
+}
+
+.link:hover {
+    color: #f78274;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+@media (max-width: 480px) {
+    .header-spacing {
+        margin-top: 0px;
+    }
+}

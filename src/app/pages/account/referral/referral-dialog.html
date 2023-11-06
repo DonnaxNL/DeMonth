@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>{{'account.referral_dialog_title' | translate}}</h2>
+<div mat-dialog-content>
+  <p>{{'account.referral_dialog_current_subscription' | translate}} {{dialogData.order.boxName}} ({{dialogData.order.orderReference}})</p>
+  <p>{{'account.referral_dialog_product_amount' | translate}} {{dialogData.order.productQuantity}}</p>
+  <hr>
+  <p>{{'account.referral_confirm' | translate}}</p>
+</div>
+<div mat-dialog-actions style="justify-content: flex-end;">
+  <button mat-button [mat-dialog-close]="null">{{'common.close_button' | translate}}</button>
+  <button mat-button [mat-dialog-close]="false">{{'common.no_button' | translate}}</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'common.yes_button' | translate}}</button>
+</div>

@@ -1,0 +1,21 @@
+<h3 mat-dialog-title>
+  {{dialogData.dialogInfo.brand}} - {{ dialogData.dialogInfo.name }} {{ dialogData.dialogInfo.type}}
+</h3>
+<div mat-dialog-content>
+  <div class="row">
+    <!-- <div class="col-md-4">
+        <img [src]="modalProductImage" width="100%">
+    </div> -->
+    <div class="col-12">
+      <div *ngFor="let s of dialogData.dialogInfo.description.split('\n')" class="p-0 m-0">
+        <p>{{s}}</p>
+        <p *ngIf="s.length == 0">
+          <br />
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions style="justify-content: flex-end;">
+  <button mat-button (click)="onNoClick()">{{'common.close_button' | translate}}</button>
+</div>

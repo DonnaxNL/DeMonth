@@ -1,0 +1,129 @@
+<div class="referral">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <h1 class="brand-white">{{'referral.title' | translate}}</h1>
+                <h5 class="brand-white">{{'referral.subtitle' | translate}}</h5>
+                <!-- <p>Zo zorg jij dat je vriendinnen (ook) goed voor zichzelf blijven zorgen met een box vol self-care. Geen enkele superheldin kan maar door blijven gaan zonder zo nu en dan tijd te nemen om op te laden.<br>
+                    Aan wie van je vriendinnen zit jij al meteen te denken?
+                </p> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4 text-center">
+    <h4 class="mb-4">
+        {{'referral.text' | translate}}
+    </h4>
+    <div *ngIf="!currentUser">
+        <h4>{{'referral.get_link' | translate}}</h4>
+        <div class="d-flex justify-content-center">
+            <div style="max-width: 500px;">
+                <auth-component [isLogin]=false [hideHeader]=true [noCard]=true></auth-component>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="currentUserData && !dataLoaded">
+        <h4 class="mb-4">{{'account.finalise_title' | translate}}</h4>
+        <form-component #form [appearance]="'outline'" [formType]="'standard'"
+            [currentUserData]="currentUserData" [userAddress]="currentUserData?.address" (formGroupEvent)="setFormGroup($event)">
+        </form-component>
+        <div class="col-md-5">
+            <div class="example-container">
+                <button class="box-selector mb-4" (click)="saveData()">
+                    {{'account.finalise_button' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="currentUserData && dataLoaded">
+        <div class="row mt-4">
+            <div class="col-md-6 mb-2">
+                <div class="card">
+                    <div class="infoblock">
+                        <h5>{{'referral.share_link' | translate}}</h5>
+                        <div *ngIf="dataLoaded">
+                            <mat-form-field class="textfield">
+                                <input matInput [(ngModel)]="referralLink">
+                                <button matSuffix mat-icon-button [(cdkCopyToClipboard)]="referralLink"
+                                    (click)="tooltip.show()" #tooltip="matTooltip" matTooltip="Kopiëren">
+                                    <mat-icon>link</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="infoblock">
+                        <h5>{{'referral.share_social' | translate}}</h5>
+                        <div class="row mr-2 ml-2 d-flex justify-content-center">
+                            <iframe [src]="safeFacebookUrl" width="80" height="28" style="border:none;overflow:hidden"
+                                scrolling="no" frameborder="0" allowTransparency="true"
+                                allow="encrypted-media"></iframe>
+                            <iframe allowtransparency="true" frameborder="0" scrolling="no" [src]="safeTwitterUrl"
+                                width="80" height="28"></iframe>
+                            <div class="whatsapp-btn" (click)="openWhatsApp()">
+                                <i class="fab fa-whatsapp brand-white"></i> {{'common.share_button' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Features Grid -->
+    <section class="features-icons text-center">
+        <div class="container">
+            <!-- <h1 class="mb-5" style="color:#F8BEB8">Why pick us?</h1> -->
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="features-icons-item mx-auto mb-4 mb-lg-0 mb-lg-3">
+                        <div class="row">
+                            <div class="features-icons-icon col-3 col-lg-12">
+                                <i class="fas fa-link primary-color"></i>
+                            </div>
+                            <div class="col-9 col-lg-12">
+                                <h4>{{'referral.step_1' | translate}}</h4>
+                                <p class="mb-0">
+                                    {{'referral.step_1_text' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="features-icons-item mx-auto mb-4 mb-lg-0 mb-lg-3">
+                        <div class="row">
+                            <div class="features-icons-icon col-3 col-lg-12">
+                                <i class="fas fa-user-check primary-color"></i>
+                            </div>
+                            <div class="col-9 col-lg-12">
+                                <h4>{{'referral.step_2' | translate}}</h4>
+                                <p class="mb-0">
+                                    {{'referral.step_2_text' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                        <div class="row">
+                            <div class="features-icons-icon col-3 col-lg-12">
+                                <i class="fas fa-box primary-color"></i>
+                            </div>
+                            <div class="col-9 col-lg-12">
+                                <h4>{{'referral.step_3' | translate}}</h4>
+                                <p class="mb-0">
+                                    {{'referral.step_3_text' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

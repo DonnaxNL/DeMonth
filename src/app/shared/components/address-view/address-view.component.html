@@ -1,0 +1,40 @@
+<div *ngIf="userAddress" style="text-align: left;">
+    <!-- Default -->
+    <div *ngIf="userAddress?.country != 'uk'">
+        <p>
+            {{userAddress?.firstName}}
+            <span *ngIf="userAddress?.lastNamePrefix">
+                {{userAddress?.lastNamePrefix}}
+            </span>
+            {{userAddress?.lastName}}
+        </p>
+        <p *ngIf="userAddress?.streetOther">{{userAddress?.streetOther}}</p>
+        <p>{{userAddress?.street}} {{userAddress?.houseNo}}</p>
+        <p>{{userAddress?.postalCode}} {{userAddress?.city}}</p>
+        <p *ngIf="userAddress?.country != 'nl'">{{userAddress?.country | country}}</p>
+    </div>
+
+    <!-- UK Shipping Format -->
+    <div *ngIf="userAddress?.country == 'uk'">
+        <p>
+            {{userAddress?.firstName}}
+            <span *ngIf="userAddress?.lastNamePrefix">
+                {{userAddress?.lastNamePrefix}}
+            </span>
+            {{userAddress?.lastName}}
+        </p>
+        <p>{{userAddress?.houseNo}} {{userAddress?.street}}</p>
+        <p *ngIf="userAddress?.streetOther">{{userAddress?.streetOther}}</p>
+        <p>{{userAddress?.city.toUpperCase()}}</p>
+        <p>{{userAddress?.postalCode}}</p>
+        <p>{{userAddress?.country | country}}</p>
+    </div>
+</div>
+<div *ngIf="!userAddress">
+    <ngx-skeleton-loader class="w-100" [theme]="{ width: '100%', height: '16px', 'margin-bottom': '2px'}">
+    </ngx-skeleton-loader><br>
+    <ngx-skeleton-loader class="w-100" [theme]="{ width: '75%', height: '16px', 'margin-bottom': '2px'}">
+    </ngx-skeleton-loader><br>
+    <ngx-skeleton-loader class="w-100" [theme]="{ width: '85%', height: '16px', 'margin-bottom': '2px'}">
+    </ngx-skeleton-loader>
+</div>

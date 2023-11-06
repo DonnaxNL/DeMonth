@@ -1,0 +1,172 @@
+<section *ngIf="referralCheck" class="referral" routerLink="/order-box">
+  <p class="brand-white">{{ 'referral.banner' | translate }} {{referralPerson | titlecase}}!
+  </p>
+</section>
+
+<!-- Eye catcher -->
+<section class="showcase">
+  <div class="container-fluid p-0">
+    <div class="row no-gutters">
+      <div class="col-md-4 col-lg-3 my-auto showcase-text text-center">
+        <h1 [innerHTML]="'home.catch_phrase' | translate"></h1>
+        <button class="mt-2 button-black" routerLink="/order-box">{{ 'home.subscribe_button' | translate }}</button>
+      </div>
+      <div class="col-md-8 col-lg-9 showcase-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Grid -->
+<section class="features-icons text-center">
+  <h1 class="mb-4">
+    {{ 'how_it_works.title' | translate }}
+    <span *ngIf="!isMobile" class="link-sm" href="/how-it-works" routerLink="/how-it-works">
+      {{ 'home.learn_more' | translate }}
+    </span>
+  </h1>
+  <div class="container">
+    <!-- <h1 class="mb-5" style="color:#F8BEB8">Why pick us?</h1> -->
+    <div class="row">
+      <div class="col-md-6 col-lg-4">
+        <div class="features-icons-item mx-auto mb-4 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="features-icons-icon col-3 col-lg-12">
+              <i class="fas fa-sliders-h primary-color"></i>
+            </div>
+            <h5 class="col-9 col-lg-12 mb-0 my-auto">{{ 'home.features_customise' | translate }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="features-icons-item mx-auto mb-4 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="features-icons-icon col-3 col-lg-12">
+              <i class="far fa-calendar-alt primary-color"></i>
+            </div>
+            <h5 class="col-9 col-lg-12 mb-0 my-auto">{{ 'home.features_dates' | translate }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-4">
+        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+          <div class="row">
+            <div class="features-icons-icon col-3 col-lg-12">
+              <i class="fas fa-truck primary-color"></i>
+            </div>
+            <h5 class="col-9 col-lg-12 mb-0 my-auto">{{ 'home.features_delivery' | translate }}</h5>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isMobile" class="col-12 mt-3">
+        <p class="link" href="/how-it-works" routerLink="/how-it-works">{{ 'home.learn_more' | translate }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pick your box -->
+<order-pickbox [isMobile]="isMobile"></order-pickbox>
+<!-- <div style="height: 4rem;"></div> -->
+<!-- <section class="media-section text-center">
+  <div>
+    <h1 style="color:white">In de media</h1>
+    <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig" (afterChange)="afterChange($event)">
+      <div ngxSlickItem *ngFor="let slide of slides" class="slide">
+        <img src="{{ slide.img }}" alt="" height="150px" style="padding: 25px;" (click)="openLink(slide)">
+      </div>
+    </ngx-slick>
+  </div>
+</section> -->
+
+<!-- <order-pickbox-trial [isMobile]="isMobile"></order-pickbox-trial> -->
+
+<!-- Reasons Grid -->
+<section class="reasons-icons text-center">
+  <h1 class="brand-white p-0">
+    {{ 'home.reasons_header' | translate }}
+    <span *ngIf="!isMobile" class="link-sm-white" href="/about" routerLink="/about">
+      {{ 'home.learn_more' | translate }}
+    </span>
+  </h1>
+  <h5 class="mb-4 pl-4 pr-4 brand-white">{{ 'home.reasons_text' | translate }}</h5>
+  <div class="mt-4 container">
+    <div class="row">
+      <div class="col-md-6 col-lg-4">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-box-open"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h4 style="text-decoration: underline; color: white;">{{'about.reasons_value_header' | translate}}</h4>
+              <p class="mb-0 brand-white">{{'about.reasons_value_text' | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h4 style="text-decoration: underline; color: white;">{{'about.reasons_sustainability_header' | translate}}</h4>
+              <p class="mb-0 brand-white">{{'about.reasons_sustainability_text' | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-4">
+        <div class="reasons-icons-item mx-auto mb-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h4 style="text-decoration: underline; color: white;">{{'about.reasons_trust_header' | translate}}</h4>
+              <p class="mb-0 brand-white">{{'about.reasons_trust_text' | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-6 col-lg-6">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <i class="fas fa-sliders-h"></i>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h4 style="text-decoration: underline; color: white;">{{'about.reasons_customise_header' | translate}}</h4>
+              <p class="mb-0 brand-white" [innerHTML]="'about.reasons_customise_text' | translate"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="reasons-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="row">
+            <div class="reasons-icons-icon col-3 col-lg-12">
+              <mat-icon matListIcon>loyalty</mat-icon>
+            </div>
+            <div class="col-9 col-lg-12">
+              <h4 style="text-decoration: underline; color: white;">{{'about.reasons_points_header' | translate}}</h4>
+              <p class="mb-0 brand-white" [innerHTML]="'about.reasons_points_text' | translate"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isMobile" class="col-12">
+        <div class="row">
+          <div class="reasons-icons-icon col-3 col-lg-12"></div>
+          <div class="col-9 col-lg-12">
+            <p class="link-white" href="/about" routerLink="/about">{{ 'home.learn_more' | translate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

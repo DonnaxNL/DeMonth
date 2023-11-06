@@ -1,0 +1,45 @@
+.block {
+    border: 1px solid #E5E5E5;
+}
+
+.points {
+    height: 100%;
+    position: relative;
+    background-color: #fbc3bc;
+    // background: url("/assets/images/banner.png") no-repeat center center;
+    background-size: cover;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+.points .container {
+    height: 100%;
+}
+
+.text {
+    padding-left: 15px;
+}
+
+.bottom {
+    padding-right: 15px;
+    position:absolute; 
+    bottom: 0px; 
+    width: 100%;
+}
+
+mat-nav-list.list-horizontal {
+    padding: 0;
+    .mat-list-item {
+        display: inline-block;
+        height: auto;
+        width: auto;
+    }
+}
+
+// .default {
+//     color: white;
+// }
+
+.active {
+    color: #fbc3bc;
+}

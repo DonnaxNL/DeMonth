@@ -1,0 +1,158 @@
+<form [formGroup]="formGroup">
+    <!-- Name row -->
+    <div class="row">
+        <div class="col-12 col-md-5">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_first_name_label' | translate}}</mat-label>
+                    <input matInput class="input-upper" formControlName="firstName"
+                        [(ngModel)]="userAddress.firstName" (change)="onChangeInput()"
+                        [errorStateMatcher]="matcher" required>
+                    <mat-error>{{'common.form_default_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-4 col-md-2 npl">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_last_name_prefix_label' | translate}}</mat-label>
+                    <input matInput formControlName="lastNamePrefix"
+                        [(ngModel)]="userAddress.lastNamePrefix" (change)="onChangeInput()">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-8 col-md-5 npls">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_last_name_label' | translate}}</mat-label>
+                    <input matInput class="input-upper" formControlName="lastName"
+                        [(ngModel)]="userAddress.lastName" (change)="onChangeInput()"
+                        [errorStateMatcher]="matcher" required>
+                    <mat-error>{{'common.form_default_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <!-- Address row -->
+    <div class="row">
+        <div class="col-md-9">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_address_label' | translate}}</mat-label>
+                    <input matInput class="input-upper" formControlName="street"
+                        placeholder="{{'common.form_address_placeholder' | translate}}"
+                        [(ngModel)]="userAddress.street" (change)="onChangeInput()"
+                        [errorStateMatcher]="matcher" required>
+                    <mat-error>{{'common.form_address_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-3 npl">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_house_number_label' | translate}}</mat-label>
+                    <input matInput formControlName="houseNo"
+                        placeholder="{{'common.form_house_number_placeholder' | translate}}"
+                        [(ngModel)]="userAddress.houseNo" (change)="onChangeInput()"
+                        [errorStateMatcher]="matcher" required>
+                    <mat-error>{{'common.form_house_number_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address 2 row -->
+    <div class="container p-0">
+        <mat-form-field [appearance]="appearance" class="smaller-space">
+            <mat-label>{{'common.form_address_2_label' | translate}}</mat-label>
+            <input matInput class="input-upper" formControlName="streetOther"
+                [(ngModel)]="userAddress.streetOther" (change)="onChangeInput()"
+                placeholder="{{'common.form_address_2_placeholder' | translate}}">
+        </mat-form-field>
+    </div>
+    <!-- City/Postcode row -->
+    <div class="row">
+        <div class="col-md-9">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_city_label' | translate}}</mat-label>
+                    <input matInput class="input-upper" formControlName="city"
+                        placeholder="{{'common.form_city_placeholder' | translate}}"
+                        [(ngModel)]="userAddress.city" (change)="onChangeInput()"
+                        [errorStateMatcher]="matcher" required>
+                    <mat-error>{{'common.form_city_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-3 npl">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_postal_code_label' | translate}}</mat-label>
+                    <input matInput formControlName="postalCode" #postalCode [maxLength]="currentCheck.postalCodeMaxLength"
+                        placeholder="{{'common.form_postal_code_placeholder' | translate}}"
+                        [(ngModel)]="userAddress.postalCode" (change)="onChangeInput()"
+                        [errorStateMatcher]="matcher" required>
+                    <!-- <mat-hint align="end">{{postalCode.value.length}} / 6</mat-hint> -->
+                    <mat-error *ngIf="postalFormControl.hasError('required')">
+                        {{'common.form_postal_code_error' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="postalFormControl.hasError('pattern')">
+                        {{ 'common.form_postal_code_invalid' | translate }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <!-- Country, Phone/Birth -->
+    <div class="row">
+        <div [ngClass]="rowView ? 'col-md-4' : 'col-12'">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_country_label' | translate}}</mat-label>
+                    <mat-select
+                        placeholder="{{'common.form_country_placeholder' | translate}}"
+                        formControlName="country"
+                        [(ngModel)]="userAddress.country" (ngModelChange)="onChangeInput('country')"
+                        [errorStateMatcher]="matcher" required>
+                        <mat-option *ngFor="let country of countries" [value]="country[0]">
+                            {{country[1]}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{'common.form_select_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="rowView && !currentUserData" class="col-md-8 npl">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'checkout.checkout_delivery_gift_email_label' | translate}}</mat-label>
+                    <input matInput formControlName="email" [(ngModel)]="emailAddress" (change)="onChangeInput()">
+                    <mat-error>{{'common.form_email_error' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="currentUserData" class="col-md-4 nsp">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space">
+                    <mat-label>{{'common.form_mobile_label' | translate}}</mat-label>
+                    <input matInput formControlName="mobileNo" [(ngModel)]="currentUserData.mobileNo" (change)="onChangeInput()">
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="currentUserData" class="col-md-4">
+            <div class="container p-0">
+                <mat-form-field [appearance]="appearance" class="smaller-space" (click)="picker.open()">
+                    <mat-label>{{'common.form_dob_label' | translate}}</mat-label>
+                    <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                        formControlName="birthDate" [(ngModel)]="currentUserData.birthDate" (change)="onChangeInput()">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error>{{'common.form_select_error' | translate}}</mat-error>
+                    <mat-error *ngIf="mobileNoFormControl.hasError('pattern')">
+                        {{ 'common.form_default_error' | translate }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</form>

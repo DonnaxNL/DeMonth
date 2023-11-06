@@ -1,0 +1,368 @@
+<div class="container text-center" style="padding-top: 2rem;">
+    <ng-container *ngIf="showSubLayout">
+        <div class="text-center">
+            <h2>{{'transfer.title' | translate}}</h2>
+            <div class="d-flex justify-content-center">
+                <div class="yourbox-block mb-4">
+                    <div class="yourbox-info">
+                        <mat-accordion class="mat-elevation-z0">
+                            <mat-expansion-panel [expanded]="panelOpenState" (opened)="panelOpenState = true"
+                                (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <h5 class="my-auto">Box: {{firebaseOrder.boxName}}</h5>
+                                    </mat-panel-title>
+                                    <mat-panel-description class="d-flex justify-content-end"
+                                        *ngIf="firebaseOrder.startDeliveryDate == null && !panelOpenState|| firebaseOrder.deliveryDaysApart == 0 && !panelOpenState">
+                                        <mat-icon class="text-warn">warning</mat-icon>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="p-0" style="margin-top: -30px;">
+                                    <div class="row mt-4">
+                                        <p class="col-8 d-flex justify-content-start">
+                                            {{'order_box.review_summary_product_quantity' | translate}}
+                                        </p>
+                                        <p class="col-4 d-flex justify-content-end">
+                                            {{firebaseOrder.productQuantity}}
+                                        </p>
+                                    </div>
+                                    <!-- Pads -->
+                                    <div class="row">
+                                        <p *ngIf="firebaseOrder.products?.pads"
+                                            class="col-12 d-flex justify-content-start">
+                                            {{'order_box.review_summary_pads_header' | translate}}
+                                        </p>
+                                    </div>
+                                    <div class="row"
+                                        *ngFor=" let product of firebaseOrder.products?.pads; let i = index">
+                                        <p class="col-10 d-flex justify-content-start font-weight-light">
+                                            {{product.brand}} - {{product.name}}
+                                        </p>
+                                        <p class="col-2 d-flex justify-content-end font-weight-light">{{product.amount}}
+                                        </p>
+                                    </div>
+                                    <!-- Extra pads -->
+                                    <div class="row">
+                                        <p *ngIf="firebaseOrder.products?.extraProducts?.pads"
+                                            class="col-12 d-flex justify-content-start">
+                                            Extra {{'order_box.review_summary_pads_header' | translate}}
+                                        </p>
+                                    </div>
+                                    <div class="row"
+                                        *ngFor=" let product of firebaseOrder.products?.extraProducts?.pads; let i = index">
+                                        <p class="col-10 d-flex justify-content-start font-weight-light">
+                                            {{product.brand}} - {{product.name}}
+                                        </p>
+                                        <p class="col-2 d-flex justify-content-end font-weight-light">{{product.amount}}
+                                        </p>
+                                    </div>
+                                    <!-- Tampons -->
+                                    <div class="row">
+                                        <p *ngIf="firebaseOrder.products?.tampons"
+                                            class="col-12 d-flex justify-content-start">
+                                            {{'order_box.review_summary_tampon_header' | translate}}
+                                        </p>
+                                    </div>
+                                    <div class="row"
+                                        *ngFor=" let product of firebaseOrder.products?.tampons; let i = index">
+                                        <p class="col-10 d-flex justify-content-start font-weight-light">
+                                            {{product.brand}} - {{product.name}}
+                                        </p>
+                                        <p class="col-2 d-flex justify-content-end font-weight-light">
+                                            {{product.amount}}
+                                        </p>
+                                    </div>
+                                    <!-- Extra tampons -->
+                                    <div class="row">
+                                        <p *ngIf="firebaseOrder.products?.extraProducts?.tampons"
+                                            class="col-12 d-flex justify-content-start">
+                                            Extra {{'order_box.review_summary_tampon_header' | translate}}
+                                        </p>
+                                    </div>
+                                    <div class="row"
+                                        *ngFor=" let product of firebaseOrder.products?.extraProducts?.tampons; let i = index">
+                                        <p class="col-10 d-flex justify-content-start font-weight-light">
+                                            {{product.brand}} - {{product.name}}
+                                        </p>
+                                        <p class="col-2 d-flex justify-content-end font-weight-light">
+                                            {{product.amount}}
+                                        </p>
+                                    </div>
+                                    <!-- Liners -->
+                                    <div class="row">
+                                        <p *ngIf="firebaseOrder.products?.liners"
+                                            class="col-12 d-flex justify-content-start">
+                                            {{'order_box.review_summary_liners_header' | translate}}
+                                        </p>
+                                    </div>
+                                    <div class="row"
+                                        *ngFor=" let product of firebaseOrder.products?.liners; let i = index">
+                                        <p class="col-10 d-flex justify-content-start font-weight-light">
+                                            {{product.brand}} - {{product.name}}
+                                        </p>
+                                        <p class="col-2 d-flex justify-content-end font-weight-light">{{product.amount}}
+                                        </p>
+                                    </div>
+                                    <!-- Extra Liners -->
+                                    <div class="row">
+                                        <p *ngIf="firebaseOrder.products?.extraProducts?.liners"
+                                            class="col-12 d-flex justify-content-start">
+                                            Extra {{'order_box.review_summary_liners_header' | translate}}
+                                        </p>
+                                    </div>
+                                    <div class="row"
+                                        *ngFor=" let product of firebaseOrder.products?.extraProducts?.liners; let i = index">
+                                        <p class="col-10 d-flex justify-content-start">
+                                            {{product.brand}} - {{product.name}}
+                                        </p>
+                                        <p class="col-2 d-flex justify-content-end">
+                                            {{product.amount}}
+                                        </p>
+                                    </div>
+                                    <!-- Preferences -->
+                                    <div class="row">
+                                        <p *ngIf="firebaseOrder.products?.preferences"
+                                            class="col-12 d-flex justify-content-start">
+                                            {{'order_box.personalise_preference_header' | translate}}:
+                                        </p>
+                                    </div>
+                                    <div class="row" *ngIf="firebaseOrder.products?.preferences">
+                                        <p class="col-5 d-flex justify-content-start"
+                                            *ngIf="firebaseOrder?.products.preferences.chocolate[0] != 'none'">
+                                            {{'order_box.personalise_preference_chocolate' | translate}}
+                                        </p>
+                                        <div class="col-7"
+                                            *ngIf="firebaseOrder?.products.preferences.chocolate[0] != 'none'">
+                                            <div class="d-flex justify-content-end"
+                                                *ngFor="let item of firebaseOrder?.products.preferences.chocolate; let i = index">
+                                                <p *ngIf="item == 'no_pref'" style="text-align:right;">
+                                                    {{'order_box.personalise_preference_no_preference' | translate}}
+                                                </p>
+                                                <p *ngIf="item.name" style="text-align:right;">{{item.name}}</p>
+                                            </div>
+                                        </div>
+                                        <p class="col-5 d-flex justify-content-start"
+                                            *ngIf="firebaseOrder?.products.preferences.healthbar[0] != 'none'">
+                                            {{'order_box.personalise_preference_healthbar' | translate}}
+                                        </p>
+                                        <div class="col-7"
+                                            *ngIf="firebaseOrder?.products.preferences.healthbar[0] != 'none'">
+                                            <div class="d-flex justify-content-end"
+                                                *ngFor="let item of firebaseOrder?.products.preferences.healthbar; let i = index">
+                                                <p *ngIf="item == 'no_pref'" style="text-align:right;">
+                                                    {{'order_box.personalise_preference_no_preference' | translate}}
+                                                </p>
+                                                <p *ngIf="item.name" style="text-align:right;">{{item.name}}</p>
+                                            </div>
+                                        </div>
+                                        <p class="col-5 d-flex justify-content-start"
+                                            *ngIf="firebaseOrder?.products.preferences.granola[0] != 'none'">
+                                            {{'order_box.personalise_preference_granola' | translate}}
+                                        </p>
+                                        <div class="col-7"
+                                            *ngIf="firebaseOrder?.products.preferences.granola[0] != 'none'">
+                                            <div class="d-flex justify-content-end"
+                                                *ngFor="let item of firebaseOrder?.products.preferences.granola; let i = index">
+                                                <p *ngIf="item == 'no_pref'" style="text-align:right;">
+                                                    {{'order_box.personalise_preference_no_preference' | translate}}
+                                                </p>
+                                                <p *ngIf="item.name" style="text-align:right;">{{item.name}}</p>
+                                            </div>
+                                        </div>
+                                        <p class="col-5 d-flex justify-content-start">
+                                            {{'order_box.personalise_preference_skin' | translate}}
+                                        </p>
+                                        <div class="col-7">
+                                            <div class="d-flex justify-content-end">
+                                                <p *ngIf="firebaseOrder.products?.preferences.skinType == 'normal'"
+                                                    style="text-align:right;">
+                                                    {{'products.skin_type_normal' | translate}}
+                                                </p>
+                                                <p *ngIf="firebaseOrder.products?.preferences.skinType == 'mixed'"
+                                                    style="text-align:right;">
+                                                    {{'products.skin_type_mixed' | translate}}
+                                                </p>
+                                                <p *ngIf="firebaseOrder.products?.preferences.skinType == 'dry'"
+                                                    style="text-align:right;">
+                                                    {{'products.skin_type_dry' | translate}}
+                                                </p>
+                                                <p *ngIf="firebaseOrder.products?.preferences.skinType == 'oil'"
+                                                    style="text-align:right;">
+                                                    {{'products.skin_type_oil' | translate}}
+                                                </p>
+                                                <p *ngIf="firebaseOrder.products?.preferences.skinType == 'no_pref'"
+                                                    style="text-align:right;">
+                                                    {{'order_box.personalise_preference_no_preference' | translate}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <p class="col-6 d-flex justify-content-start">
+                                            {{'order_box.review_summary_days_apart' | translate}}
+                                        </p>
+                                        <div *ngIf="firebaseOrder.deliveryDaysApart != 0"
+                                            class="col-6 d-flex justify-content-end">
+                                            <p *ngIf="!numberOfWeeks" (click)="setCyclus()">
+                                                {{firebaseOrder.deliveryDaysApart}}
+                                                {{'order_box.delivery_days_apart_select' |
+                                                translate}}
+                                            </p>
+                                            <p *ngIf="numberOfWeeks" (click)="setCyclus()">
+                                                {{numberOfWeeks}} {{'order_box.delivery_weeks_apart_select' |
+                                                translate}}
+                                            </p>
+                                            <i class="ml-2 my-auto fas fa-pen-square link" (click)="setCyclus()"></i>
+                                        </div>
+                                        <p *ngIf="firebaseOrder.deliveryDaysApart == 0"
+                                            class="col-6 link link-text d-flex justify-content-end"
+                                            (click)="setCyclus()">
+                                            {{'transfer.enter_cycle' | translate}}
+                                        </p>
+                                        <p class="col-5 d-flex justify-content-start">
+                                            {{'order_box.review_summary_delivery_date' | translate}}
+                                        </p>
+                                        <div *ngIf="firebaseOrder.startDeliveryDate"
+                                            class="col-7 d-flex justify-content-end">
+                                            <p (click)="picker.open()">
+                                                {{firebaseOrder.startDeliveryDate | date:'dd-MM-yyyy'}}
+                                            </p>
+                                            <i class="ml-2 my-auto fas fa-pen-square link" (click)="picker.open()"></i>
+                                            <mat-form-field style="width:0px;height:1px;visibility:hidden;">
+                                                <input matInput [matDatepicker]="picker" [min]="minDate"
+                                                    [(ngModel)]="firebaseOrder.startDeliveryDate">
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <p *ngIf="!firebaseOrder.startDeliveryDate"
+                                            class="col-7 link link-text d-flex justify-content-end"
+                                            (click)="picker.open()">
+                                            {{'transfer.enter_delivery_date' | translate}}
+                                            <mat-form-field style="width:0px;height:1px;visibility:hidden;">
+                                                <input matInput [matDatepicker]="picker" [min]="minDate"
+                                                    [(ngModel)]="firebaseOrder.startDeliveryDate">
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                            <!-- <mat-divider style="margin-left: 25px; margin-right: 25px;"></mat-divider> -->
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <h5 class="my-auto">{{'faq.shipping_title' | translate}}</h5>
+                                    </mat-panel-title>
+                                    <mat-panel-description class="d-flex justify-content-end"
+                                        *ngIf="selectedAddress == null && formGroup?.invalid">
+                                        <mat-icon class="text-warn">warning</mat-icon>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="p-0">
+                                    <ul *ngIf="currentUserData" class="list-group mb-3">
+                                        <li class="list-group-item pb-0 pl-3 pt-2 d-flex justify-content-start">
+                                            <mat-radio-group [(ngModel)]="selectedAddress">
+                                                <mat-radio-button [value]="1" class="p-0">
+                                                    <address-view [userAddress]="firebaseOrder?.shippingAddress">
+                                                    </address-view>
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </li>
+                                        <li class="list-group-item pb-0 pl-3 pt-2 d-flex justify-content-start">
+                                            <mat-radio-group [(ngModel)]="selectedAddress">
+                                                <mat-radio-button [value]="null" class="p-0">
+                                                    <p class="align-self-center">
+                                                        {{'transfer.other_address' | translate}}
+                                                    </p>
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </li>
+                                    </ul>
+                                    <div *ngIf="!selectedAddress">
+                                        <form-component [appearance]="'outline'" [formType]="'additional'" 
+                                            [userAddress]="shippingAddress" (formGroupEvent)="setFormGroup($event)">
+                                        </form-component>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <h5 class="my-auto">{{'account.subscription_detail_header' | translate}}</h5>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="p-0">
+                                    <ul *ngIf="currentUserData" class="list-group mb-3">
+                                        <li class="list-group-item pb-0 pl-3 pt-2 d-flex justify-content-start"
+                                            *ngFor="let mandate of currentUserData.mandates; let i = index">
+                                            <mat-radio-group [(ngModel)]="selectedMandate">
+                                                <mat-radio-button [value]="mandate" class="p-0">
+                                                    <p class="d-flex justify-content-start" style="text-align:left;">
+                                                        <span *ngIf="mandate.consumerAccount">
+                                                            {{mandate.consumerName}}<br>
+                                                            XXXXXXXXXXXXXX{{mandate.consumerAccount.substring(14)}}
+                                                        </span>
+                                                        <span *ngIf="mandate.cardNumber">
+                                                            {{mandate.cardHolder}}<br>
+                                                            XXXXXXXXXXXX{{mandate?.cardNumber}}
+                                                        </span>
+                                                    </p>
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </li>
+                                        <li class="list-group-item pb-0 pl-3 pt-2 d-flex justify-content-start">
+                                            <mat-radio-group [(ngModel)]="selectedMandate">
+                                                <mat-radio-button [value]="null" class="p-0">
+                                                    <p class="align-self-center">
+                                                        {{'transfer.other_payment_method' | translate}}
+                                                    </p>
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </li>
+                                    </ul>
+                                    <p *ngIf="selectedMandate?.consumerBic">
+                                        {{'checkout.checkout_payment_ideal_mandate' | translate}}
+                                    </p>
+                                    <p *ngIf="selectedMandate == null">
+                                        {{'transfer.other_payment_method_footnote' | translate}}
+                                    </p>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                    <button *ngIf="selectedMandate != null" class="box-selector mt-4" (click)="finish()"
+                        [disabled]="firebaseOrder.startDeliveryDate == null || firebaseOrder.deliveryDaysApart == 0 || selectedAddress == null && formGroup?.invalid">
+                        <span>{{'transfer.button_confirm' | translate}}</span>
+                        <i class="ml-2 fas fa-check-circle"></i>
+                    </button>
+                    <button *ngIf="selectedMandate == null" class="box-selector mt-4" (click)="pay()"
+                        [disabled]="firebaseOrder.startDeliveryDate == null || firebaseOrder.deliveryDaysApart == 0 || selectedAddress == null && formGroup?.invalid">
+                        <span>{{'order_box.review_summary_checkout' | translate}}</span>
+                        <i class="ml-2 fas fa-cash-register"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="showPlanLayout">
+        
+        <div *ngIf="!prepareForPayment">
+            <p>Getting your subscription ready...</p>
+        </div>
+        <div *ngIf="prepareForPayment">
+            <p>We will charge you **,** on **-**-**. If you don't want that, please cancel.</p>
+            <mat-progress-bar [value]="progress" [bufferValue]="5000"></mat-progress-bar>
+            <!-- Buttons -->
+            <div class="mt-4 text-center">
+                <!-- Go back (on free box) -->
+                <button class="button-primary-light mr-1" (click)="cancelUpgrade()">
+                    Cancel upgrade
+                </button>
+                <!-- Continue -->
+                <!-- <button class="box-selector" (click)="saveUpgrade()">
+                    {{'order_box.next_button' | translate}}
+                </button> -->
+            </div>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,206 @@
+/*!
+ * Start Bootstrap - Landing Page v5.0.7 (https://startbootstrap.com/template-overviews/landing-page)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-landing-page/blob/master/LICENSE)
+ */
+
+$primary: rgb(248, 190, 184);
+
+.referral {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  background-color: #f78274;
+}
+
+.referral:hover {
+  cursor: pointer;
+  background-color: $primary;
+}
+
+.showcase {
+  background-color: #FDD8E0;
+}
+
+.showcase .showcase-text {
+  background-size: cover;
+  min-height: 10rem;
+  padding: 1rem;
+  // box-shadow: 5px 0 5px -5px #333;
+  // box-shadow: 10px 0 5px -2px rgba(0, 0, 0, 0.1);
+}
+
+.showcase .showcase-img {
+  min-height: 25rem;
+  background: url("/assets/images/cover-temp.webp"), url("/assets/images/cover-temp.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+.features-icons {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: 4rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.features-icons .features-icons-item {
+  max-width: 18rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+  height: 5rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+  font-size: 3.5rem;
+}
+
+mat-icon {
+  font-size: 3.5rem;
+  width: 55px;
+}
+
+.reasons-icons {
+  background-color: #E38484;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  // margin-top: 4rem;
+}
+
+.reasons-icons .reasons-icons-item {
+  color: white;
+  max-width: 20rem;
+}
+
+.reasons-icons .reasons-icons-item .reasons-icons-icon {
+  height: 3rem;
+  margin-bottom: 2rem;
+}
+
+.reasons-icons .reasons-icons-item .reasons-icons-icon i {
+  font-size: 3.5rem;
+}
+
+.link-sm {
+  text-transform: none; 
+  letter-spacing: 0px; 
+  vertical-align: center; 
+  font-size: 0.4em;
+}
+
+.link-sm:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-sm-white {
+  color: white;
+  text-transform: none; 
+  letter-spacing: 0px; 
+  vertical-align: center; 
+  font-size: 0.4em;
+}
+
+.link-sm-white:hover {
+  text-decoration: underline;
+  color: white;
+  cursor: pointer;
+}
+
+.media-section {
+  background-color: #fbc3bc;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.slide:hover {
+  cursor: pointer;
+}
+
+.campaign {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.newsletter {
+  position: relative;
+  background-color: #fbc3bc;
+  //background: url("../assets/banner.png") no-repeat center center;
+  //background-size: cover;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  //margin-top: 5rem;
+}
+
+.newsletter .lead {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.newsletter .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+input[type="email"] {
+  border: 4px solid white;
+  border-radius: 0px;
+  background: #FBC3BC;
+  color: white;
+}
+
+.banner:hover,
+.banner:focus {
+  text-decoration-line: underline;
+  color: white;
+}
+
+// Mobile sizing
+@media (max-width: 990px) {
+  .showcase {
+    background-color: #FCCBD1;
+  }
+
+  .showcase .showcase-img {
+    min-height: 15rem;
+  }
+}
+@media (max-width: 765px) {
+  .features-icons {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .features-icons .features-icons-item .features-icons-icon {
+    height: 2rem;
+  }
+  
+  .features-icons .features-icons-item .features-icons-icon i {
+    font-size: 2.5rem;
+  }
+
+  .reasons-icons {
+    // margin-top: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+
+  .media-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .newsletter {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}

@@ -1,0 +1,46 @@
+<!-- Default dialog -->
+<h2 *ngIf="!savingState" mat-dialog-title>{{'account.subscription_cancel_warning_title' | translate}}</h2>
+<div *ngIf="!savingState" mat-dialog-content>
+    <div *ngIf="data.order.boxId == 'box_03' && data.order.paymentPlan == 1">
+        <p [innerHTML]="'account.subscription_cancel_warning_change_box_plus' | translate:{newPrice: (boxChangePrice / 100) | currency:'EUR':'symbol':'1.2-2'}"></p>
+        <div class="d-flex justify-content-center">
+            <img src="/assets/images/boxes/box02.jpg" width="200px" alt="Plus">
+        </div>
+        <button mat-button class="col-12" (click)="changeBox('box_02')">{{'account.subscription_cancel_warning_change_plus' | translate}}</button>
+    </div>
+    <div *ngIf="data.order.boxId == 'box_02' && data.order.paymentPlan == 1">
+        <p [innerHTML]="'account.subscription_cancel_warning_change_box_basic' | translate:{newPrice: (boxChangePrice / 100) | currency:'EUR':'symbol':'1.2-2'}"></p>
+        <div class="d-flex justify-content-center">
+            <img src="/assets/images/boxes/box01.jpg" width="200px" alt="Basic">
+        </div>
+        <button mat-button class="col-12" (click)="changeBox('box_01')">{{'account.subscription_cancel_warning_change_basic' | translate}}</button>
+    </div>
+    <hr style="margin-top: 0em;">
+    <p>{{'account.subscription_cancel_warning_customise' | translate}}</p>
+    <div class="row">
+        <button mat-button color="primary" class="col-12 col-md-4" (click)="openLinkOption('pause')">{{'account.subscription_actions_pause' | translate}}</button>
+        <button mat-button class="col-12 col-md-4" (click)="openLinkOption('days')">{{'account.subscription_cancel_warning_change_cycle' | translate}}</button>
+        <button mat-button class="col-12 col-md-4" (click)="openLinkOption('products')">{{'account.subscription_cancel_warning_change_products' | translate}}</button>
+    </div>
+</div>
+<!-- Saving state -->
+<h2 *ngIf="savingState && !loadingDone" mat-dialog-title>{{'account.subscription_dialog_saving' | translate}}</h2>
+<div *ngIf="savingState && !loadingDone" mat-dialog-content>
+    <div class="col-12 d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+    <p class="col-12 d-flex justify-content-center">{{'account.subscription_dialog_wait' | translate}}</p>
+</div>
+<!-- Saved state -->
+<h2 *ngIf="loadingDone" mat-dialog-title>{{'account.subscription_dialog_saved' | translate}}</h2>
+<div *ngIf="loadingDone" mat-dialog-content>
+    <p class="col-12 d-flex justify-content-center">
+        {{'account.subscription_changes' | translate}}
+    </p>
+</div>
+<!-- Actions -->
+<div mat-dialog-actions style="justify-content: flex-end;">
+    <button mat-button *ngIf="!savingState" (click)="openLinkOption('cancel')">{{'account.subscription_cancel_warning_action_cancel_anyway' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="!loadingDone" (click)="onNoClick()" [disabled]="savingState">{{'common.close_button' | translate}}</button>
+    <button mat-button color="primary" *ngIf="loadingDone" (click)="onNoClick()">{{'common.close_button' | translate}}</button>
+</div>

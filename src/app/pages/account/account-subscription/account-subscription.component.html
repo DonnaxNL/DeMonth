@@ -1,0 +1,552 @@
+<div *ngIf="dataLoaded">
+    <!-- Header -->
+    <div class="row mb-3">
+        <h3 class="col-6 col-md-9 d-flex justify-content-start">
+            {{'account.subscription_detail_header' | translate}}
+        </h3>
+        <h4 *ngIf="order.subscriptionDetails.subscriptionStatus == 'paused'"
+            class="col-6 col-md-3 d-flex justify-content-end">
+            {{'account.subscription_paused' | translate}}
+        </h4>
+    </div>
+    <!-- Main details -->
+    <div class="card">
+        <!-- Details -->
+        <div class="row mt-3">
+            <div class="col-md-6 col-lg-4 mb-2">
+                <h6>{{'account.subscription_order_reference' | translate}}</h6>
+                <p class="mb-2">{{order?.orderReference}}</p>
+                <h6>{{'account.subscription_ordered_on' | translate}}</h6>
+                <p class="mb-2">{{order?.orderCreated.seconds * 1000 | date:'dd-MM-yyyy - HH:mm'}}</p>
+                <div [hidden]="order?.paymentPlan == 0">
+                    <div class="row">
+                        <h6 class="col mt-2 d-flex justify-content-start">
+                            {{'account.subscription_cycle' | translate}}
+                        </h6>
+                        <button *ngIf="isActive" mat-button color="primary" (click)="editCycle()"
+                            [disabled]="disableCycle" class="col-auto d-flex justify-content-end">
+                            {{'common.edit_button' | translate}}
+                            <i *ngIf="!disableCycle" class="ml-2 fas fa-info-circle" #tooltipInfoDays="matTooltip"
+                                (click)="tooltipInfoDays.show()"
+                                matTooltip="{{'account.subscription_cycle_change' | translate}}"></i>
+                            <i *ngIf="disableCycle" class="ml-2 fas fa-info-circle" #tooltipDisableDays="matTooltip"
+                                (click)="tooltipDisableDays.show()"
+                                matTooltip="{{'account.subscription_cycle_disabled_tooltip' | translate}}"></i>
+                        </button>
+                    </div>
+                    <p class="mb-2" translate [translateParams]="{deliveryDaysApart: order?.deliveryDaysApart}">
+                        account.subscription_upcoming_dates_small
+                    </p>
+                </div>
+                <div *ngIf="isActive && upcomingDeliveries.length > 0 || order.subscriptionDetails.lastDeliveryDate">
+                    <h6 class="mt-2">{{'account.subscription_upcoming_dates' | translate}}</h6>
+                    <mat-select placeholder="{{upcomingDeliveries[0]?.deliveryDate | date:'d MMMM yyyy'}}">
+                        <mat-option *ngFor="let date of upcomingDeliveries">
+                            {{date.deliveryDate | date:'d MMMM yyyy'}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div *ngIf="upcomingDeliveries.length == 0">
+                    <h6>{{'order_box.delivery_delivery_date_header' | translate}}</h6>
+                    <p class="mb-2">{{order?.startDeliveryDate.seconds * 1000 | date:'dd-MM-yyyy'}}</p>
+                </div>
+            </div>
+            <!-- Address -->
+            <div class="col-md-6 col-lg-3 pb-2">
+                <h6>{{'account.subscription_shipping_header' | translate}}</h6>
+                <address-view [userAddress]="order?.shippingAddress"></address-view>
+                <h6 class="mt-4">{{'account.subscription_billing_header' | translate}}</h6>
+                <div *ngIf="billShipAddressSame">
+                    <p>{{'account.subscription_billing_same' | translate}}</p>
+                </div>
+                <div *ngIf="!billShipAddressSame">
+                    <address-view [userAddress]="currentUserData?.address"></address-view>
+                </div>
+            </div>
+            <!-- Checkout Summary -->
+            <div class="col-md-12 col-lg-5 text-truncate">
+                <h6><b>{{'account.subscription_checkout_header' | translate}}</b></h6>
+                <checkout-summary [checkoutSummary]="order?.checkoutSummary" [order]="order"></checkout-summary>
+            </div>
+        </div>
+        <hr style="margin-bottom: 0.5em;">
+        <!-- Actions -->
+        <div class="row d-flex justify-content-end">
+            <!-- Cancellation text -->
+            <div *ngIf="order.subscriptionDetails.lastDeliveryDate && order.subscriptionDetails.lastDeliveryDate.toDate() > today"
+                class="col-12 col-md-auto p-0 d-flex justify-content-end">
+                <button mat-button color="primary" disabled>
+                    {{'account.subscription_actions_planned_cancellation' | translate}}
+                    {{ order.subscriptionDetails.lastDeliveryDate.toDate() | date:'dd-MM-yyyy' }}
+                </button>
+            </div>
+            <!-- Change Box -->
+            <div *ngIf="order.paymentDetails.isPaid && order.paymentPlan == 1 && isActive"
+                class="col-12 col-md-auto p-0 d-flex justify-content-end">
+                <button mat-button color="primary" (click)="changeBox()"
+                    [disabled]="disableBeforeStart || disableCycle">
+                    <i class="mr-2 fas fa-exchange-alt"></i>
+                    {{'account.subscription_actions_change_box' | translate}}
+                    <i *ngIf="disableBeforeStart" class="ml-2 fas fa-info-circle" style="color: #BDBDBD;"
+                        #tooltip="matTooltip" (click)="tooltip.show()"
+                        matTooltip="{{'account.subscription_actions_disabled_note' | translate}}"></i>
+                    <i *ngIf="!disableBeforeStart && disableCycle && upcomingDeliveries.length > 0"
+                        class="ml-2 fas fa-info-circle" #tooltipDisableBoxChange="matTooltip"
+                        (click)="tooltipDisableBoxChange.show()"
+                        matTooltip="{{'account.subscription_cycle_disabled_tooltip' | translate}}"></i>
+                </button>
+            </div>
+            <!-- Pay order -->
+            <div *ngIf="!order.paymentDetails.isPaid" class="col-12 col-md-auto p-0 d-flex justify-content-end">
+                <button mat-button color="warn" (click)="payOrder()">
+                    <i class="mr-2 fas fa-money-bill"></i>
+                    {{'account.subscription_actions_pay_order' | translate}}
+                </button>
+            </div>
+            <!-- Contact -->
+            <div class="col-12 col-md-auto p-0 d-flex justify-content-end">
+                <button mat-button color="primary" (click)="contactFromOrder()">
+                    <i class="mr-2 fas fa-at"></i>
+                    {{'account.subscription_actions_contact' | translate}}
+                </button>
+            </div>
+            <!-- Pause subscription -->
+            <div *ngIf="order.paymentDetails.isPaid && isActive"
+                class="col-12 col-md-auto p-0 d-flex justify-content-end">
+                <button mat-button color="primary" (click)="pauseOrder()"
+                    [disabled]="disableBeforeStart || disableCycle || order.subscriptionDetails.subscriptionStatus=='paused'">
+                    <i class="mr-2 far fa-pause-circle"></i>
+                    {{'account.subscription_actions_pause' | translate}}
+                    <i *ngIf="disableBeforeStart" class="ml-2 fas fa-info-circle" style="color: #BDBDBD;"
+                        #tooltip="matTooltip" (click)="tooltip.show()"
+                        matTooltip="{{'account.subscription_actions_disabled_note' | translate}}"></i>
+                    <i *ngIf="!disableBeforeStart && disableCycle" class="ml-2 fas fa-info-circle"
+                        #tooltipDisableBoxChange="matTooltip" (click)="tooltipDisableBoxChange.show()"
+                        matTooltip="{{'account.subscription_cycle_disabled_tooltip' | translate}}"></i>
+                    <!-- <i *ngIf="disablePausing && order.subscriptionDetails.subscriptionStatus!='paused' && order.startDeliveryDate.toDate() < today"
+                        class="ml-2 fas fa-info-circle" style="color: #BDBDBD;" #tooltip="matTooltip"
+                        (click)="tooltip.show()"
+                        matTooltip="{{'account.subscription_actions_pause_late_disabled' | translate}}"></i> -->
+                    <i *ngIf="order.subscriptionDetails.subscriptionStatus=='paused'"
+                        class="ml-2 fas fa-info-circle" style="color: #BDBDBD;" #tooltip="matTooltip"
+                        (click)="tooltip.show()"
+                        matTooltip="{{'account.subscription_actions_pause_disabled' | translate}}"></i>
+                </button>
+            </div>
+            <!-- Cancel subscription -->
+            <div *ngIf="isActive || !order.paymentDetails.isPaid && order.boxId == 'box_13'" class="col-12 col-md-auto p-0 d-flex justify-content-end">
+                <button mat-button color="primary" (click)="cancelSubscription()" [disabled]="disableCancelation">
+                    <i class="mr-2 fas fa-times"></i>
+                    {{'account.subscription_actions_cancel' | translate}}
+                    <i *ngIf="disableCancelation && disableBeforeStart" class="ml-2 fas fa-info-circle"
+                        style="color: #BDBDBD;" #tooltip="matTooltip" (click)="tooltip.show()"
+                        matTooltip="{{'account.subscription_actions_disabled_note' | translate}}"></i>
+                </button>
+            </div>
+            <!-- <div *ngIf="order?.subscriptionDetails.subscriptionStatus == 'canceled'" class="col-12 col-md-auto p-0 d-flex justify-content-end">
+                <button mat-button color="primary" (click)="renewSubscription()">
+                    <i class="mr-2 fas fa-redo"></i>
+                    {{'account.subscription_expired_canceled_actions_renew' | translate}}
+                </button>
+            </div> -->
+        </div>
+    </div>
+    <!-- Preferences -->
+    <div *ngIf="order?.boxId != 'box_01'" class="card mt-3 mb-3">
+        <div class="row mt-2 mb-2">
+            <h5 class="col mt-1 d-flex justify-content-start">
+                <span *ngIf="order?.boxId != 'box_13'">
+                    {{'order_box.personalise_preference_header' | translate}}
+                </span>
+                <span *ngIf="order?.boxId == 'box_13'">
+                    {{'order_box.personalise_preference_header_extra' | translate}}
+                </span>
+            </h5>
+            <button *ngIf="isActive" mat-button color="primary" (click)="editPreferences()"
+                class="col-auto d-flex justify-content-end">
+                {{'common.edit_button' | translate}}
+                <i class="ml-2 fas fa-info-circle" style="color: #FBC3BC;" #tooltipPref="matTooltip"
+                    (click)="tooltipPref.show()"
+                    matTooltip="{{'account.subscription_preferences_edit_tooltip' | translate}}">
+                </i>
+            </button>
+        </div>
+
+        <p *ngIf="!order?.products.preferences" class="pb-2">
+            {{'order_box.personalise_preference_non' | translate}}</p>
+        <div *ngIf="order?.products.preferences" class="row pb-2">
+            <div class="col-12 col-md-6 mb-2">
+                <h6><b>{{'order_box.personalise_preference_chocolate' | translate}}</b></h6>
+                <mat-chip-list aria-label="Chocolate selection">
+                    <mat-chip color="primary" selected style="color: white"
+                        *ngFor="let item of order?.products.preferences.chocolate; let i = index">
+                        <span *ngIf="item == 'no_pref'">
+                            {{'order_box.personalise_preference_no_preference' | translate}}
+                        </span>
+                        <span *ngIf="item == 'none'">
+                            {{'order_box.personalise_preference_chocolate_none' | translate}}
+                        </span>
+                        <span *ngIf="item.name">{{item.name}}</span>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <div class="col-12 col-md-6 mb-2">
+                <h6><b>{{'order_box.personalise_preference_healthbar' | translate}}</b></h6>
+                <mat-chip-list aria-label="Health Bar selection">
+                    <mat-chip color="primary" selected style="color: white"
+                        *ngFor="let item of order?.products.preferences.healthbar; let i = index">
+                        <span *ngIf="item == 'no_pref'">
+                            {{'order_box.personalise_preference_no_preference' | translate}}
+                        </span>
+                        <span *ngIf="item == 'none'">
+                            {{'order_box.personalise_preference_healthbar_none' | translate}}
+                        </span>
+                        <span *ngIf="item.name">{{item.name}}</span>
+                    </mat-chip>
+                    <mat-chip color="primary" selected style="color: white"
+                        *ngIf="!order?.products.preferences.healthbar">
+                        {{'order_box.personalise_preference_healthbar_none' | translate}}
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <div class="col-12 col-md-6 mb-2" [hidden]="order.boxId=='box_02'">
+                <h6><b>{{'order_box.personalise_preference_granola' | translate}}</b></h6>
+                <mat-chip-list aria-label="Health Bar selection">
+                    <mat-chip color="primary" selected style="color: white"
+                        *ngFor="let item of order?.products.preferences.granola; let i = index">
+                        <span *ngIf="item == 'no_pref'">
+                            {{'order_box.personalise_preference_no_preference' | translate}}
+                        </span>
+                        <span *ngIf="item == 'none'">
+                            {{'order_box.personalise_preference_granola_none' | translate}}
+                        </span>
+                        <span *ngIf="item.name">{{item.name}}</span>
+                    </mat-chip>
+                    <mat-chip color="primary" selected style="color: white"
+                        *ngIf="!order?.products.preferences.granola">
+                        {{'order_box.personalise_preference_granola_none' | translate}}
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <div class="col-12 col-md-6">
+                <h6><b>{{'order_box.personalise_preference_skin' | translate}}</b></h6>
+                <mat-chip-list aria-label="Skin selection">
+                    <mat-chip color="primary" selected style="color: white">
+                        <span *ngIf="order?.products.preferences.skinType == 'normal'">
+                            {{'products.skin_type_normal' | translate}}
+                        </span>
+                        <span *ngIf="order?.products.preferences.skinType == 'mixed'">
+                            {{'products.skin_type_mixed' | translate}}
+                        </span>
+                        <span *ngIf="order?.products.preferences.skinType == 'dry'">
+                            {{'products.skin_type_dry' | translate}}
+                        </span>
+                        <span *ngIf="order?.products.preferences.skinType == 'oil'">
+                            {{'products.skin_type_oil' | translate}}
+                        </span>
+                        <span *ngIf="order?.products.preferences.skinType == 'no_pref'">
+                            {{'order_box.personalise_preference_no_preference' | translate}}
+                        </span>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
+    </div>
+    <!-- Products -->
+    <div class="card-table mt-3 mb-3">
+        <div class="row table-header">
+            <h5 class="col mt-1 d-flex justify-content-start" translate
+                [translateParams]="{productQuantity: order?.productQuantity}">
+                account.subscription_products_header</h5>
+            <button *ngIf="isActive" mat-button color="primary" (click)="editProducts()"
+                class="col-auto d-flex justify-content-end">
+                {{'common.edit_button' | translate}}
+                <i class="ml-2 fas fa-info-circle" style="color: #FBC3BC;" #tooltip="matTooltip"
+                    (click)="tooltip.show()" matTooltip="{{'account.subscription_products_edit_tooltip' | translate}}">
+                </i>
+            </button>
+        </div>
+        <table mat-table [dataSource]="dataSourceProducts">
+
+            <!-- Brand Column -->
+            <ng-container matColumnDef="brand">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{'account.subscription_products_table_brand' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let product" data-label="Merk"> {{product.brand}} </td>
+            </ng-container>
+
+            <!-- Type Column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{'account.subscription_products_table_type' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let product" data-label="Type">
+                    <span *ngIf="product.type == 'T'">{{'order_box.personalise_tampons_header' | translate}}</span>
+                    <span *ngIf="product.type == 'P'">{{'order_box.personalise_pads_header' | translate}}</span>
+                    <span *ngIf="product.type == 'L'">{{'order_box.personalise_liners_header' | translate}}</span>
+                </td>
+            </ng-container>
+
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let product" data-label="Naam">
+                    <span *ngIf="product.id == 'TR'">{{'products.cottons_tampon_regular_name' | translate}}</span>
+                    <span *ngIf="product.id == 'TS'">{{'products.cottons_tampon_super_name' | translate}}</span>
+                    <span *ngIf="product.id == 'TSP'">{{'products.cottons_tampon_super_plus_name' | translate}}</span>
+                    <span *ngIf="product.id == 'PR'">{{'products.cottons_pads_regular_name' | translate}}</span>
+                    <span *ngIf="product.id == 'PS'">{{'products.cottons_pads_super_name' | translate}}</span>
+                    <span *ngIf="product.id == 'PMR'">{{'products.cottons_pads_maxi_regular_name' | translate}}</span>
+                    <span *ngIf="product.id == 'PMS'">{{'products.cottons_pads_maxi_super_name' | translate}}</span>
+                    <span *ngIf="product.id == 'LL'">{{'products.cottons_pads_liners_light_name' | translate}}</span>
+                    <span *ngIf="product.id == 'LEL'">{{'products.cottons_pads_liners_extra_long_name' |
+                        translate}}</span>
+                    <span *ngIf="product.id == null">{{product.name}}</span>
+                </td>
+            </ng-container>
+
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{'account.subscription_products_table_amount' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let product" data-label="Aantal"> {{product.amount}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div *ngIf="order?.products.extraProducts">
+            <h6 class="mt-4 table-header"><b>{{'order_box.personalise_extra_products' | translate}}</b></h6>
+            <table mat-table [dataSource]="dataSourceExtraProducts">
+
+                <!-- Brand Column -->
+                <ng-container matColumnDef="brand">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'account.subscription_products_table_brand' | translate}}</th>
+                    <td mat-cell *matCellDef="let product" data-label="Merk"> {{product.brand}} </td>
+                </ng-container>
+
+                <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'account.subscription_products_table_type' | translate}}</th>
+                    <td mat-cell *matCellDef="let product" data-label="Type">
+                        <span *ngIf="product.type == 'T'">{{'order_box.personalise_tampons_header' | translate}}</span>
+                        <span *ngIf="product.type == 'P'">{{'order_box.personalise_pads_header' | translate}}</span>
+                        <span *ngIf="product.type == 'L'">{{'order_box.personalise_liners_header' | translate}}</span>
+                    </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'account.subscription_products_table_name' | translate}}</th>
+                    <td mat-cell *matCellDef="let product" data-label="Naam">
+                        <span *ngIf="product.id == 'TR'">{{'products.cottons_tampon_regular_name' | translate}}</span>
+                        <span *ngIf="product.id == 'TS'">{{'products.cottons_tampon_super_name' | translate}}</span>
+                        <span *ngIf="product.id == 'TSP'">{{'products.cottons_tampon_super_plus_name' |
+                            translate}}</span>
+                        <span *ngIf="product.id == 'PR'">{{'products.cottons_pads_regular_name' | translate}}</span>
+                        <span *ngIf="product.id == 'PS'">{{'products.cottons_pads_super_name' | translate}}</span>
+                        <span *ngIf="product.id == 'PMR'">{{'products.cottons_pads_maxi_regular_name' |
+                            translate}}</span>
+                        <span *ngIf="product.id == 'PMS'">{{'products.cottons_pads_maxi_super_name' | translate}}</span>
+                        <span *ngIf="product.id == 'LL'">{{'products.cottons_pads_liners_light_name' |
+                            translate}}</span>
+                        <span *ngIf="product.id == 'LEL'">{{'products.cottons_pads_liners_extra_long_name' |
+                            translate}}</span>
+                        <span *ngIf="product.id == null">{{product.name}}</span>
+                    </td>
+                </ng-container>
+
+                <!-- Price Column -->
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'order_box.personalise_table_price' | translate}}</th>
+                    <td mat-cell *matCellDef="let product" data-label="Prijs">
+                        {{product.price / 100 | currency:'EUR':'symbol':'1.2-2'}} </td>
+                </ng-container>
+
+                <!-- Amount Column -->
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'account.subscription_products_table_amount' | translate}}</th>
+                    <td mat-cell *matCellDef="let product" data-label="Aantal"> {{product.amount}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsExtraProducts"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsExtraProducts;"></tr>
+            </table>
+        </div>
+    </div>
+    <!-- Payments -->
+    <div class="card-table mt-3 mb-3" *ngIf="order.paymentPlan != 0 || order.boxId == 'box_13'">
+        <div class="row table-header">
+            <div class="col pt-3 d-flex justify-content-start">
+                <h5>{{'account.subscription_payments_header' | translate}}</h5>
+            </div>
+            <div class="col-auto pr-0 mt-1 d-flex justify-content-end">
+                <button mat-icon-button class="p-2" (click)="paymentsView()"
+                    matTooltip="{{'account.subscription_payments_tooltip' | translate}}">
+                    <span *ngIf="!showPayments">
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                    </span>
+                    <span *ngIf="showPayments">
+                        <mat-icon>keyboard_arrow_up</mat-icon>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div *ngIf="showPayments">
+            <div *ngIf="dataSourcePayments && paymentsLoaded">
+                <table mat-table [dataSource]="dataSourcePayments">
+
+                    <!-- Id Column -->
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{'account.subscription_payments_table_description' | translate}}
+                        </th>
+                        <td mat-cell *matCellDef="let payment" data-label="Beschrijving"> {{payment.description}} </td>
+                    </ng-container>
+        
+                    <!-- Date Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{'account.subscription_payments_table_date' | translate}}</th>
+                        <td mat-cell *matCellDef="let payment" data-label="Datum">
+                            {{payment.date | date:'dd-MM-yyyy'}}
+                        </td>
+                    </ng-container>
+        
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{'account.subscription_payments_table_status' | translate}}</th>
+                        <td mat-cell *matCellDef="let payment" data-label="Status"> {{payment.status}} </td>
+                    </ng-container>
+        
+                    <!-- Amount Column -->
+                    <ng-container matColumnDef="amount">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{'account.subscription_payments_table_amount' | translate}}</th>
+                        <td mat-cell *matCellDef="let payment" data-label="Bedrag">
+                            {{payment.amount | currency:'EUR':'symbol':'1.2-2'}} </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsPayments"></tr>
+                    <tr mat-row class="payment-row" *matRowDef="let row; columns: displayedColumnsPayments;"></tr>
+                </table>
+            </div>
+            <div class="row mt-3" *ngIf="!dataSourcePayments && !paymentsLoaded">
+                <div class="col-3 pl-4">
+                    <ngx-skeleton-loader class="w-100" [theme]="{ width: '80%'}"> </ngx-skeleton-loader>
+                </div>
+                <div class="col-3">
+                    <ngx-skeleton-loader class="w-100" [theme]="{ width: '80%'}"> </ngx-skeleton-loader>
+                </div>
+                <div class="col-3">
+                    <ngx-skeleton-loader class="w-100" [theme]="{ width: '80%'}"> </ngx-skeleton-loader>
+                </div>
+                <div class="col-3">
+                    <ngx-skeleton-loader class="w-100" [theme]="{ width: '80%'}"> </ngx-skeleton-loader>
+                </div>
+                <div class="col-12">
+                    <mat-divider></mat-divider>
+                </div>
+                <div class="col-12 pl-4 pr-4 pt-2">
+                    <ngx-skeleton-loader class="w-100" count="5" [theme]="{ width: '100%', height: '16px', margin: '4px'}"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <p *ngIf="!dataSourcePayments && paymentsLoaded" style="padding-left: 1rem;">No payments.</p>
+        </div>
+    </div>
+</div>
+<div *ngIf="!dataLoaded">
+    <!-- Header -->
+    <div class="row mb-3">
+        <h3 class="col-6 col-md-9 d-flex justify-content-start">
+            {{'account.subscription_detail_header' | translate}}
+        </h3>
+    </div>
+    <!-- Main details -->
+    <div class="card">
+        <!-- Details -->
+        <div class="row mt-3">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <h6>{{'account.subscription_order_reference' | translate}}</h6>
+                <ngx-skeleton-loader class="w-100" [theme]="{ width: '80px', height: '16px', 'margin-bottom': '8px'}">
+                </ngx-skeleton-loader>
+                <h6>{{'account.subscription_ordered_on' | translate}}</h6>
+                <ngx-skeleton-loader class="w-100" [theme]="{ width: '120px', height: '16px', 'margin-bottom': '8px'}">
+                </ngx-skeleton-loader>
+                <div class="row">
+                    <h6 class="col mt-2 d-flex justify-content-start">
+                        {{'account.subscription_cycle' | translate}}
+                    </h6>
+                </div>
+                <ngx-skeleton-loader class="w-100" [theme]="{ width: '200px', height: '16px', 'margin-bottom': '8px'}">
+                </ngx-skeleton-loader>
+                <div>
+                    <h6 class="mt-2">{{'account.subscription_upcoming_dates' | translate}}</h6>
+                    <ngx-skeleton-loader class="w-100"
+                        [theme]="{ width: '200px', height: '16px', 'margin-bottom': '8px'}">
+                    </ngx-skeleton-loader>
+                </div>
+            </div>
+            <!-- Address -->
+            <div class="col-md-6 col-lg-3 pb-2">
+                <h6>{{'account.subscription_shipping_header' | translate}}</h6>
+                <address-view [userAddress]="null"></address-view>
+                <h6 class="mt-4">{{'account.subscription_billing_header' | translate}}</h6>
+                <ngx-skeleton-loader class="w-100" [theme]="{ height: '16px'}">
+                </ngx-skeleton-loader>
+            </div>
+            <!-- Checkout Summary -->
+            <div class="col-md-12 col-lg-5 text-truncate">
+                <h6><b>{{'account.subscription_checkout_header' | translate}}</b></h6>
+                <checkout-summary [checkoutSummary]="null" [order]="null"></checkout-summary>
+            </div>
+        </div>
+        <hr style="margin-bottom: 0.5em;">
+        <!-- Actions -->
+        <div class="row d-flex justify-content-end">
+            <div class="col-12 col-md-auto d-flex justify-content-end">
+                <ngx-skeleton-loader class="w-100 d-flex justify-content-end"
+                    [theme]="{ width: '100px', height: '30px', margin: '0px', 'margin-bottom': '5px'}">
+                </ngx-skeleton-loader>
+            </div>
+            <div class="col-12 col-md-auto d-flex justify-content-end">
+                <ngx-skeleton-loader class="w-100 d-flex justify-content-end"
+                    [theme]="{ width: '100px', height: '30px', margin: '0px'}">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+    </div>
+    <!-- Preferences -->
+    <div class="card mt-3 mb-3">
+        <div class="row mt-2 mb-2">
+            <h5 class="col mt-1 d-flex justify-content-start">
+                {{'order_box.personalise_preference_header' | translate}}
+            </h5>
+            <div class="col-auto d-flex justify-content-end">
+                <ngx-skeleton-loader class="w-100" [theme]="{ width: '100px', height: '30px'}"></ngx-skeleton-loader>
+            </div>
+        </div>
+        <ngx-skeleton-loader class="w-100" [theme]="{ width: '200px'}"></ngx-skeleton-loader>
+    </div>
+    <!-- Products -->
+    <div class="card mt-3 mb-3">
+        <div class="row mt-2 mb-2">
+            <h5 class="col mt-1 d-flex justify-content-start">
+                Products
+            </h5>
+            <div class="col-auto d-flex justify-content-end">
+                <ngx-skeleton-loader class="w-100" [theme]="{ width: '100px', height: '30px'}"></ngx-skeleton-loader>
+            </div>
+        </div>
+        <ngx-skeleton-loader class="w-100" [theme]="{ width: '200px'}"></ngx-skeleton-loader>
+    </div>
+</div>

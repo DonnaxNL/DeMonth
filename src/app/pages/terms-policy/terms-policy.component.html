@@ -1,0 +1,755 @@
+<div class="container">
+    <div class="row">
+        <div *ngIf="!isMobile" class="col-12 col-lg-3 pt-0">
+            <mat-nav-list style="padding-top: 2rem">
+                <mat-list-item (click)="changePage('terms')" [class.active]="menuSelected=='terms'">
+                    <a matLine>{{'legal.terms' | translate}}</a>
+                </mat-list-item>
+
+                <mat-list-item (click)="changePage('privacy')" [class.active]="menuSelected=='privacy'">
+                    <a matLine>{{'legal.privacy_policy' | translate}}</a>
+                </mat-list-item>
+
+                <mat-list-item (click)="changePage('cookie')" [class.active]="menuSelected=='cookie'">
+                    <a matLine>{{'legal.cookie_policy' | translate}}</a>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+        <div class="col-12 col-lg-9">
+            <div *ngIf="menuSelected">
+                <!-- Terms -->
+                <div *ngIf="menuSelected=='terms'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="pt-2 col-12 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'legal.terms' | translate}}</h3>
+                    <p [innerHTML]="'legal.terms_intro' | translate"></p>
+
+                    <!-- Table of Contents -->
+                    <div>
+                        <h4 [innerHTML]="'legal.terms_contents_header' | translate"></h4>
+                        <p class="link" (click)="jumpToHeader(1)"><a>Artikel 1 – Definities</a></p>
+                        <p class="link" (click)="jumpToHeader(2)"><a>Artikel 2 – Identiteit van de ondernemer</a></p>
+                        <p class="link" (click)="jumpToHeader(3)"><a>Artikel 3 – Toepasselijkheid</a></p>
+                        <p class="link" (click)="jumpToHeader(4)"><a>Artikel 4 – Het aanbod</a></p>
+                        <p class="link" (click)="jumpToHeader(5)"><a>Artikel 5 – De overeenkomst</a></p>
+                        <p class="link" (click)="jumpToHeader(6)"><a>Artikel 6 – Herroepingsrecht</a></p>
+                        <p class="link" (click)="jumpToHeader(7)"><a>Artikel 7 – Kosten in geval van herroeping</a></p>
+                        <p class="link" (click)="jumpToHeader(8)"><a>Artikel 8 – Uitsluiting herroepingsrecht</a></p>
+                        <p class="link" (click)="jumpToHeader(9)"><a>Artikel 9 – De prijs</a></p>
+                        <p class="link" (click)="jumpToHeader(10)"><a>Artikel 10 – Nakoming en extra garantie</a></p>
+                        <p class="link" (click)="jumpToHeader(11)"><a>Artikel 11 – Levering en uitvoering</a></p>
+                        <p class="link" (click)="jumpToHeader(12)">
+                            <a>Artikel 12 – Duurtransacties: duur, opzegging en verlenging</a>
+                        </p>
+                        <p class="link" (click)="jumpToHeader(13)"><a>Artikel 13 – Betaling</a></p>
+                        <p class="link" (click)="jumpToHeader(14)"><a>Artikel 14 – Klachtenregeling</a></p>
+                        <p class="link" (click)="jumpToHeader(15)"><a>Artikel 15 – Geschillen</a></p>
+                        <p class="link" (click)="jumpToHeader(16)">
+                            <a>Artikel 16 – Aanvullende of afwijkende bepalingen</a>
+                        </p>
+                        <p class="link" (click)="jumpToHeader(88)">
+                            <a>Bijlage I – Modelformulier voor herroeping</a>
+                        </p>
+                    </div>
+                    <!----- Artikel 1 ----->
+                    <div class="mt-3" id="artikel-1">
+                        <h4>Artikel 1 - Definities</h4>
+                        <p class="h-bottom--0">In deze voorwaarden wordt verstaan onder:</p>
+                        <ol>
+                            <li>
+                                <strong>Aanvullende overeenkomst</strong>: een overeenkomst waarbij de consument
+                                producten, digitale inhoud en/of diensten verwerft in verband met een overeenkomst
+                                op afstand en deze zaken, digitale inhoud en/of diensten door de ondernemer worden
+                                geleverd of door een derde partij op basis van een afspraak tussen die derde en de
+                                ondernemer;
+                            </li>
+                            <li>
+                                <strong>Bedenktijd</strong>: de termijn waarbinnen de consument gebruik kan maken van
+                                zijn herroepingsrecht;
+                            </li>
+                            <li>
+                                <strong>Consument</strong>: de natuurlijke persoon die niet handelt voor doeleinden
+                                die verband houden met zijn handels-, bedrijfs-, ambachts- of beroepsactiviteit;
+                            </li>
+                            <li>
+                                <strong>Dag</strong>: kalenderdag;
+                            </li>
+                            <li>
+                                <strong>Digitale inhoud</strong>:
+                                gegevens die in digitale vorm geproduceerd en geleverd worden;
+                            </li>
+                            <li>
+                                <strong>Duurovereenkomst</strong>: een overeenkomst die strekt tot de regelmatige
+                                levering van zaken, diensten en/of digitale inhoud gedurende een bepaalde periode;
+                            </li>
+                            <li>
+                                <strong>Duurzame gegevensdrager</strong>: elk hulpmiddel – waaronder ook begrepen
+                                e-mail
+                                – dat de consument of ondernemer in staat stelt om informatie die aan hem
+                                persoonlijk is gericht, op te slaan op een manier die toekomstige raadpleging of gebruik
+                                gedurende
+                                een periode die is afgestemd op het doel waarvoor de informatie is bestemd, en die
+                                ongewijzigde reproductie van de opgeslagen informatie mogelijk maakt;
+                            </li>
+                            <li>
+                                <strong>Herroepingsrecht</strong>: de mogelijkheid van de consument om binnen de
+                                bedenktijd af te zien van de overeenkomst op afstand;
+                            </li>
+                            <li>
+                                <strong>Ondernemer</strong>: de natuurlijke of rechtspersoon die lid is van de
+                                Nederlandse Thuiswinkel Organisatie en producten, (toegang tot) digitale inhoud
+                                en/of diensten op afstand aan consumenten aanbiedt;
+                            </li>
+                            <li>
+                                <strong>Overeenkomst op afstand</strong>: een overeenkomst die tussen de ondernemer
+                                en de consument wordt gesloten in het kader van een georganiseerd systeem voor verkoop
+                                op afstand van producten, digitale inhoud en/of diensten, waarbij tot en met het
+                                sluiten van de overeenkomst uitsluitend of mede gebruik gemaakt wordt van één of meer
+                                technieken voor communicatie op afstand;
+                            </li>
+                            <li>
+                                <strong>Modelformulier voor herroeping</strong>: het in Bijlage I van deze
+                                voorwaarden opgenomen Europese modelformulier voor herroeping. Bijlage I hoeft niet ter
+                                beschikking te worden gesteld als de consument ter zake van zijn bestelling geen
+                                herroepingsrecht heeft.;
+                            </li>
+                            <li>
+                                <strong>Techniek voor communicatie op afstand</strong>: middel dat kan worden
+                                gebruikt voor het sluiten van een overeenkomst, zonder dat consument en ondernemer
+                                gelijktijdig in dezelfde ruimte hoeven te zijn samengekomen;
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 2 ----->
+                    <div class="mt-3" id="artikel-2">
+                        <h4 id="artikel-2">Artikel 2 - Identiteit van de ondernemer</h4>
+                        <p>
+                            DeMonth B.V.<br>
+                            handelend onder de naam/namen: DeMonth
+                        </p>
+                        <p>E-mailadres: info@demonth.nl</p><br>
+                        <p>
+                            Vestigingsadres:<br>
+                            Obriglaan 31<br>
+                            1852 KB Heiloo
+                        </p><br>
+                        <p>
+                            KvK-nummer: 80819745<br>
+                            Btw-identificatienummer: NL858695492B01
+                        </p><br>
+                        <p>
+                            Indien de activiteit van de ondernemer is onderworpen aan een relevant vergunningstelsel: de
+                            gegevens over de toezichthoudende autoriteit:<br><br>
+                            Indien de ondernemer een gereglementeerd beroep uitoefent:<br>
+                            - de beroepsvereniging of -organisatie waarbij hij is aangesloten;<br>
+                            - de beroepstitel, de plaats in de EU of de Europese Economische Ruimte waar deze is
+                            toegekend;<br>
+                            - een verwijzing naar de beroepsregels die in Nederland van toepassing zijn en aanwijzingen
+                            waar en hoe deze beroepsregels toegankelijk zijn.
+                        </p>
+                    </div>
+                    <!----- Artikel 3 ----->
+                    <div class="mt-3" id="artikel-3">
+                        <h4>Artikel 3 - Toepasselijkheid</h4>
+                        <ol>
+                            <li>
+                                Deze algemene voorwaarden zijn van toepassing op elk aanbod van de ondernemer en op elke
+                                tot stand gekomen overeenkomst op afstand tussen ondernemer en consument.
+                            </li>
+                            <li>
+                                Voordat de overeenkomst op afstand wordt gesloten, wordt de tekst van deze algemene
+                                voorwaarden aan de consument beschikbaar gesteld. Indien dit redelijkerwijs niet
+                                mogelijk is, zal de ondernemer voordat de overeenkomst op afstand wordt gesloten,
+                                aangeven op welke wijze de algemene voorwaarden bij de ondernemer zijn in te zien en dat
+                                zij op verzoek van de consument zo spoedig mogelijk kosteloos worden toegezonden.
+                            </li>
+                            <li>
+                                Indien de overeenkomst op afstand elektronisch wordt gesloten, kan in afwijking van het
+                                vorige lid en voordat de overeenkomst op afstand wordt gesloten, de tekst van deze
+                                algemene voorwaarden langs elektronische weg aan de consument ter beschikking worden
+                                gesteld op zodanige wijze dat deze door de consument op een eenvoudige manier kan worden
+                                opgeslagen op een duurzame gegevensdrager. Indien dit redelijkerwijs niet mogelijk is,
+                                zal voordat de overeenkomst op afstand wordt gesloten, worden aangegeven waar van de
+                                algemene voorwaarden langs elektronische weg kan worden kennisgenomen en dat zij op
+                                verzoek van de consument langs elektronische weg of op andere wijze kosteloos zullen
+                                worden toegezonden.
+                            </li>
+                            <li>
+                                Voor het geval dat naast deze algemene voorwaarden tevens specifieke product- of
+                                dienstenvoorwaarden van toepassing zijn, is het tweede en derde lid van overeenkomstige
+                                toepassing en kan de consument zich in geval van tegenstrijdige voorwaarden steeds
+                                beroepen op de toepasselijke bepaling die voor hem het meest gunstig is.
+                            </li>
+                            <li>
+                                Indien één of meerdere bepalingen in deze algemene voorwaarden op enig moment geheel of
+                                gedeeltelijk nietig zijn of vernietigd worden, dan blijft de overeenkomst en deze
+                                voorwaarden voor het overige in stand en zal de betreffende bepaling in onderling
+                                overleg onverwijld vervangen worden door een bepaling dat de strekking van het
+                                oorspronkelijke zoveel mogelijk benaderd.
+                            </li>
+                            <li>
+                                Situaties die niet in deze algemene voorwaarden zijn geregeld, dienen te worden
+                                beoordeeld ‘naar de geest’ van deze algemene voorwaarden.
+                            </li>
+                            <li>
+                                Onduidelijkheden over de uitleg of inhoud van één of meerdere bepalingen van onze
+                                voorwaarden, dienen uitgelegd te worden ‘naar de geest’ van deze algemene voorwaarden.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 4 ----->
+                    <div class="mt-3" id="artikel-4">
+                        <h4>Artikel 4 - Het aanbod</h4>
+                        <ol>
+                            <li>
+                                Indien een aanbod een beperkte geldigheidsduur heeft of onder voorwaarden geschiedt,
+                                wordt dit nadrukkelijk in het aanbod vermeld.
+                            </li>
+                            <li>
+                                Het aanbod is vrijblijvend. De ondernemer is gerechtigd het aanbod te wijzigen en aan te
+                                passen.
+                            </li>
+                            <li>
+                                Het aanbod bevat een volledige en nauwkeurige omschrijving van de aangeboden producten
+                                en/of diensten. De beschrijving is voldoende gedetailleerd om een goede beoordeling van
+                                het aanbod door de consument mogelijk te maken. Als de ondernemer gebruik maakt van
+                                afbeeldingen zijn deze een waarheidsgetrouwe weergave van de aangeboden producten en/of
+                                diensten. Kennelijke vergissingen of kennelijke fouten in het aanbod binden de
+                                ondernemer niet.
+                            </li>
+                            <li>
+                                Alle afbeeldingen, specificaties gegevens in het aanbod zijn indicatie en kunnen geen
+                                aanleiding zijn tot schadevergoeding of ontbinding van de overeenkomst.
+                            </li>
+                            <li>
+                                Afbeeldingen bij producten zijn een waarheidsgetrouwe weergave van de aangeboden
+                                producten. Ondernemer kan niet garanderen dat de weergegeven kleuren exact overeenkomen
+                                met de echte kleuren van de producten.
+                            </li>
+                            <li>
+                                Elk aanbod bevat zodanige informatie, dat voor de consument duidelijk is wat de rechten
+                                en verplichtingen zijn, die aan de aanvaarding van het aanbod zijn verbonden. Dit
+                                betreft in het bijzonder:<br>
+                                - de prijs inclusief belastingen;<br>
+                                - de eventuele kosten van verzending;<br>
+                                - de wijze waarop de overeenkomst tot stand zal komen en welke handelingen daarvoor
+                                nodig zijn;<br>
+                                - het al dan niet van toepassing zijn van het herroepingsrecht;<br>
+                                - de wijze van betaling, aflevering en uitvoering van de overeenkomst;<br>
+                                - de termijn voor aanvaarding van het aanbod, dan wel de termijn waarbinnen de
+                                ondernemer de prijs garandeert;<br>
+                                - de hoogte van het tarief voor communicatie op afstand indien de kosten van het gebruik
+                                van de techniek voor communicatie op afstand worden berekend op een andere grondslag dan
+                                het reguliere basistarief voor het gebruikte communicatiemiddel;<br>
+                                - of de overeenkomst na de totstandkoming wordt gearchiveerd, en zo ja op welke wijze
+                                deze voor de consument te raadplegen is;<br>
+                                - de manier waarop de consument, voor het sluiten van de overeenkomst, de door hem in
+                                het kader van de overeenkomst verstrekte gegevens kan controleren en indien gewenst
+                                herstellen;<br>
+                                - de eventuele andere talen waarin, naast het Nederlands, de overeenkomst kan worden
+                                gesloten;<br>
+                                - de gedragscodes waaraan de ondernemer zich heeft onderworpen en de wijze waarop de
+                                consument deze gedragscodes langs elektronische weg kan raadplegen; en<br>
+                                - de minimale duur van de overeenkomst op afstand in geval van een duurtransactie.<br>
+                                - Optioneel: beschikbare maten, kleuren, soort materialen.<br>
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 5 ----->
+                    <div class="mt-3" id="artikel-5">
+                        <h4>Artikel 5 - De overeenkomst</h4>
+                        <ol>
+                            <li>
+                                De overeenkomst komt, onder voorbehoud van het bepaalde in lid 4, tot stand op het
+                                moment van aanvaarding door de consument van het aanbod en het voldoen aan de daarbij
+                                gestelde voorwaarden.
+                            </li>
+                            <li>
+                                Indien de consument het aanbod langs elektronische weg heeft aanvaard, bevestigt de
+                                ondernemer onverwijld langs elektronische weg de ontvangst van de aanvaarding van het
+                                aanbod. Zolang de ontvangst van deze aanvaarding niet door de ondernemer is bevestigd,
+                                kan de consument de overeenkomst ontbinden.
+                            </li>
+                            <li>
+                                Indien de overeenkomst elektronisch tot stand komt, treft de ondernemer passende
+                                technische en organisatorische maatregelen ter beveiliging van de elektronische
+                                overdracht van data en zorgt hij voor een veilige web omgeving. Indien de consument
+                                elektronisch kan betalen, zal de ondernemer daartoe passende veiligheidsmaatregelen in
+                                acht nemen.
+                            </li>
+                            <li>
+                                De ondernemer kan zich - binnen wettelijke kaders - op de hoogte stellen of de consument
+                                aan zijn betalingsverplichtingen kan voldoen, evenals van al die feiten en factoren die
+                                van belang zijn voor een verantwoord aangaan van de overeenkomst op afstand. Indien de
+                                ondernemer op grond van dit onderzoek goede gronden heeft om de overeenkomst niet aan te
+                                gaan, is hij gerechtigd gemotiveerd een bestelling of aanvraag te weigeren of aan de
+                                uitvoering bijzondere voorwaarden te verbinden.
+                            </li>
+                            <li>
+                                De ondernemer zal bij het product of dienst aan de consument de volgende informatie,
+                                schriftelijk of op zodanige wijze dat deze door de consument op een toegankelijke manier
+                                kan worden opgeslagen op een duurzame gegevensdrager, meesturen:<br>
+                                a. het bezoekadres van de vestiging van de ondernemer waar de consument met klachten
+                                terecht kan;<br>
+                                b. de voorwaarden waaronder en de wijze waarop de consument van het herroepingsrecht
+                                gebruik kan maken, dan wel een duidelijke melding inzake het uitgesloten zijn van het
+                                herroepingsrecht;<br>
+                                c. de informatie over garanties en bestaande service na aankoop;<br>
+                                d. de in artikel 4 lid 3 van deze voorwaarden opgenomen gegevens, tenzij de ondernemer
+                                deze gegevens al aan de consument heeft verstrekt vóór de uitvoering van de
+                                overeenkomst;<br>
+                                e. de vereisten voor opzegging van de overeenkomst indien de overeenkomst een duur heeft
+                                van meer dan één jaar of van onbepaalde duur is.
+                            </li>
+                            <li>
+                                In geval van een duurtransactie is de bepaling in het vorige lid slechts van toepassing
+                                op de eerste levering.
+                            </li>
+                            <li>
+                                Iedere overeenkomst wordt aangegaan onder de opschortende voorwaarden van voldoende
+                                beschikbaarheid van de betreffende producten.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 6 ----->
+                    <div class="mt-3" id="artikel-6">
+                        <h4>Artikel 6 - Herroepingsrecht</h4>
+                        <ol>
+                            <p><b>Bij levering van producten:</b></p>
+                            <li>
+                                Bij de aankoop van producten heeft de consument de mogelijkheid de overeenkomst zonder
+                                opgave van redenen te ontbinden gedurende 14 dagen. Deze bedenktermijn gaat in op de dag
+                                na ontvangst van het product door de consument of een vooraf door de consument
+                                aangewezen en aan de ondernemer bekendgemaakte vertegenwoordiger.
+                            </li>
+                            <li>
+                                Tijdens de bedenktijd zal de consument zorgvuldig omgaan met het product en de
+                                verpakking. Hij zal het product slechts in die mate uitpakken of gebruiken voor zover
+                                dat nodig is om te kunnen beoordelen of hij het product wenst te behouden. Indien hij
+                                van zijn herroepingsrecht gebruik maakt, zal hij het product met alle geleverde
+                                toebehoren en - indien redelijkerwijze mogelijk - in de originele staat en verpakking
+                                aan de ondernemer retourneren, conform de door de ondernemer verstrekte redelijke en
+                                duidelijke instructies.
+                            </li>
+                            <li>
+                                Wanneer de consument gebruik wenst te maken van zijn herroepingsrecht is hij verplicht
+                                dit binnen 14 dagen, na ontvangst van het product, kenbaar te maken aan de ondernemer.
+                                Het kenbaar maken dient de consument te doen middels het modelformulier of door middel
+                                van een ander communicatiemiddel zoals per e-mail. Nadat de consument kenbaar heeft
+                                gemaakt gebruik te willen maken van zijn herroepingsrecht dient de klant het product
+                                binnen 14 dagen retour te sturen. De consument dient te bewijzen dat de geleverde zaken
+                                tijdig zijn teruggestuurd, bijvoorbeeld door middel van een bewijs van verzending.
+                            </li>
+                            <li>
+                                Indien de klant na afloop van de in lid 2 en 3 genoemde termijnen niet kenbaar heeft
+                                gemaakt gebruik te willen maken van zijn herroepingsrecht resp. het product niet aan de
+                                ondernemer heeft teruggezonden, is de koop een feit.
+                            </li>
+                            <p><b>Bij levering van diensten:</b></p>
+                            <li>
+                                Bij levering van diensten heeft de consument de mogelijkheid de overeenkomst zonder
+                                opgave van redenen te ontbinden gedurende ten minste 14 dagen, ingaande op de dag van
+                                het aangaan van de overeenkomst.
+                            </li>
+                            <li>
+                                Om gebruik te maken van zijn herroepingsrecht, zal de consument zich richten naar de
+                                door de ondernemer bij het aanbod en/of uiterlijk bij de levering ter zake verstrekte
+                                redelijke en duidelijke instructies.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 7 ----->
+                    <div class="mt-3" id="artikel-7">
+                        <h4>Artikel 7 - Kosten in geval van herroeping </h4>
+                        <ol>
+                            <li>
+                                Indien de consument gebruik maakt van zijn herroepingsrecht, komen ten hoogste de kosten
+                                van terugzending voor zijn rekening.
+                            </li>
+                            <li>
+                                Indien de consument een bedrag betaald heeft, zal de ondernemer dit bedrag zo spoedig
+                                mogelijk, doch uiterlijk binnen 14 dagen na herroeping, terugbetalen. Hierbij is wel de
+                                voorwaarde dat het product reeds terugontvangen is door de webwinkelier of sluitend
+                                bewijs van complete terugzending overlegd kan worden. Terugbetaling zal geschieden via
+                                dezelfde betaalmethode die door de consument is gebruikt tenzij de consument
+                                nadrukkelijk toestemming geeft voor een andere betaalmethode.
+                            </li>
+                            <li>
+                                Bij beschadiging van het product door onzorgvuldige omgang door de consument zelf is de
+                                consument aansprakelijk voor eventuele waardevermindering van het product.
+                            </li>
+                            <li>
+                                De consument kan niet aansprakelijk worden gesteld voor waardevermindering van het
+                                product wanneer door de ondernemer niet alle wettelijk verplichte informatie over het
+                                herroepingsrecht is verstrekt, dit dient te gebeuren voor het sluiten van de
+                                koopovereenkomst.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 8 ----->
+                    <div class="mt-3" id="artikel-8">
+                        <h4>Artikel 8 - Uitsluiting herroepingsrecht</h4>
+                        <ol>
+                            <li>
+                                De ondernemer kan het herroepingsrecht van de consument uitsluiten voor producten zoals
+                                omschreven in lid 2 en 3. De uitsluiting van het herroepingsrecht geldt slechts indien
+                                de ondernemer dit duidelijk in het aanbod, althans tijdig voor het sluiten van de
+                                overeenkomst, heeft vermeld.
+                            </li>
+                            <li>
+                                Uitsluiting van het herroepingsrecht is slechts mogelijk voor producten:<br>
+                                a. die door de ondernemer tot stand zijn gebracht overeenkomstig specificaties van de
+                                consument;<br>
+                                b. die duidelijk persoonlijk van aard zijn;<br>
+                                c. die door hun aard niet kunnen worden teruggezonden;<br>
+                                d. die snel kunnen bederven of verouderen;<br>
+                                e. waarvan de prijs gebonden is aan schommelingen op de financiële markt waarop de
+                                ondernemer geen invloed heeft;<br>
+                                f. voor losse kranten en tijdschriften;<br>
+                                g. voor audio- en video-opnamen en computersoftware waarvan de consument de verzegeling
+                                heeft verbroken.<br>
+                                h. voor hygiënische producten waarvan de consument de verzegeling heeft verbroken.<br>
+                            </li>
+                            <li>
+                                Uitsluiting van het herroepingsrecht is slechts mogelijk voor diensten:<br>
+                                a. betreffende logies, vervoer, restaurantbedrijf of vrijetijdsbesteding te verrichten
+                                op een bepaalde datum of tijdens een bepaalde periode;<br>
+                                b. waarvan de levering met uitdrukkelijke instemming van de consument is begonnen
+                                voordat de bedenktijd is verstreken;<br>
+                                c. betreffende weddenschappen en loterijen.<br>
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 9 ----->
+                    <div class="mt-3" id="artikel-9">
+                        <h4>Artikel 9 - De prijs</h4>
+                        <ol>
+                            <li>
+                                Gedurende de in het aanbod vermelde geldigheidsduur worden de prijzen van de aangeboden
+                                producten en/of diensten niet verhoogd, behoudens prijswijzigingen als gevolg van
+                                veranderingen in btw-tarieven.
+                            </li>
+                            <li>
+                                In afwijking van het vorige lid kan de ondernemer producten of diensten waarvan de
+                                prijzen gebonden zijn aan schommelingen op de financiële markt en waar de ondernemer
+                                geen invloed op heeft, met variabele prijzen aanbieden. Deze gebondenheid aan
+                                schommelingen en het feit dat eventueel vermelde prijzen richtprijzen zijn, worden bij
+                                het aanbod vermeld.
+                            </li>
+                            <li>
+                                Prijsverhogingen binnen 3 maanden na de totstandkoming van de overeenkomst zijn alleen
+                                toegestaan indien zij het gevolg zijn van wettelijke regelingen of bepalingen.
+                            </li>
+                            <li>
+                                Prijsverhogingen vanaf 3 maanden na de totstandkoming van de overeenkomst zijn alleen
+                                toegestaan indien de ondernemer dit bedongen heeft en:<br>
+                                a. deze het gevolg zijn van wettelijke regelingen of bepalingen; of<br>
+                                b. de consument de bevoegdheid heeft de overeenkomst op te zeggen met ingang van de dag
+                                waarop de prijsverhoging ingaat.
+                            </li>
+                            <li>
+                                De in het aanbod van producten of diensten genoemde prijzen zijn inclusief btw.
+                            </li>
+                            <li>
+                                Alle prijzen zijn onder voorbehoud van druk – en zetfouten. Voor de gevolgen van druk –
+                                en zetfouten wordt geen aansprakelijkheid aanvaard. Bij druk – en zetfouten is de
+                                ondernemer niet verplicht het product volgens de foutieve prijs te leveren.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 10 ----->
+                    <div class="mt-3" id="artikel-10">
+                        <h4>Artikel 10 - Conformiteit en Garantie</h4>
+                        <ol>
+                            <li>
+                                De ondernemer staat ervoor in dat de producten en/of diensten voldoen aan de
+                                overeenkomst, de in het aanbod vermelde specificaties, aan de redelijke eisen van
+                                deugdelijkheid en/of bruikbaarheid en de op de datum van de totstandkoming van de
+                                overeenkomst bestaande wettelijke bepalingen en/of overheidsvoorschriften. Indien
+                                overeengekomen staat de ondernemer er tevens voor in dat het product geschikt is voor
+                                ander dan normaal gebruik.
+                            </li>
+                            <li>
+                                Een door de ondernemer, fabrikant of importeur verstrekte garantie doet niets af aan de
+                                wettelijke rechten en vorderingen die de consument op grond van de overeenkomst
+                                tegenover de ondernemer kan doen gelden.
+                            </li>
+                            <li>
+                                Eventuele gebreken of verkeerd geleverde producten dienen binnen 2 maanden na levering
+                                aan de ondernemer schriftelijk te worden gemeld. Terugzending van de producten dient te
+                                geschieden in de originele verpakking en in nieuwstaat verkerend.
+                            </li>
+                            <li>
+                                De garantietermijn van de ondernemer komt overeen met de fabrieksgarantietermijn. De
+                                ondernemer is echter te nimmer verantwoordelijk voor de uiteindelijke geschiktheid van
+                                de producten voor elke individuele toepassing door de consument, noch voor eventuele
+                                adviezen ten aanzien van het gebruik of de toepassing van de producten.
+                            </li>
+                            <li>
+                                De garantie geldt niet indien:<br>
+                                - De consument de geleverde producten zelf heeft gerepareerd en/of bewerkt of door
+                                derden heeft laten repareren en/of bewerken;<br>
+                                - De geleverde producten aan abnormale omstandigheden zijn blootgesteld of anderszins
+                                onzorgvuldig worden behandeld of in strijd zijn met de aanwijzingen van de ondernemer
+                                en/of op de verpakking behandeld zijn;<br>
+                                - De ondeugdelijkheid geheel of gedeeltelijk het gevolg is van voorschriften die de
+                                overheid heeft gesteld of zal stellen ten aanzien van de aard of de kwaliteit van de
+                                toegepaste materialen.<br>
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 11 ----->
+                    <div class="mt-3" id="artikel-11">
+                        <h4>Artikel 11 - Levering en uitvoering</h4>
+                        <ol>
+                            <li>
+                                De ondernemer zal de grootst mogelijke zorgvuldigheid in acht nemen bij het in ontvangst
+                                nemen en bij de uitvoering van bestellingen van producten en bij de beoordeling van
+                                aanvragen tot verlening van diensten.
+                            </li>
+                            <li>
+                                Als plaats van levering geldt het adres dat de consument aan het bedrijf kenbaar heeft
+                                gemaakt.
+                            </li>
+                            <li>
+                                Met inachtneming van hetgeen hierover in lid 4 van dit artikel is vermeld, zal het
+                                bedrijf geaccepteerde bestellingen met bekwame spoed doch uiterlijk binnen 30 dagen
+                                uitvoeren, tenzij consument akkoord is gegaan met een langere leveringstermijn. Indien
+                                de bezorging vertraging ondervindt, of indien een bestelling niet dan wel slechts
+                                gedeeltelijk kan worden uitgevoerd, ontvangt de consument hiervan uiterlijk 30 dagen
+                                nadat hij de bestelling geplaatst heeft bericht. De consument heeft in dat geval het
+                                recht om de overeenkomst zonder kosten te ontbinden. De consument heeft geen recht op
+                                een schadevergoeding.
+                            </li>
+                            <li>
+                                Alle levertermijnen zijn indicatief. Aan eventuele genoemde termijnen kan de consument
+                                geen rechten ontlenen. Overschrijding van een termijn geeft de consument geen recht op
+                                schadevergoeding.
+                            </li>
+                            <li>
+                                In geval van ontbinding conform het lid 3 van dit artikel zal de ondernemer het bedrag
+                                dat de consument betaald heeft zo spoedig mogelijk, doch uiterlijk binnen 14 dagen na
+                                ontbinding, terugbetalen.
+                            </li>
+                            <li>
+                                In geval van ontbinding conform het lid 3 van dit artikel zal de ondernemer het bedrag
+                                dat de consument betaald heeft zo spoedig mogelijk, doch uiterlijk binnen 14 dagen na
+                                ontbinding, terugbetalen.
+                            </li>
+                            <li>
+                                Het risico van beschadiging en/of vermissing van producten berust bij de ondernemer tot
+                                het moment van bezorging aan de consument of een vooraf aangewezen en aan de ondernemer
+                                bekend gemaakte vertegenwoordiger, tenzij uitdrukkelijk anders is overeengekomen.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 12 ----->
+                    <div class="mt-3" id="artikel-12">
+                        <h4>Duurtransacties: duur, opzegging en verlenging</h4>
+                        <ol>
+                            <p><b>Opzegging</b></p>
+                            <li>
+                                De consument kan een overeenkomst die voor onbepaalde tijd is aangegaan en die strekt
+                                tot het geregeld afleveren van producten (elektriciteit daaronder begrepen) of diensten,
+                                te allen tijde opzeggen met inachtneming van daartoe overeengekomen opzeggingsregels en
+                                een opzegtermijn van ten hoogste één maand.
+                            </li>
+                            <li>
+                                De consument kan een overeenkomst die voor bepaalde tijd is aangegaan en die strekt tot
+                                het geregeld afleveren van producten (elektriciteit daaronder begrepen) of diensten, te
+                                allen tijde tegen het einde van de bepaalde duur opzeggen met inachtneming van daartoe
+                                overeengekomen opzeggingsregels en een opzegtermijn van ten hoogste één maand.
+                            </li>
+                            <li>
+                                De consument kan de in de vorige leden genoemde overeenkomsten:<br>
+                                - te allen tijde opzeggen en niet beperkt worden tot opzegging op een bepaald tijdstip
+                                of in een bepaalde periode;<br>
+                                - tenminste opzeggen op dezelfde wijze als zij door hem zijn aangegaan;<br>
+                                - altijd opzeggen met dezelfde opzegtermijn als de ondernemer voor zichzelf heeft
+                                bedongen.
+                            </li>
+                            <p><b>Verlenging</b></p>
+                            <li>
+                                Een overeenkomst die voor bepaalde tijd is aangegaan en die strekt tot het geregeld
+                                afleveren van producten (elektriciteit daaronder begrepen) of diensten, mag niet
+                                stilzwijgend worden verlengd of vernieuwd voor een bepaalde duur.
+                            </li>
+                            <li>
+                                In afwijking van het vorige lid mag een overeenkomst die voor bepaalde tijd is aangegaan
+                                en die strekt tot het geregeld afleveren van dag- nieuws- en weekbladen en tijdschriften
+                                stilzwijgend worden verlengd voor een bepaalde duur van maximaal drie maanden, als de
+                                consument deze verlengde overeenkomst tegen het einde van de verlenging kan opzeggen met
+                                een opzegtermijn van ten hoogste één maand.
+                            </li>
+                            <li>
+                                Een overeenkomst die voor bepaalde tijd is aangegaan en die strekt tot het geregeld
+                                afleveren van producten of diensten, mag alleen stilzwijgend voor onbepaalde duur worden
+                                verlengd als de consument te allen tijde mag opzeggen met een opzegtermijn van ten
+                                hoogste één maand en een opzegtermijn van ten hoogste drie maanden in geval de
+                                overeenkomst strekt tot het geregeld, maar minder dan eenmaal per maand, afleveren van
+                                dag-, nieuws- en weekbladen en tijdschriften.
+                            </li>
+                            <li>
+                                Een overeenkomst met beperkte duur tot het geregeld ter kennismaking afleveren van dag-,
+                                nieuws- en weekbladen en tijdschriften (proef- of kennismakingsabonnement) wordt niet
+                                stilzwijgend voortgezet en eindigt automatisch na afloop van de proef- of
+                                kennismakingsperiode.
+                            </li>
+                            <p><b>Duur</b></p>
+                            <li>
+                                Als een overeenkomst een duur van meer dan een jaar heeft, mag de consument na een jaar
+                                de overeenkomst te allen tijde met een opzegtermijn van ten hoogste een maand opzeggen,
+                                tenzij de redelijkheid en billijkheid zich tegen opzegging vóór het einde van de
+                                overeengekomen duur verzetten.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 13 ----->
+                    <div class="mt-3" id="artikel-13">
+                        <h4>Artikel 13 - Betaling</h4>
+                        <ol>
+                            <li>
+                                Voor zover niet anders is overeengekomen, dienen de door de consument verschuldigde
+                                bedragen te worden voldaan binnen 7 werkdagen na het ingaan van de bedenktermijn als
+                                bedoeld in artikel 6 lid 1. In geval van een overeenkomst tot het verlenen van een
+                                dienst, vangt deze termijn aan nadat de consument de bevestiging van de overeenkomst
+                                heeft ontvangen.
+                            </li>
+                            <li>
+                                De consument heeft de plicht om onjuistheden in verstrekte of vermelde betaalgegevens
+                                onverwijld aan de ondernemer te melden.
+                            </li>
+                            <li>
+                                In geval van wanbetaling van de consument heeft de ondernemer behoudens wettelijke
+                                beperkingen, het recht om de vooraf aan de consument kenbaar gemaakte redelijke kosten
+                                in rekening te brengen.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 14 ----->
+                    <div class="mt-3" id="artikel-14">
+                        <h4>Artikel 14 - Klachtenregeling</h4>
+                        <ol>
+                            <li>
+                                De ondernemer beschikt over een voldoende bekendgemaakte klachtenprocedure en behandelt
+                                de klacht overeenkomstig deze klachtenprocedure.
+                            </li>
+                            <li>
+                                Indien de klacht niet in onderling overleg kan worden opgelost ontstaat een geschil dat
+                                vatbaar is voor de geschillenregeling.
+                            </li>
+                            <li>
+                                Bij klachten dient een consument zich allereerst te wenden tot de ondernemer. Tevens is
+                                het mogelijk om klachten aan te melden via het Europees ODR platform
+                                (http://ec.europa.eu/odr).
+                            </li>
+                            <li>
+                                Een klacht schort de verplichtingen van de ondernemer niet op, tenzij de ondernemer
+                                schriftelijk anders aangeeft.
+                            </li>
+                            <li>
+                                Indien een klacht gegrond wordt bevonden door de ondernemer, zal de ondernemer naar haar
+                                keuze of de geleverde producten kosteloos vervangen of repareren.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 15 ----->
+                    <div class="mt-3" id="artikel-15">
+                        <h4>Artikel 15 - Geschillen</h4>
+                        <ol>
+                            <li>
+                                Op overeenkomsten tussen de ondernemer en de consument waarop deze algemene voorwaarden
+                                betrekking hebben, is uitsluitend Nederlands recht van toepassing. Ook indien de
+                                consument woonachtig is in het buitenland.
+                            </li>
+                            <li>
+                                Het Weens Koopverdrag is niet van toepassing.
+                            </li>
+                        </ol>
+                    </div>
+                    <!----- Artikel 16 ----->
+                    <div class="mt-3" id="artikel-16">
+                        <h4>Artikel 16 - Aanvullende of afwijkende bepalingen</h4>
+                        <p>
+                            Aanvullende dan wel van deze algemene voorwaarden afwijkende bepalingen mogen niet ten
+                            nadele van de consument zijn en dienen schriftelijk te worden vastgelegd dan wel op zodanige
+                            wijze dat deze door de consument op een toegankelijke manier kunnen worden opgeslagen op een
+                            duurzame gegevensdrager.
+                        </p>
+                    </div>
+                    <!----- Bijlage 1 ----->
+                    <div class="mt-3 mb-3" id="artikel-88">
+                        <h4>Bijlage I – Modelformulier voor herroeping</h4>
+                        <p>
+                            Download de herroepingsformulier hier: 
+                            <a href="/assets/demonth-herroepingsformulier.pdf" target="_blank">PDF</a>.
+                        </p>
+                    </div>
+                </div>
+                <!-- Privacy Policy -->
+                <div *ngIf="menuSelected=='privacy'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="pt-2 col-12 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'legal.privacy_policy' | translate}}</h3>
+                    <p [innerHTML]="'legal.privacy_policy_intro' | translate"></p><br>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_change_date' | translate: {date: changeDate}">
+                    </p>
+                    <h4 [innerHTML]="'legal.privacy_policy_data_processing_header' | translate"></h4>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_data_processing_text' | translate"></p>
+                    <h5 [innerHTML]="'legal.privacy_policy_responsibility_header' | translate"></h5>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_responsibility_text' | translate"></p>
+                    <h5 [innerHTML]="'legal.privacy_policy_mails_header' | translate"></h5>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_mails_text' | translate"></p>
+                    <h5 [innerHTML]="'legal.privacy_policy_payment_header' | translate"></h5>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_payment_text' | translate"></p>
+                    <h5 [innerHTML]="'legal.privacy_policy_shipping_header' | translate"></h5>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_shipping_text' | translate"></p>
+                    <h4 [innerHTML]="'legal.privacy_policy_purpose_header' | translate"></h4>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_purpose_text' | translate"></p>
+                    <h4 [innerHTML]="'legal.privacy_policy_rights_header' | translate"></h4>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_rights_text' | translate"></p>
+                    <h4 [innerHTML]="'legal.privacy_policy_contact_header' | translate"></h4>
+                    <p class="mb-4" [innerHTML]="'legal.privacy_policy_contact_text' | translate"></p>
+                    <!-- <p class="mb-4" [innerHTML]="'legal.privacy_policy_text' | translate"></p> -->
+                </div>
+                <!-- Cookie Policy -->
+                <div *ngIf="menuSelected=='cookie'">
+                    <div class="row" *ngIf="isMobile">
+                        <div class="pt-2 col-12 d-flex justify-content-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu">
+                                <mat-icon>menu_open</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="header-spacing mb-3">{{'legal.cookie_policy' | translate}}</h3>
+                    <p class="mb-4" [innerHTML]="'legal.cookie_policy_text' | translate"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pop out menu -->
+<mat-menu #menu="matMenu" xPosition="before" tabindex="-1">
+    <button mat-menu-item (click)="changePage('terms')" [class.active]="menuSelected=='terms'">
+        <a matLine>{{'legal.terms' | translate}}</a>
+    </button>
+
+    <button mat-menu-item (click)="changePage('privacy')" [class.active]="menuSelected=='privacy'">
+        <a matLine>{{'legal.privacy_policy' | translate}}</a>
+    </button>
+
+    <button mat-menu-item (click)="changePage('cookie')" [class.active]="menuSelected=='cookie'">
+        <a matLine>{{'legal.cookie_policy' | translate}}</a>
+    </button>
+</mat-menu>

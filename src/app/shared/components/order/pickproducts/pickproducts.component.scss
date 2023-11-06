@@ -1,0 +1,46 @@
+.product-row {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.product-selected-row {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-right: 0px;
+    margin-left: 0px;
+    background-color: #feeeed;
+}
+
+.divider-thick {
+    background-color: lightgray; 
+    height: 2px; 
+    width: 100%;
+}
+
+// .product-row:hover {
+//     cursor: pointer;
+//     background-color: #feeeed;
+// }
+
+.select {
+    width: 50px; 
+    text-align-last: center;
+}
+
+.container {
+    padding: 0px;
+}
+
+.mat-dialog-actions {
+    justify-content: flex-end;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.option-large {
+    height: 10vh !important;
+}

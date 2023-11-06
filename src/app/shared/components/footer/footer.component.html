@@ -1,0 +1,97 @@
+<footer *ngIf="!hideFooter" class="footer bg-light">
+    <div class="container footer">
+        <div class="row">
+            <!-- Logo / Socials -->
+            <div class="col-12 order-5 col-md-3 order-md-1 col-lg-3">
+                <hr *ngIf="isMobile">
+                <div class="row">
+                    <div class="col-6 col-md-12 col-lg-7 mb-3">
+                        <img src="assets/images/logo-de-month.png" alt="" height="40"><br>
+                        <small class="mb-3 text-muted">&copy; {{currentYear}} DeMonth</small>
+                    </div>
+                    <div class="col-6 col-md-12 col-lg-5">
+                        <div class="row justify-content-center">
+                            <a href="https://www.facebook.com/demonthnl/" aria-label="Visit our Facebook page"
+                                target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-facebook fa-2x primary-color" aria-hidden="true"></i>
+                            </a>
+                            <a class="ml-2 mr-2" href="https://www.linkedin.com/company/demonth/"
+                                aria-label="Our LinkedIn page" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin fa-2x primary-color" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://instagram.com/demonth_nl" aria-label="Visit our Instagram page"
+                                target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-instagram fa-2x primary-color" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- About us -->
+            <div class="col-6 order-1 col-md-3 order-md-2 col-lg-3">
+                <h5 style="text-transform: uppercase;">DeMonth</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a href="#" routerLink="/about">{{'common.menu_about' | translate}}</a></li>
+                    <li><a href="#" routerLink="/products">{{'common.menu_products' | translate}}</a></li>
+                    <!-- <li><a href="#" routerLink="/invite">{{'referral.title' | translate}}</a></li>
+                    <li><a href="#" routerLink="/account/points">{{'points.title' | translate}}</a></li> -->
+                </ul>
+            </div>
+            <!-- Account -->
+            <div class="col-6 order-3 col-md-3 order-md-3 col-lg-3">
+                <h5 style="text-transform: uppercase;">Account</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a href="#" routerLink="/login">{{'common.footer_login' | translate}}</a></li>
+                    <!-- <li><a href="#" routerLink="/register">{{'common.footer_signup' | translate}}</a></li> -->
+                    <li>
+                        <a href="#" routerLink="/account/subscriptions">
+                            {{'common.footer_edit_subscription' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Service -->
+            <div class="col-6 order-2 col-md-3 order-md-4 col-lg-3">
+                <h5 style="text-transform: uppercase;">{{'common.footer_customer_service' | translate}}</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a href="#" routerLink="/faq">{{'common.footer_faq' | translate}}</a></li>
+                    <li class="link">
+                        <a>{{'common.footer_contact' | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="#" routerLink="/terms">{{'common.footer_terms' | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="#" routerLink="/privacy-policy">{{'common.footer_privacy' | translate}}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Payment Methods -->
+            <div class="col-12 order-4 order-md-5 text-center">
+                <hr>
+                <ul class="list-inline" style="margin-bottom: 0em;">
+                    <li class="list-inline-item mr-3">
+                        <img src="/assets/icons/payment-options/ideal.svg" height="35px" alt="iDeal">
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <img src="/assets/icons/payment-options/bancontact.svg" height="35px" alt="Bancontact">
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <img src="/assets/icons/payment-options/mastercard.svg" height="35px" alt="Mastercard">
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <img src="/assets/icons/payment-options/visa.svg" height="35px" alt="Visa">
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <img src="/assets/icons/payment-options/applepay.svg" height="35px" alt="ApplePay">
+                    </li>
+                    <!-- <li class="list-inline-item">
+                        <img src="/assets/icons/paypal.svg" height="35px" alt="PayPal">
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<footer *ngIf="hideFooter" style="height: 50px;">
+</footer>
