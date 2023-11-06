@@ -206,13 +206,6 @@ export const slackDeliveryList = async (user: any) => {
 
     console.log(payload)
 
-    // await request.post({
-    //     headers: { "Content-type": "application/json" },
-    //     url: "https://hooks.slack.com/services/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",
-    //     body: JSON.stringify(payload)
-    // }, function (e: any, r: any, body: any) {
-    //     console.log(body)
-    // })
     const options = {
         method: 'POST',
         uri: SLACKCOMMAND,
